@@ -11,8 +11,8 @@ Given nums = [2, 7, 11, 15], target = 9,
 Because nums[0] + nums[1] = 2 + 7 = 9,
 return [0, 1].
 
-Status: Accepted (Your runtime beats 34.31 % of python3 submissions.)
 Runtime: 2228 ms  (https://leetcode.com/submissions/detail/150705433/)
+Status: Accepted (Your runtime beats 34.31 % of python3 submissions.)
 """
 
 

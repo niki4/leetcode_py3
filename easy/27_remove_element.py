@@ -10,6 +10,7 @@ Runtime: 40 ms (Your runtime beats 96.38 % of python3 submissions.)
 Status: Accepted (https://leetcode.com/submissions/detail/150096191/)
 """
 
+
 class Solution:
     def removeElement(self, nums, val):
         """

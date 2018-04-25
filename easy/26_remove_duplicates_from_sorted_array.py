@@ -9,6 +9,7 @@ Runtime: 60 ms (Your runtime beats 99.65 % of python3 submissions.)src
 Note. An idiom nums[:] do not creates a new list and uses existing ones instead, so no extra memory overhead
 """
 
+
 class Solution:
     def removeDuplicates(self, nums):
         """
