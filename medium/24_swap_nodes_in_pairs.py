@@ -14,6 +14,10 @@ Given 1->2->3->4, you should return the list as 2->1->4->3.
 #         self.next = None
 
 class Solution:
+    """
+    Runtime: 36 ms, faster than 80.68% of Python3.
+    Memory Usage: 13.1 MB, less than 5.04% of Python3.
+    """
     def swapPairs(self, head: ListNode) -> ListNode:
         if head and head.next:
             temp = head.next
