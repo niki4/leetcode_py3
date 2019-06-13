@@ -36,13 +36,10 @@ class Solution:
         dp[0] = 1
         for i in range(1, len(s)+1):
             dp[i%3] = 0
-            print(f'dp[{i}%3]:', dp[i%3])
             if s[i-1] != '0':
                 dp[i%3] += dp[(i-1)%3]
-                print(f'dp[{i}%3]:', dp[i%3])
             if i > 1 and 10 <= int(s[i-2: i]) <= 26:
                 dp[i%3] += dp[(i-2)%3]
-                print(f'dp[{i}%3]:', dp[i%3])
         return dp[len(s)%3] if s else 0
 
 
