@@ -60,6 +60,34 @@ class Solution2:
         return self._reverse(curr, node)
 
 
+
+class Solution:
+    """
+    Recursive approach.
+    
+    The recursive version key is to work backwards. 
+    Assume that the rest of the list had already been reversed, now how do I reverse the front part? 
+    Let's assume the list is: n1 → … → nk-1 → nk → nk+1 → … → nm → Ø
+
+    Assume from node nk+1 to nm had been reversed and you are at node nk.
+    n1 → … → nk-1 → nk → nk+1 ← … ← nm
+
+    We want nk+1’s next node to point to nk.
+
+    So, nk.next.next = nk;
+    
+    Runtime: 32 ms, faster than 86.81% of Python3
+    Memory Usage: 18.7 MB, less than 7.97% of Python3 
+    """
+    def reverseList(self, head: ListNode) -> ListNode:
+        if head is None or head.next is None:
+            return head
+        p = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None
+        return p
+    
+
 if __name__ == "__main__":
     def get_linked_list_representation(node):
         list_values = list()
