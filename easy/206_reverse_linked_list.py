@@ -60,8 +60,7 @@ class Solution2:
         return self._reverse(curr, node)
 
 
-
-class Solution:
+class Solution3:
     """
     Recursive approach.
     
