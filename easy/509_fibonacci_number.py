@@ -41,6 +41,23 @@ class Solution:
         for _ in range(1, N):
             a, b = b, a + b
         return b
+    
+    def fib3(self, N):
+        """
+        Recursive approach with using memoization pattern (so we don't have to recalculate values more than once). 
+        Also could be achived by using functools.lru_cache() decorator.
+        
+        Runtime: 24 ms
+        Memory Usage: 14.1 MB
+        """
+        cache = {0: 0, 1: 1}
+        def fibo_rec(n):
+            if n in cache:
+                return cache[n]
+            res = fibo_rec(n - 1) + fibo_rec(n - 2)
+            cache[n] = res
+            return res
+        return fibo_rec(N)
 
 
 if __name__ == '__main__':
