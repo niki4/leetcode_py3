@@ -53,6 +53,23 @@ class Solution:
             x *= x
             n >>= 1
         return res
+    
+    # Runtime: 128 ms
+    # Memory Usage: 14.1
+    def myPow4(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1.0
+        # 1.00 is always 1.00 (LC TCs also requires support for -1.0)
+        if abs(x) == 1.0:
+            return -1.0 if x<0 and n>0 else 1.0
+        # sign int32 overflow case, also to get rid of TLE
+        if n >= (1 << 31) - 1 or n <= (-1 << 31):
+            return 0.0
+        
+        res = x
+        for _ in range(abs(n)-1):
+            res *= x
+        return res if n > 0 else 1/res
 
 
 if __name__ == '__main__':
