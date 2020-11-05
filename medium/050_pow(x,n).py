@@ -70,18 +70,26 @@ class Solution:
         for _ in range(abs(n)-1):
             res *= x
         return res if n > 0 else 1/res
+    
+    # Recursive approach, also optimization to calculate only half
+    # Runtime: 24 ms, faster than 93.14% of Python3.
+    # Memory Usage: 14.3 MB, less than 99.99% of Python3.
+    def myPow5(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1.0
+        if n < 0:
+            return 1 / self.myPow(x, -n)
+        if n % 2:
+            return x * self.myPow(x, n-1)
+        return self.myPow(x*x, n/2)
 
 
 if __name__ == '__main__':
-    sol = Solution()
-    assert math.isclose(sol.myPow(2.00000, 10), math.pow(2.00000, 10)), "expected 1024.00000"
-    assert math.isclose(sol.myPow(2.10000, 3), math.pow(2.10000, 3)), "expected 9.26100"
-    assert math.isclose(sol.myPow(2.00000, -2), math.pow(2.00000, -2)), "expected 0.25000"
-    assert math.isclose(sol.myPow(1.00000, 2147483647), math.pow(1.00000, 2147483647)), "expected 1.0"
-    assert math.isclose(sol.myPow(2.00000, -2147483648), math.pow(2.00000, -2147483648)), "expected 0.0"
-
-    assert math.isclose(sol.myPow3(2.00000, 10), math.pow(2.00000, 10)), "expected 1024.00000"
-    assert math.isclose(sol.myPow3(2.10000, 3), math.pow(2.10000, 3)), "expected 9.26100"
-    assert math.isclose(sol.myPow3(2.00000, -2), math.pow(2.00000, -2)), "expected 0.25000"
-    assert math.isclose(sol.myPow3(1.00000, 2147483647), math.pow(1.00000, 2147483647)), "expected 1.0"
-    assert math.isclose(sol.myPow3(2.00000, -2147483648), math.pow(2.00000, -2147483648)), "expected 0.0"
+    s = Solution()
+    solutions = [s.myPow, s.myPow2, s.myPow3, s.myPow4, s.myPow5]
+    for sol in solutions:
+        assert math.isclose(sol(2.00000, 10), math.pow(2.00000, 10)), "expected 1024.00000"
+        assert math.isclose(sol(2.10000, 3), math.pow(2.10000, 3)), "expected 9.26100"
+        assert math.isclose(sol(2.00000, -2), math.pow(2.00000, -2)), "expected 0.25000"
+        assert math.isclose(sol(1.00000, 2147483647), math.pow(1.00000, 2147483647)), "expected 1.0"
+        assert math.isclose(sol(2.00000, -2147483648), math.pow(2.00000, -2147483648)), "expected 0.0"
