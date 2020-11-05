@@ -78,10 +78,10 @@ class Solution:
         if n == 0:
             return 1.0
         if n < 0:
-            return 1 / self.myPow(x, -n)
+            return 1 / self.myPow5(x, -n)
         if n % 2:
-            return x * self.myPow(x, n-1)
-        return self.myPow(x*x, n/2)
+            return x * self.myPow5(x, n-1)
+        return self.myPow5(x*x, n/2)
 
 
 if __name__ == '__main__':
