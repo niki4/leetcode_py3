@@ -7,6 +7,7 @@ s = "loveleetcode" -> return 2.
 
 Note: You may assume the string contains only lowercase English letters.
 """
+from collections import Counter
 
 
 class Solution:
@@ -59,8 +60,21 @@ class Solution2:
         return counter[min_count_char][0]
 
 
+class Solution3:
+    """
+    Runtime: 64 ms, faster than 95.05% of Python3
+    Memory Usage: 14.4 MB, less than 18.25% of Python3
+    """
+
+    def firstUniqChar(self, s: str) -> int:
+        if not s: return -1
+        ch_ctr = Counter(s)  # makes pairs like Counter({'p': 946, 'u': 972})
+        min_ch = min(ch_ctr, key=ch_ctr.get)
+        return s.index(min_ch) if ch_ctr[min_ch] == 1 else -1
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     tc = [
         ("cc", -1),
         ("", -1),
