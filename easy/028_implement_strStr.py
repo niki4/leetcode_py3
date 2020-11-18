@@ -36,15 +36,40 @@ class Solution:
             return -1
 
 
+class Solution2:
+    """
+    Runtime: 24 ms, faster than 95.03% of Python3
+    Memory Usage: 14.4 MB, less than 20.96% of Python3
+    """
+
+    def strStr(self, haystack, needle):
+        # str.find returns index of first substr occurrence, or -1 if not found
+        return haystack.find(needle) if needle else 0
+
+
+class Solution3:
+    """
+    Runtime: 44 ms, faster than 19.71% of Python3
+    Memory Usage: 14.3 MB, less than 20.96% of Python3
+    """
+
+    def strStr(self, haystack, needle):
+        if not needle:
+            return 0
+        for i in range(len(haystack)):
+            if haystack[i:i + len(needle)] == needle:
+                return i
+        return -1
+
+
 if __name__ == '__main__':
     solutions = [Solution()]
     tc = [
         ('hello', 'll', 2),
         ('aaaaa', 'bba', -1),
         ('Test', '', 0),
+        ('a', 'a', 0)
     ]
     for s in solutions:
         for hst, ndl, expected in tc:
             assert s.strStr(hst, ndl) == expected
-
-#  Another 1-row solution for this is simply 'return haystack.find(needle)'
