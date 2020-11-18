@@ -28,8 +28,7 @@ class Solution:
     def find_num(self, src):
         pattern = r'[+-]?\d+'
         m = re.search(pattern, src)
-        if m:
-            return m.group(0)
+        return m.group(0) if m else 0
 
     def myAtoi(self, s: str) -> int:
         s = s.strip()  # remove leading & trailing whitespaces
