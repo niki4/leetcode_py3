@@ -49,14 +49,14 @@ class Solution2:
 
 class Solution3:
     """
-    Runtime: 44 ms, faster than 19.71% of Python3
-    Memory Usage: 14.3 MB, less than 20.96% of Python3
+    Runtime: 20 ms, faster than 98.80% of Python3
+    Memory Usage: 14.2 MB, less than 45.35% of Python3
     """
 
     def strStr(self, haystack, needle):
         if not needle:
             return 0
-        for i in range(len(haystack)):
+        for i in range(len(haystack) - len(needle) + 1):
             if haystack[i:i + len(needle)] == needle:
                 return i
         return -1
