@@ -34,19 +34,34 @@ class Solution2:
 
     Another way is to compare sum of hashes for chars in words.
     """
+
     def isAnagram(self, s: str, t: str) -> bool:
         return sum(hash(c) for c in s) == sum(hash(c) for c in t)
 
 
-if __name__ == "__main__":
-    sol = Solution()
-    sol2 = Solution2()
+class Solution3:
+    """
+    Runtime: 48 ms, faster than 59.52% of Python3
+    Memory Usage: 14.8 MB, less than 15.92% of Python3
 
-    s1 = "anagram"
-    t1 = "nagaram"
-    s2 = "rat"
-    t2 = "car"
-    sol.isAnagram(s1, t1) == True
-    sol.isAnagram(s2, t2) == False
-    sol2.isAnagram(s1, t1) == True
-    sol2.isAnagram(s2, t2) == False
+    A couple of lazy evaluation optimizations of Solution1.
+    """
+
+    def isAnagram(self, s: str, t: str) -> bool:
+        if len(s) != len(t): return False
+        s_sorted, t_sorted = sorted(s), sorted(t)
+        for i, s_v in enumerate(s_sorted):
+            if s_v != t_sorted[i]:
+                return False
+        return True
+
+
+if __name__ == "__main__":
+    solutions = [Solution(), Solution2(), Solution3()]
+    tc = [
+        ("anagram", "nagaram", True),
+        ("rat", "car", False),
+    ]
+    for sol in solutions:
+        for s, t, expected in tc:
+            assert sol.isAnagram(s, t) == expected
