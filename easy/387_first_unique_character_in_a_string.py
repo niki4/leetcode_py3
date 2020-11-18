@@ -1,3 +1,14 @@
+"""
+Given a string, find the first non-repeating character in it and return its index. If it doesn't exist, return -1.
+
+Examples:
+s = "leetcode" -> return 0.
+s = "loveleetcode" -> return 2.
+
+Note: You may assume the string contains only lowercase English letters.
+"""
+
+
 class Solution:
     """
     Bruteforce solution.  Time Limit Exceeded.
@@ -24,7 +35,10 @@ class Solution2:
         timeit sol2.firstUniqChar(long_str)
         3.64 ms ± 5.17 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 
-    Time and Space complexity: O(n)
+    Runtime: 124 ms, faster than 49.50% of Python3
+    Memory Usage: 15.6 MB, less than 5.54% of Python3
+    Time: O(n)
+    Space complexity: O(1) because we may have at most O(26) keys eq to english alphabet.
     """
 
     def firstUniqChar(self, s: str) -> int:
