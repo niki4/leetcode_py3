@@ -14,54 +14,55 @@ number, or if no such sequence exists because either str is empty or it contains
 only whitespace characters, no conversion is performed.
 
 If no valid conversion could be performed, a zero value is returned.
-
-Runtime: 44 ms, faster than 100.00% of Python3.
-Memory Usage: 13.1 MB, less than 5.00% of Python3.
 """
 
 import re
 
+
 class Solution:
+    """
+    Runtime: 32 ms, faster than 76.02% of Python3
+    Memory Usage: 14.1 MB, less than 35.39% of Python3
+    """
+
     def find_num(self, src):
-        pattern = f'[+-]?\d+'
+        pattern = r'[+-]?\d+'
         m = re.search(pattern, src)
         if m:
             return m.group(0)
 
-    def myAtoi(self, str: str) -> int:
-        cleaned_s = str.strip()
+    def myAtoi(self, s: str) -> int:
+        s = s.strip()  # remove leading & trailing whitespaces
 
-        if not cleaned_s or not any(
-        [cleaned_s[0].isdigit(), cleaned_s[0] in '+-']):
+        if not s or not any([s[0].isdigit(), s[0] in '+-']):
             return 0
 
-        if len(cleaned_s) >= 2:
-            if cleaned_s[0] in '+-' and not cleaned_s[1].isdigit():
-                return 0
-
-        num = self.find_num(str)
-        if num:
-            num = int(num)
-        else:
+        if len(s) >= 2 and (s[0] in '+-' and not s[1].isdigit()):
             return 0
+
+        num = int(self.find_num(s))
 
         int_max = (1 << 31) - 1
-        int_min = (-1 << 31)
+        int_min = -(1 << 31)
 
         if num > int_max:
             return int_max
         if num < int_min:
             return int_min
-
         return num
-        
 
-f __name__ == '__main__':
-    s = Solution()
-    assert s.myAtoi('42') == 42
-    assert s.myAtoi('   -42') == -42
-    assert s.myAtoi('4193 with words') == 4193
-    assert s.myAtoi('words and 987') == 0, 'expected 0 as string starts with non-whitesp or non-num'
-    assert s.myAtoi('-91283472332') == -2147483648, 'expected MIN_INT constant value as input less than it'
-    assert s.myAtoi('+') == 0
-    assert s.myAtoi('+-2') == 0
+
+if __name__ == '__main__':
+    solutions = [Solution()]
+    tc = [
+        ("42", 42, ""),
+        ("   -42", -42, ""),
+        ("4193 with words", 4193, ""),
+        ("words and 987", 0, "expected 0 as string starts with non-whitesp or non-num"),
+        ("-91283472332", -2147483648, "expected MIN_INT constant value as input less than it"),
+        ("+", 0, ""),
+        ("+-2", 0, ""),
+    ]
+    for sol in solutions:
+        for inp_s, expected, comment in tc:
+            assert sol.find_num(inp_s) == expected, f'{comment}'
