@@ -14,6 +14,7 @@ Output: ""
 Explanation: There is no common prefix among the input strings.
 """
 import os
+from typing import List
 
 
 class Solution:
@@ -38,7 +39,32 @@ class Solution:
                 break
         return max_pref
 
-    def longestCommonPrefix2(self, strs):
+
+class Solution2:
+    """
+    Runtime: 36 ms, faster than 45.30% of Python3
+    Memory Usage: 14.3 MB, less than 35.84% of Python3
+    """
+
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        if not strs:
+            return ""
+        min_str = min(strs, key=len)
+        if not min_str:
+            return ""
+
+        for i, v in enumerate(min_str):
+            if all(s[i] == v for s in strs):
+                if i == len(min_str) - 1:
+                    return min_str
+                else:
+                    continue
+            else:
+                return min_str[:i]
+
+
+class Solution3:
+    def longestCommonPrefix(self, strs):
         """
         Albeit the following code is not what interviewers would expect
         from you, it's good to know there's some short path.
@@ -48,7 +74,9 @@ class Solution:
         """
         return os.path.commonprefix(strs)
 
-    def longestCommonPrefix3(self, strs):
+
+class Solution4:
+    def longestCommonPrefix(self, strs):
         """
         Divide and conquer approach.
 
@@ -74,11 +102,12 @@ class Solution:
 
 
 if __name__ == '__main__':
-    s = Solution()
-    lcp1 = s.longestCommonPrefix
-    lcp2 = s.longestCommonPrefix2
-    lcp3 = s.longestCommonPrefix3
-    src1 = ["flower", "flow", "flight"]
-    src2 = ["dog", "racecar", "car"]
-    assert lcp1(src1) == lcp2(src1) == lcp3(src1) == "fl"
-    assert lcp1(src2) == lcp2(src2) == lcp3(src2) == ""
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
+    tc = [
+        (["flower", "flow", "flight"], "fl"),
+        (["dog", "racecar", "car"], ""),
+        ([""], ""),
+    ]
+    for s in solutions:
+        for inp, exp in tc:
+            assert s.longestCommonPrefix(inp) == exp
