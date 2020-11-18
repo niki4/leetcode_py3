@@ -7,21 +7,20 @@ Example 1:
 Input: haystack = "hello", needle = "ll"
 Output: 2
 
-Example 2:
-Input: haystack = "aaaaa", needle = "bba"
-Output: -1
-
 Clarification:
 What should we return when needle is an empty string? This is a great question to ask during an interview.
 
 For the purpose of this problem, we will return 0 when needle is an empty string.
 This is consistent to C's strstr() and Java's indexOf().
-
-Runtime: 36 ms (Your runtime beats 99.32 % of python3 submissions)
-Status: Accepted (https://leetcode.com/submissions/detail/150246110/)
 """
 
+
 class Solution:
+    """
+    Runtime: 28 ms, faster than 83.05% of Python3
+    Memory Usage: 14.2 MB, less than 76.33% of Python3
+    """
+
     def strStr(self, haystack, needle):
         """
         :type haystack: str
@@ -38,10 +37,14 @@ class Solution:
 
 
 if __name__ == '__main__':
-    sol = Solution()
-    print(sol.strStr('hello', 'll'))  # expected: 2
-    print(sol.strStr('aaaaa', 'bba'))  # expected: -1
-    print(sol.strStr(haystack='Test', needle=''))  # expected: 0
-
+    solutions = [Solution()]
+    tc = [
+        ('hello', 'll', 2),
+        ('aaaaa', 'bba', -1),
+        ('Test', '', 0),
+    ]
+    for s in solutions:
+        for hst, ndl, expected in tc:
+            assert s.strStr(hst, ndl) == expected
 
 #  Another 1-row solution for this is simply 'return haystack.find(needle)'
