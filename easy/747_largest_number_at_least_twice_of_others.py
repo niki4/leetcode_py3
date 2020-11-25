@@ -49,6 +49,9 @@ class Solution2:
 
     Runtime: 36 ms, faster than 54.55% of Python3
     Memory Usage: 14 MB, less than 77.60% of Python3
+
+    Time complexity: O(NlogN) because of sorting
+    Space complexity: O(N) to store sorted array
     """
 
     def dominantIndex(self, nums: List[int]) -> int:
@@ -63,13 +66,49 @@ class Solution2:
         return -1
 
 
+class Solution3:
+    """
+    Single pass, no need to sort array.
+    Keep track of first largest n (and its index) and second largest n to compare after array traverse.
+
+    Runtime: 36 ms, faster than 54.55% of Python3
+    Memory Usage: 14 MB, less than 96.07% of Python3
+
+    Time complexity: O(N) to traverse list one time
+    Space complexity: O(1), we only need to store 3 vars (constant size)
+    """
+
+    def dominantIndex(self, nums: List[int]) -> int:
+        if not nums:
+            return -1
+        if len(nums) == 1:
+            return 0
+
+        first_max_n = nums[0]
+        first_max_i = 0
+        second_max_n = 0
+
+        for i in range(1, len(nums)):
+            if nums[i] > first_max_n:
+                second_max_n = first_max_n
+                first_max_n = nums[i]
+                first_max_i = i
+            elif nums[i] > second_max_n:
+                second_max_n = nums[i]
+
+        if first_max_n >= second_max_n * 2:
+            return first_max_i
+        return -1
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     tc = [
         ([3, 6, 1, 0], 1),
         ([1, 2, 3, 4], -1),
         ([0, 0, 0, 1], 3),
         ([], -1),
+        ([1, 0], 0)
     ]
     for s in solutions:
         for inp, exp in tc:
