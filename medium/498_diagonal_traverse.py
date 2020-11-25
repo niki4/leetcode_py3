@@ -16,7 +16,7 @@ from collections import defaultdict
 from typing import List
 
 
-class Solution(object):
+class Solution:
     """
     Runtime: 196 ms, faster than 46.02% of Python3
     Memory Usage: 17.2 MB, less than 5.05% of Python3
@@ -41,12 +41,40 @@ class Solution(object):
         return result
 
 
+class Solution2:
+    """
+    Slightly optimized version of first solution
+
+    Runtime: 196 ms, faster than 46.02% of Python3
+    Memory Usage: 17 MB, less than 5.93% of Python3
+    """
+
+    def findDiagonalOrder(self, matrix: List[List[int]]) -> List[int]:
+        result = []
+        m = len(matrix)
+        if not m: return result
+        n = len(matrix[0])
+
+        dd = defaultdict(list)
+        for i in range(m):
+            n = len(matrix[i])
+            for j in range(n):
+                dd[i + j].append(matrix[i][j])
+
+        diagonal_count = m + n
+        for k in range(diagonal_count + 1):
+            result += dd[k] if k % 2 else dd[k][::-1]
+        return result
+
+
 if __name__ == '__main__':
-    s = Solution()
+    solutions = [Solution(), Solution2()]
     inp = [
         [1, 2, 3],
         [4, 5, 6],
         [7, 8, 9]
     ]
     out = [1, 2, 4, 7, 5, 3, 6, 8, 9]
-    s.findDiagonalOrder(inp)
+    for s in solutions:
+        result = s.findDiagonalOrder(inp)
+        assert result == out, f'{s.__class__}: expected {out}, got {result}'
