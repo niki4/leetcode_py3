@@ -4,6 +4,8 @@ Given a non-negative integer numRows, generate the first numRows of Pascal's tri
 In Pascal's triangle, each number is the sum of the two numbers directly above it.
 https://upload.wikimedia.org/wikipedia/commons/0/0d/PascalTriangleAnimated2.gif
 """
+from typing import List
+
 
 class Solution:
     """
@@ -45,6 +47,7 @@ class Solution2:
         ------------
         =  1 4 6 4 1
     """
+
     def generate(self, numRows: int) -> list:
         if numRows <= 0 or not isinstance(numRows, int):
             return []
@@ -52,20 +55,43 @@ class Solution2:
         res = [[1]]
         for _ in range(1, numRows):
             res.append(
-                list(map(lambda x, y: x+y, res[-1] + [0], [0] + res[-1]))
+                list(map(lambda x, y: x + y, res[-1] + [0], [0] + res[-1]))
             )
         return res
 
 
+class Solution3:
+    """
+    DP approach. Simplified version of the first solution (the same idea behind).
+
+    Runtime: 32 ms, faster than 50.83% of Python3
+    Memory Usage: 14.3 MB, less than 8.78% of Python3
+    """
+
+    def generate(self, numRows: int) -> List[List[int]]:
+        pyramid = []
+
+        for i in range(numRows):  # curr row idx
+            row = [1] * (i + 1)
+            for j in range(1, len(row) - 1):  # first and last items already 1, so skip them
+                row[j] = pyramid[i - 1][j - 1] + pyramid[i - 1][j]
+            pyramid.append(row)
+
+        return pyramid
+
+
 if __name__ == "__main__":
-    s = Solution()
-    s2 = Solution2()
-    expected = [
-        [1],
-       [1, 1],
-      [1, 2, 1],
-     [1, 3, 3, 1],
-    [1, 4, 6, 4, 1],
+    solutions = [Solution(), Solution2(), Solution3()]
+    tc = [
+        (0, []),
+        (5, [
+            [1],
+            [1, 1],
+            [1, 2, 1],
+            [1, 3, 3, 1],
+            [1, 4, 6, 4, 1],
+        ])
     ]
-    assert s.generate(5) == s2.generate(5) == expected
-    assert s.generate(0) == s2.generate(0) == []
+    for s in solutions:
+        for num_rows, exp in tc:
+            assert s.generate(num_rows) == exp
