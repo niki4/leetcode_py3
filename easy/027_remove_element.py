@@ -13,6 +13,7 @@ class Solution:
     Runtime: 40 ms, faster than 66.17% of Python3.
     Memory Usage: 13 MB, less than 91.97% of Python3.
     """
+
     def removeElement(self, nums, val):
         """
         :type nums: List[int]
@@ -32,17 +33,57 @@ class Solution2:
     Removing elements from end of array is more efficient
     as fewer rebuilds required after removing items.
     """
+
     def removeElement(self, nums: list, val: int) -> int:
-        for idx in range(len(nums)-1, -1, -1):
+        for idx in range(len(nums) - 1, -1, -1):
             if nums[idx] == val:
                 del nums[idx]
         return len(nums)
 
 
+class Solution3:
+    def removeElement(self, nums, val):
+        """
+        Some sort of functional approach (requires space to hold temporary list though).
+
+        Runtime: 36 ms, faster than 26.16% of Python3
+        Memory Usage: 14 MB, less than 95.95% of Python3
+        """
+        nums[:] = list(filter(lambda n: n != val, nums))
+        return len(nums)
+
+
+class Solution4:
+    """
+    Two pointer approach.
+
+    Runtime: 40 ms, faster than 26.16% of Python3
+    Memory Usage: 14.1 MB, less than 38.02% of Python3
+    """
+
+    def removeElement(self, nums, val):
+        k = 0  # idx where to insert next v non eq to val
+        for i in range(len(nums)):
+            if nums[i] != val:
+                nums[k] = nums[i]
+                k += 1
+        for _ in range(len(nums) - k):
+            nums.pop()
+        return len(nums)
+
+
 if __name__ == '__main__':
-    s = Solution()
-    s2 = Solution2()
-    assert s.removeElement([3, 2, 2, 3], 3) == 2
-    assert s.removeElement([0, 1, 2, 2, 3, 0, 4, 2], 2) == 5
-    assert s2.removeElement([3, 2, 2, 3], 3) == 2
-    assert s2.removeElement([0, 1, 2, 2, 3, 0, 4, 2], 2) == 5
+    def get_tc():
+        return [
+            ([3, 2, 2, 3], 3, 2),
+            ([0, 1, 2, 2, 3, 0, 4, 2], 2, 5),
+            ([3, 2, 2, 3], 3, 2),
+            ([0, 1, 2, 2, 3, 0, 4, 2], 2, 5),
+        ]
+
+
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
+
+    for s in solutions:
+        for inp_nums, inp_val, expected in get_tc():
+            assert s.removeElement(inp_nums, inp_val) == expected
