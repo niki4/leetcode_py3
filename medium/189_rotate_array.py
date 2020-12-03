@@ -19,6 +19,7 @@ Constraints:
 -231 <= nums[i] <= 231 - 1
 0 <= k <= 105
 """
+from collections import deque
 from typing import List
 
 
@@ -60,6 +61,64 @@ class Solution2:
         nums[:] = nums[-shift:] + nums[:-shift]
 
 
+class Solution3:
+    """
+    Runtime: 48 ms, faster than 99.23% of Python3.
+    Memory Usage: 15.5 MB, less than 34.77% of Python3.
+
+    From python docs (https://wiki.python.org/moin/TimeComplexity):
+    "A deque (double-ended queue) is represented internally as a doubly linked list.
+    (Well, a list of arrays rather than objects, for greater efficiency.) Both ends are accessible,
+    but even looking at the middle is slow, and adding to or removing from the middle is slower still."
+        Time complexity for Pop/Append to both sides are O(1).
+    """
+
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        if not nums: return
+        shift = k % len(nums)
+        nums_dq = deque(nums)
+        nums_dq.rotate(shift)
+        nums[:] = nums_dq
+
+
+class Solution4:
+    """
+    Runtime: 52 ms, faster than 96.45% of Python3.
+    Memory Usage: 15.6 MB, less than 8.83% of Python3.
+
+    This approach is based on the fact that when we rotate the array k times,
+    k elements from the back end of the array come to the front and the rest
+    of the elements from the front shift backwards.
+
+    Let n = 7 and k = 3.
+    Original List                   : 1 2 3 4 5 6 7
+    After reversing all numbers     : 7 6 5 4 3 2 1
+    After reversing first k numbers : 5 6 7 4 3 2 1
+    After revering last n-k numbers : 5 6 7 1 2 3 4 --> Result
+
+    Time complexity: O(n)
+    Space complexity: O(1)
+    """
+
+    def reverse(self, nums: List[int], start: int, end: int) -> None:
+        while start < end:
+            nums[start], nums[end] = nums[end], nums[start]
+            start += 1
+            end -= 1
+
+    def rotate(self, nums: List[int], k: int) -> None:
+        if not nums: return
+
+        n = len(nums)
+        k %= n  # shift size
+        self.reverse(nums, 0, n - 1)  # reverse whole list
+        self.reverse(nums, 0, k - 1)  # reverse first part back
+        self.reverse(nums, k, n - 1)  # reverse second part back
+
+
 if __name__ == '__main__':
     def get_test_cases():
         return [
@@ -70,9 +129,10 @@ if __name__ == '__main__':
 
     solutions = [
         Solution(),
-        Solution2()
+        Solution2(),
+        Solution3(),
+        Solution4(),
     ]
-
     for sol in solutions:
         for n, k, expected in get_test_cases():
             sol.rotate(n, k)
