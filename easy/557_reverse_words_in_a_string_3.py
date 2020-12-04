@@ -19,6 +19,7 @@ class Solution:
         Python is beautiful for this kind of problems :)
         """
         return ' '.join(word[::-1] for word in s.split())
+    #   return ' '.join(reversed(inp[::-1].split()))  # another way
 
 
 if __name__ == "__main__":
