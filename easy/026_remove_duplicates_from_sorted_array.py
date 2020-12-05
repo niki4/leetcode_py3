@@ -49,15 +49,56 @@ class Solution2:
         """
         if not nums:
             return 0
-        
+
         i = 0
         for j in range(1, len(nums)):
             if nums[j] != nums[i]:
                 i += 1
                 nums[i] = nums[j]
-        return i+1
+        return i + 1
+
+
+class Solution3:
+    """
+    Two-pointer approach with actual removing duplicated values from source array (Solution 2 didn't do that).
+
+    Runtime: 76 ms, faster than 87.29% of Python3
+    Memory Usage: 15.9 MB, less than 13.93% of Python3
+
+    Time complexity: O(n)
+    Space complexity: O(1)
+    """
+
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        i = 0
+        for j in range(1, len(nums)):
+            if nums[j] != nums[i]:
+                i += 1
+                nums[i] = nums[j]
+        for _ in range(len(nums) - (i + 1)):
+            nums.pop()
+        return len(nums)
 
 
 if __name__ == '__main__':
-    sol = Solution()
-    print(sol.removeDuplicates([1, 1, 2, 1, 3, 1, 2, 4]))
+    def get_tc():
+        return [
+            ([0, 0, 1, 1, 1, 2, 2, 3, 3, 4], [0, 1, 2, 3, 4], 5),
+            ([1, 1, 2], [1, 2], 2),
+        ]
+
+
+    solutions = [Solution(), Solution2(), Solution3()]
+
+    for sol in solutions:
+        for inp, exp, len_exp in get_tc():
+            assert sol.removeDuplicates(inp) == len_exp, f'{sol.__class__.__name__}: Expected length {len_exp}, ' \
+                                                         f'got length {len(inp)}: {inp} '
+            if sol.__class__.__name__ != "Solution2":
+                assert inp == exp
