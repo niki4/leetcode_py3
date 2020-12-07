@@ -13,11 +13,13 @@ Follow up:
 Could you do this in one pass?
 """
 
+
 # Definition for singly-linked list.
 class ListNode:
     def __init__(self, x):
         self.val = x
         self.next = None
+
 
 class Solution:
     """
@@ -27,6 +29,7 @@ class Solution:
     Time complexity: O(3*n) - one pass to traverse 1st list, 2nd to rebuilt values arr, 3rd to create list
     Space complexity: O(2*n) as we need to store values from first list and to create another one
     """
+
     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
         if head is None:
             return
@@ -47,9 +50,39 @@ class Solution:
 
 class Solution2:
     """
+    Some variation of first solution (we also using extra storage for traversed nodes), but without creating ListNode's.
+
+    Runtime: 32 ms, faster than 72.70% of Python3
+    Memory Usage: 14.3 MB, less than 15.92% of Python3
+    """
+
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+        all_nodes = list()
+        node = head
+
+        if not node or not node.next:
+            return None
+
+        while node:
+            all_nodes.append(node)
+            node = node.next
+
+        node_to_delete = all_nodes[-n]
+        if n == len(all_nodes):  # first node in the list
+            head = node_to_delete.next
+        else:
+            prev_node = all_nodes[-(n + 1)]
+            prev_node.next = node_to_delete.next
+
+        return head
+
+
+class Solution3:
+    """
     Runtime: 40 ms, faster than 75.77% of Python3.
     Memory Usage: 13.1 MB, less than 83.55% of Python3.
     """
+
     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
         fast = slow = head
         for _ in range(n):
@@ -74,19 +107,24 @@ def getSinglyLinkedListValues(head: ListNode) -> str:
 
 
 if __name__ == "__main__":
-    s1 = Solution()
-    s2 = Solution2()
-    head = ListNode(1)
-    ln1 = ListNode(2)
-    ln2 = ListNode(3)
-    ln3 = ListNode(4)
-    ln4 = ListNode(5)
-    head.next = ln1
-    ln1.next = ln2
-    ln2.next = ln3
-    ln3.next = ln4
-    assert getSinglyLinkedListValues(head) == '1->2->3->4->5'
-    new_list_head = s1.removeNthFromEnd(head, 2)
-    assert getSinglyLinkedListValues(new_list_head) == '1->2->3->5'
-    new_list_head2 = s2.removeNthFromEnd(new_list_head, 2)
-    assert getSinglyLinkedListValues(new_list_head2) == '1->2->5'
+    def make_test_linked_list():
+        head_node = ListNode(1)
+        ln1 = ListNode(2)
+        ln2 = ListNode(3)
+        ln3 = ListNode(4)
+        ln4 = ListNode(5)
+        head_node.next = ln1
+        ln1.next = ln2
+        ln2.next = ln3
+        ln3.next = ln4
+        return head_node
+
+
+    solutions = [Solution(), Solution2(), Solution3()]
+    for s in solutions:
+        head = make_test_linked_list()
+        assert getSinglyLinkedListValues(head) == '1->2->3->4->5'
+        new_list_head = s.removeNthFromEnd(head, 2)
+        assert getSinglyLinkedListValues(new_list_head) == '1->2->3->5'
+        new_list_head2 = s.removeNthFromEnd(new_list_head, 2)
+        assert getSinglyLinkedListValues(new_list_head2) == '1->2->5'
