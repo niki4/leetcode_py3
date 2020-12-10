@@ -7,13 +7,7 @@ Example:
 Input: 1->2->4, 1->3->4
 Output: 1->1->2->3->4->4
 """
-
-
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+from problems.tools.linked_list import ListNode, make_linked_list_from_iterable, traverse
 
 
 class Solution:
@@ -91,30 +85,6 @@ class Solution3:
 
 
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2(), Solution3()]
-
-
-    def make_linked_list_from_iterable(seq):
-        head = prev = None
-        for v in seq:
-            n = ListNode(v)
-            if not head:
-                head = prev = n
-            else:
-                prev.next = n
-                prev = n
-        return head
-
-
-    def traverse(head):
-        values = []
-        node = head
-        while node:
-            values.append(node.val)
-            node = node.next
-        return values
-
-
     def get_tc():
         return [(
             make_linked_list_from_iterable([1, 2, 4]),
@@ -123,6 +93,7 @@ if __name__ == '__main__':
         )]
 
 
+    solutions = [Solution(), Solution2(), Solution3()]
     for s in solutions:
         print()
         for l1, l2, exp in get_tc():

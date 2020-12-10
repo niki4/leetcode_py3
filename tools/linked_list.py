@@ -23,3 +23,12 @@ def make_linked_list_from_iterable(seq):
             prev.next = n
             prev = n
     return head
+
+
+def traverse(head: ListNode):
+    values = []
+    node = head
+    while node:
+        values.append(node.val)
+        node = node.next
+    return values

@@ -10,13 +10,7 @@ Follow up:
 A linked list can be reversed either iteratively or recursively.
 Could you implement both?
 """
-
-
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+from problems.tools.linked_list import ListNode, get_linked_list_representation
 
 
 class Solution:
@@ -120,14 +114,6 @@ class Solution4:
 
 
 if __name__ == "__main__":
-    def get_linked_list_representation(node):
-        list_values = list()
-        while node:
-            list_values.append(str(node.val))
-            node = node.next
-        return ' -> '.join(list_values)
-
-
     def create_linked_list() -> ListNode:
         ln1 = ListNode(1)
         ln2 = ListNode(2)
