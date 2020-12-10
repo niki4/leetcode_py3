@@ -37,9 +37,6 @@ class Solution2:
     """
     This solution requires us to (temporary) reverse half of the list to compare in order.
 
-    Runtime: 76 ms, faster than 29.46% of Python3
-    Memory Usage: 24.4 MB, less than 25.35% of Python3
-
     Runtime complexity: O(n). We have to visit all nodes.
     Memory complexity: O(1). We are not using separate storage for nodes.
     """
