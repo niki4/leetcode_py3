@@ -34,6 +34,9 @@ class Solution:
     """
     Algorithm idea: while traversing the list, if we encounter node with children
      - embed child list as next (seq) to traverse. So literally we flat the list as we go.
+
+     Runtime: 32 ms, faster than 82.44% of Python3
+     Memory Usage: 14.6 MB, less than 84.78% of Python3
     """
 
     def getTail(self, head):
