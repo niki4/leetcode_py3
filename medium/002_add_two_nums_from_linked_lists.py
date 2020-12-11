@@ -26,6 +26,48 @@ class ListNode:
 
 
 class Solution:
+    """
+    Bruteforce solution - traverse lists first to extract values, then create new list based on those values sum.
+
+    Runtime: 76 ms, faster than 23.42% of Python3
+    Memory Usage: 14.4 MB, less than 15.33% of Python3
+
+    Time and Space complexity: O(n)
+    """
+
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        l1_nums = []
+        l2_nums = []
+        while l1:
+            l1_nums.append(l1.val)
+            l1 = l1.next
+        while l2:
+            l2_nums.append(l2.val)
+            l2 = l2.next
+
+        max_len = max(len(l1_nums), len(l2_nums))
+        first_num = int("".join(str(n) for n in l1_nums[::-1]).zfill(max_len)) if l1_nums else 0
+        second_num = int("".join(str(n) for n in l2_nums[::-1]).zfill(max_len)) if l2_nums else 0
+
+        head = None
+        prev = None
+        for n in reversed(str(first_num + second_num)):
+            if head is None:
+                head = ListNode(n)
+                prev = head
+            else:
+                new_node = ListNode(n)
+                prev.next = new_node
+                prev = new_node
+        return head
+
+
+class Solution2:
+    """
+    Runtime: 72 ms, faster than 49.91% of Python3
+    Memory Usage: 14.3 MB, less than 15.33% of Python3
+    """
+
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         head = ListNode(0)  # dummy head
         current = head
