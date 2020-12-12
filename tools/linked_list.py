@@ -27,8 +27,12 @@ def make_linked_list_from_iterable(seq):
 
 def traverse(head: ListNode):
     values = []
+    seen = set()
     node = head
     while node:
+        if node in seen:
+            break
+        seen.add(node)
         values.append(node.val)
         node = node.next
     return values
