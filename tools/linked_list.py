@@ -13,6 +13,18 @@ def get_linked_list_representation(node: ListNode) -> str:
     return ' -> '.join(list_values)
 
 
+def make_circulated_linked_list(seq):
+    """ Makes circulated linked list so that last item (tail) linked to the first item (head) """
+    head = make_linked_list_from_iterable(seq)
+    if not head:
+        return
+    node = head
+    while node and node.next:
+        node = node.next
+    node.next = head
+    return head
+
+
 def make_linked_list_from_iterable(seq):
     head = prev = None
     for v in seq:
