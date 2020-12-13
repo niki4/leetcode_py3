@@ -31,7 +31,7 @@ Constraints:
 -10^6 <= Node.val <= 10^6
 -10^6 <= insertVal <= 10^6
 """
-from problems.tools.linked_list import ListNode as Node, make_linked_list_from_iterable, traverse
+from problems.tools.linked_list import ListNode as Node, make_circulated_linked_list, traverse
 
 
 class Solution:
@@ -40,6 +40,9 @@ class Solution:
 
     Runtime: 32 ms, faster than 89.87% of Python3
     Memory Usage: 15 MB, less than 16.77% of Python3
+
+    Time complexity: O(NlogN) because of sorting collected values
+    Space complexity: O(n)
     """
 
     def insert(self, head: 'Node', insertVal: int) -> 'Node':
@@ -64,19 +67,73 @@ class Solution:
         return head
 
 
+class Solution2:
+    """
+    Algorithm idea: having list sorted we can be sure while traversing list we returned back to the head
+    if the head value lower than its previous node value. Basically during this traversing we only need
+    to find suitable place to insert new node, so we check in following priority:
+    1. If target node fits between to neighbour, so that prev node smaller and next node has greater val than insertVal
+    2. If we have insertVal lower than head (smallest value in list) or greater than tail (greatest value in list) we
+    just put new node between tail and head.
+    3. Finally, if all values in the list are the same, we can also just put new node between tail and head.
+
+    Runtime: 36 ms, faster than 70.30% of Python3
+    Memory Usage: 15 MB, less than 17.54% of Python3
+
+    Time complexity: O(n) we need to traverse entire list at worst case
+    Space complexity: O(1)
+    """
+
+    def insert(self, head: 'Node', insertVal: int) -> 'Node':
+        if not head:
+            head = Node(insertVal)
+            head.next = head
+            return head
+
+        curr = head
+
+        while True:
+            # found place to insert, e.g. 9 between 8 and 10
+            if curr.val <= insertVal <= curr.next.val:
+                break
+
+            # last element
+            if curr.val > curr.next.val:
+                # greater than tail (max num)
+                if curr.val <= insertVal >= curr.next.val:
+                    break
+                # lower than head (min num)
+                elif curr.val >= insertVal <= curr.next.val:
+                    break
+
+            # all elements are equal
+            if curr.next == head:
+                break
+            curr = curr.next
+
+        new_node = Node(insertVal)
+        next_node = curr.next
+        curr.next = new_node
+        new_node.next = next_node
+        return head
+
+
 if __name__ == '__main__':
     def get_tc():
         return [
             ([3, 4, 1], 2, [3, 4, 1, 2]),
             ([], 1, [1]),
             ([1], 0, [1, 0]),
+            ([1, 3, 5], 2, [1, 2, 3, 5]),
+            ([3, 3, 3], 0, [3, 3, 3, 0]),
+            ([1, 3, 5], 1, [1, 1, 3, 5]),
         ]
 
 
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
 
     for s in solutions:
         for inp_list, insert_val, output_list in get_tc():
-            input_ll = make_linked_list_from_iterable(inp_list)
+            input_ll = make_circulated_linked_list(inp_list)
             result = s.insert(input_ll, insert_val)
             assert traverse(result) == output_list
