@@ -10,8 +10,21 @@ Input: [1,null,2,3]
    3
 Output: [1,3,2]
 
-Follow up: Recursive solution is trivial, could you do it iteratively?
+In-order traversal is to traverse the left subtree first.
+Then visit the root.
+Finally, traverse the right subtree.
+For example, for the following tree result will be [A, B, C, D, E, F, G, H, I]
+            F
+         /     \
+       B        G
+     /   \       \
+    A     D       I
+         /  \     /
+        C    E    H
+
+Typically, for binary search tree, we can retrieve all the data in sorted order using in-order traversal.
 """
+
 
 # Definition for a binary tree node
 class TreeNode:
@@ -33,6 +46,7 @@ class Solution:
         4. If there are no nodes at right, switch to left traversal.
            If there are no nodes both at left and right, stop recursion and exit.
     """
+
     def __init__(self):
         self.result = []
 
@@ -54,6 +68,7 @@ class Solution2:
 
     Iterative approach
     """
+
     def inorderTraversal(self, root: TreeNode) -> list:
         result, stack = [], []
         while True:
@@ -65,17 +80,20 @@ class Solution2:
             node = stack.pop()
             result.append(node.val)
             root = node.right
-        return result
 
 
 if __name__ == "__main__":
-    s = Solution()
-    s2 = Solution2()
-    btn1 = TreeNode(1)
-    btn2 = TreeNode(2)
-    btn3 = TreeNode(3)
-    btn1.right = btn2
-    btn2.left = btn3
+    def make_binary_tree_node():
+        root = TreeNode(1)
+        btn2 = TreeNode(2)
+        btn3 = TreeNode(3)
+        root.right = btn2
+        btn2.left = btn3
+        return root
 
-    assert s.inorderTraversal(btn1) == [1, 3, 2]
-    assert s2.inorderTraversal(btn1) == [1, 3, 2]
+
+    solutions = [Solution(), Solution2()]
+    exp = [1, 3, 2]
+    for s in solutions:
+        res = s.inorderTraversal(make_binary_tree_node())
+        assert res == exp, f'{s.__class__.__name__}: want {exp}, got {res}'
