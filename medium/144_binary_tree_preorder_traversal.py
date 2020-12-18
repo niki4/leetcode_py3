@@ -70,3 +70,37 @@ class Solution2:
             if node.left:
                 stack.append(node.left)
         return result
+
+
+class Solution3:
+    """
+    Simple recursive solution. Can be tuned for pre-, in-, and post-order solutions:
+
+    Preorder
+            self.result.append(root.val)
+            self._order_helper(root.left)
+            self._order_helper(root.right)
+
+    Inorder
+            self._order_helper(root.left)
+            self.result.append(root.val)
+            self._order_helper(root.right)
+
+    Postorder
+            self._order_helper(root.left)
+            self._order_helper(root.right)
+            self.result.append(root.val)
+    """
+
+    def __init__(self):
+        self.result = []
+
+    def _order_helper(self, root):
+        if root is not None:
+            self.result.append(root.val)
+            self._order_helper(root.left)
+            self._order_helper(root.right)
+
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        self._order_helper(root)
+        return self.result
