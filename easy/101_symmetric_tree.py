@@ -23,35 +23,30 @@ from problems.tools.binary_tree import TreeNode
 
 
 class Solution:
+    """
+    Top-down approach.
+    Pass level info to the next recursive call. Mark non-existing child node with None.
+
+    Runtime: 32 ms, faster than 80.10% of Python3
+    Memory Usage: 14.5 MB, less than 5.78% of Python3
+    """
+
     def __init__(self):
         self.levels = []
 
     def level_traversal(self, node: TreeNode, level: int):
+        if level == len(self.levels):
+            self.levels.append([])
+
         if node:
-            if level == len(self.levels):
-                self.levels.append([node.val])
-            else:
-                self.levels[level].append(node.val)
-
-            if node.left:
-                self.level_traversal(node.left, level + 1)
-            else:
-                if level + 1 == len(self.levels):
-                    self.levels.append([None])
-                else:
-                    self.levels[level + 1].append(None)
-
-            if node.right:
-                self.level_traversal(node.right, level + 1)
-            else:
-                if level + 1 == len(self.levels):
-                    self.levels.append([None])
-                else:
-                    self.levels[level + 1].append(None)
+            self.levels[level].append(node.val)
+            self.level_traversal(node.left, level + 1)
+            self.level_traversal(node.right, level + 1)
+        else:
+            self.levels[level].append(None)
 
     def isSymmetric(self, root: TreeNode) -> bool:
         self.level_traversal(root, 0)
-        print(self.levels)
         for level in self.levels:
             if level != level[::-1]:
                 return False
