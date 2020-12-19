@@ -14,6 +14,8 @@ return its level order traversal as:
   [9,20],
   [15,7]
 ]
+
+Level-by-Level traversal is also known as BFS (breadth-first search)
 """
 from typing import List
 
@@ -32,6 +34,9 @@ class Solution:
 
     Runtime: 28 ms, faster than 94.32% of Python3
     Memory Usage: 14.9 MB, less than 13.88% of Python3
+
+    Time complexity: O(n)
+    Space complexity: O(n) because of stack of recursive calls and result list
     """
 
     def __init__(self):
@@ -58,6 +63,9 @@ class Solution2:
 
     Runtime: 32 ms, faster than 80.36% of Python3
     Memory Usage: 14.6 MB, less than 44.37% of Python3
+
+    Time complexity: O(n)
+    Space complexity: O(n) because of lists for holding stack and result
     """
 
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
