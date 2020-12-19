@@ -53,6 +53,27 @@ class Solution:
         return True
 
 
+class Solution2:
+    """
+    Algorithm idea: recursively go down the tree verifying mirrored nodes. If recursion ends on tree1=tree2=None then
+    we have symmetric tree, otherwise its asymmetric.
+
+    Runtime: 28 ms, faster than 93.71% of Python3
+    Memory Usage: 14.6 MB, less than 5.78% of Python3
+    """
+
+    def _is_mirror(self, tree1: TreeNode, tree2: TreeNode) -> bool:
+        if tree1 is None or tree2 is None:
+            return tree1 == tree2
+        if tree1.val != tree2.val:
+            return False
+        return (self._is_mirror(tree1.left, tree2.right) and
+                self._is_mirror(tree1.right, tree2.left))
+
+    def isSymmetric(self, root: TreeNode) -> bool:
+        return self._is_mirror(root.left, root.right) if root else True
+
+
 if __name__ == '__main__':
     def make_symmetric_tree():
         root = TreeNode(1)
@@ -72,7 +93,8 @@ if __name__ == '__main__':
         return root
 
 
-    solutions = [Solution]
+    solutions = [Solution, Solution2]
     for s in solutions:
         assert s().isSymmetric(make_symmetric_tree()) is True
+        assert s().isSymmetric(None) is True
         assert s().isSymmetric(make_asymmetric_tree()) is False
