@@ -136,6 +136,51 @@ class Solution3:
         return counter
 
 
+class Solution4:
+    """
+    LC Solution. Algorithm idea:
+
+    Instead of checking if a node has no children, we treat null values as univalue subtrees
+    that we don't add to the count.
+
+    In this manner, if a node has a null child, that child is automatically considered to a
+    valid subtree, which results in the algorithm only checking if other children are invalid.
+
+    Finally, the helper function checks if the current node is a valid subtree but returns a
+    boolean indicating if it is a valid component for its parent. This is done by passing in
+    the value of the parent node.
+
+    Time complexity: O(n)
+    Space complexity: O(H) where H is the height (num of levels) of the tree
+
+    Runtime: 32 ms, faster than 82.41% of Python3
+    Memory Usage: 14.4 MB, less than 48.27% of Python3
+    """
+
+    def __init__(self):
+        self.count = 0
+
+    def is_valid_part(self, node, val):
+        if node is None:  # valid subtree
+            return True
+
+        # check if node.left and node.right are univalue subtrees of value node.val
+        if not all([self.is_valid_part(node.left, node.val),
+                    self.is_valid_part(node.right, node.val)]):
+            return False
+
+        # if it passed the last step then this a valid subtree - increment
+        self.count += 1
+
+        # at this point we know that this node is a univalue subtree of value node.val
+        # pass a boolean indicating if this is a valid subtree for the parent node
+        return node.val == val
+
+    def countUnivalSubtrees(self, root: TreeNode) -> int:
+        self.is_valid_part(root, 0)
+        return self.count
+
+
 if __name__ == '__main__':
     def make_binary_tree():
         root = TreeNode(5)
@@ -146,7 +191,7 @@ if __name__ == '__main__':
         return root
 
 
-    solutions = [Solution, Solution2, Solution3]
+    solutions = [Solution, Solution2, Solution3, Solution4]
     for s in solutions:
         res = s().countUnivalSubtrees(make_binary_tree())
         assert res == 4, f'expected {4}, got {res}'
