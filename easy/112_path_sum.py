@@ -28,19 +28,33 @@ class Solution:
         self.isPathFound = False
         self.targetSum = 0
 
-    def isPathForTargetExist(self, node: TreeNode, prevSum: int, targetSum: int):
+    def isPathForTargetExist(self, node: TreeNode, prevSum: int):
         if node and not self.isPathFound:
             if (node.left is None and
                     node.right is None and
-                    prevSum + node.val == self.targetSum):
-                # print("leaf node", node.val, "total sum:", prevSum + node.val, "target:", targetSum)
+                    prevSum + node.val == self.targetSum):  # leaf
                 self.isPathFound = True
-            self.isPathForTargetExist(node.left, prevSum + node.val, targetSum)
-            self.isPathForTargetExist(node.right, prevSum + node.val, targetSum)
+            self.isPathForTargetExist(node.left, prevSum + node.val)
+            self.isPathForTargetExist(node.right, prevSum + node.val)
 
     def hasPathSum(self, root: TreeNode, sum: int) -> bool:
-        self.isPathForTargetExist(root, 0, sum)
+        self.targetSum = sum
+        self.isPathForTargetExist(root, 0)
         return self.isPathFound
+
+
+class Solution2:
+    def hasPathSum(self, root: TreeNode, sum: int) -> bool:
+        if root is None:
+            return False
+
+        node = root
+        remain = sum
+        remain -= node.val
+
+        if node.left is None and node.right is None:  # leaf
+            return remain == 0  # should be 0 if path found
+        return self.hasPathSum(node.left, remain) or self.hasPathSum(node.right, remain)
 
 
 if __name__ == '__main__':
@@ -56,7 +70,7 @@ if __name__ == '__main__':
 
 
     target = 22
-    s = Solution()
-    res = s.hasPathSum(make_binary_tree(), target)
-
-    assert res is True, f'Expected true, got {res}'
+    solutions = [Solution, Solution2]
+    for s in solutions:
+        res = s().hasPathSum(make_binary_tree(), target)
+        assert res is True, f'{s.__name__}: Expected true, got {res}'
