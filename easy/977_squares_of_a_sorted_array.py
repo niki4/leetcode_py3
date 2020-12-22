@@ -49,12 +49,49 @@ class Solution2:
         return A
 
 
+class Solution3:
+    """
+    2-pointer approach. Since square of negative number is a positive number, we using abs() to both nums before comp.
+
+    Runtime: 232 ms, faster than 43.69% of Python3
+    Memory Usage: 16.1 MB, less than 68.56% of Python3
+
+    Time complexity: O(n/2) which turns to O(n) because 2 is constant.
+    Space complexity: O(n) as we allocate memory for result list.
+    """
+
+    def sortedSquares(self, A: list) -> list:
+        start, end = 0, len(A) - 1
+        result = []
+        while start <= end:
+            x = abs(A[start])
+            y = abs(A[end])
+            if x < y:
+                result.append(y ** 2)
+                end -= 1
+            elif x > y:
+                result.append(x ** 2)
+                start += 1
+            else:  # x == y
+                result.append(x ** 2)
+                if start != end:
+                    result.append(y ** 2)
+                start += 1
+                end -= 1
+        return result[::-1]
+
+
 if __name__ == "__main__":
-    solutions = (Solution(),)
-    tc = (
-        ([-4, -1, 0, 3, 10], [0, 1, 9, 16, 100]),
-        ([-7, -3, 2, 3, 11], [4, 9, 9, 49, 121])
-    )
+    def get_tc():
+        return (
+            ([-4, -1, 0, 3, 10], [0, 1, 9, 16, 100]),
+            ([-7, -3, 2, 3, 11], [4, 9, 9, 49, 121])
+        )
+
+
+    solutions = (Solution(), Solution2(), Solution3())
+
     for s in solutions:
-        for inp, exp in tc:
-            assert s.sortedSquares(inp) == exp
+        for inp, exp in get_tc():
+            res = s.sortedSquares(inp)
+            assert res == exp, f'{s.__class__.__name__}: Expected {exp}, got {res}'
