@@ -17,6 +17,7 @@ Note:
 3.  A is sorted in non-decreasing order.
 """
 
+
 class Solution:
     def sortedSquares(self, A: list) -> list:
         """
@@ -26,10 +27,15 @@ class Solution:
         Simplest and pythonic solution, but not too fast.
         Runtime complexity: O(N logN)
         """
-        return sorted([x**2 for x in A])
+        return sorted([x ** 2 for x in A])
 
 
 if __name__ == "__main__":
-    s = Solution()
-    assert s.sortedSquares([-4,-1,0,3,10]) == [0,1,9,16,100]
-    assert s.sortedSquares([-7,-3,2,3,11]) == [4,9,9,49,121]
+    solutions = (Solution(),)
+    tc = (
+        ([-4, -1, 0, 3, 10], [0, 1, 9, 16, 100]),
+        ([-7, -3, 2, 3, 11], [4, 9, 9, 49, 121])
+    )
+    for s in solutions:
+        for inp, exp in tc:
+            assert s.sortedSquares(inp) == exp
