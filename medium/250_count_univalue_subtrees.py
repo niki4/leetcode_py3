@@ -181,6 +181,39 @@ class Solution4:
         return self.count
 
 
+class Solution5:
+    """
+    Runtime: 24 ms, faster than 98.90% of Python3
+    Memory Usage: 14.1 MB, less than 96.42% of Python3
+
+    the solution is based on one from @ypmagic2 user:
+    leetcode.com/problems/count-univalue-subtrees/discuss/851050/python-recursion
+    """
+
+    def __init__(self):
+        self.count = 0
+
+    def helper(self, n: TreeNode) -> bool:
+        if not n:
+            return True
+        left = self.helper(n.left)
+        right = self.helper(n.right)
+
+        if left and right and any((
+                not n.left and not n.right,
+                (n.right and not n.left) and (n.val == n.right.val),
+                (n.left and not n.right) and (n.val == n.left.val),
+                (n.left and n.right) and (n.val == n.right.val == n.left.val),
+        )):
+            self.count += 1
+            return True
+        return False
+
+    def countUnivalSubtrees(self, root: TreeNode) -> int:
+        self.helper(root)
+        return self.count
+
+
 if __name__ == '__main__':
     def make_binary_tree():
         root = TreeNode(5)
@@ -191,7 +224,7 @@ if __name__ == '__main__':
         return root
 
 
-    solutions = [Solution, Solution2, Solution3, Solution4]
+    solutions = [Solution, Solution2, Solution3, Solution4, Solution5]
     for s in solutions:
         res = s().countUnivalSubtrees(make_binary_tree())
         assert res == 4, f'expected {4}, got {res}'
