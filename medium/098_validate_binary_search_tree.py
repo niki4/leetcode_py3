@@ -70,6 +70,35 @@ class Solution2:
         return True
 
 
+class Solution3:
+    """
+    Algorithm (Recursive Inorder Traversal):
+    Left -> Node -> Right order of inorder traversal means for BST that each element should be smaller
+    than the next one. Thus we need to keep track of prev visited node value. Inorder traversal for valid BST will visit
+    nodes in ascending order.
+
+    Runtime: 48 ms, faster than 42.15% of Python3
+    Memory Usage: 16.9 MB, less than 16.63% of Python3
+    """
+
+    def __init__(self):
+        self.prev = -math.inf
+
+    def inorder(self, node: TreeNode) -> bool:
+        # Inorder DFS: traverse left subtree first, then visit the root, then traverse right subtree
+        if not node:
+            return True
+        if not self.inorder(node.left):
+            return False
+        if node.val <= self.prev:
+            return False
+        self.prev = node.val
+        return self.inorder(node.right)
+
+    def isValidBST(self, root: TreeNode) -> bool:
+        return self.inorder(root)
+
+
 if __name__ == '__main__':
     def make_valid_bst():
         n1 = TreeNode(2)
@@ -87,7 +116,7 @@ if __name__ == '__main__':
         return n1
 
 
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     for s in solutions:
         assert s.isValidBST(make_valid_bst()) is True
         assert s.isValidBST(make_invalid_bst()) is False
