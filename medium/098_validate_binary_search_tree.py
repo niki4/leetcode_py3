@@ -45,12 +45,49 @@ class Solution:
         return self.validate(root)
 
 
-if __name__ == '__main__':
-    n1 = TreeNode(2)
-    n0 = TreeNode(1)
-    n2 = TreeNode(3)
-    n1.left, n1.right = n0, n2
+class Solution2:
+    """
+    Iterative Traversal with Valid Range
 
-    solutions = [Solution()]
+    Runtime: 48 ms, faster than 42.15% of Python3
+    Memory Usage: 16.2 MB, less than 81.86% of Python3
+    Time and Space complexity: O(n)
+    """
+
+    def isValidBST(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+
+        stack = [(root, -math.inf, math.inf)]
+        while stack:
+            node, low, high = stack.pop()
+            if not node:
+                continue
+            if node.val <= low or node.val >= high:
+                return False
+            stack.append((node.right, node.val, high))
+            stack.append((node.left, low, node.val))
+        return True
+
+
+if __name__ == '__main__':
+    def make_valid_bst():
+        n1 = TreeNode(2)
+        n0 = TreeNode(1)
+        n2 = TreeNode(3)
+        n1.left, n1.right = n0, n2
+        return n1
+
+
+    def make_invalid_bst():
+        n1 = TreeNode(1)
+        n0 = TreeNode(2)
+        n2 = TreeNode(3)
+        n1.left, n1.right = n0, n2
+        return n1
+
+
+    solutions = [Solution(), Solution2()]
     for s in solutions:
-        assert s.isValidBST(n1) is True
+        assert s.isValidBST(make_valid_bst()) is True
+        assert s.isValidBST(make_invalid_bst()) is False
