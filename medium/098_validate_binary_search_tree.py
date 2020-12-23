@@ -99,6 +99,29 @@ class Solution3:
         return self.inorder(root)
 
 
+class Solution4:
+    """
+    Iterative Inorder Traversal: the same idea as in Solution3, but iterative.
+
+    Runtime: 28 ms, faster than 99.89% of Python3
+    Memory Usage: 16.6 MB, less than 26.52% of Python3
+    """
+
+    def isValidBST(self, root: TreeNode) -> bool:
+        stack, prev = [], -math.inf
+        node = root
+        while stack or node:
+            while node:
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            if node.val <= prev:
+                return False
+            prev = node.val
+            node = node.right
+        return True
+
+
 if __name__ == '__main__':
     def make_valid_bst():
         n1 = TreeNode(2)
@@ -116,7 +139,7 @@ if __name__ == '__main__':
         return n1
 
 
-    solutions = [Solution(), Solution2(), Solution3()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     for s in solutions:
         assert s.isValidBST(make_valid_bst()) is True
         assert s.isValidBST(make_invalid_bst()) is False
