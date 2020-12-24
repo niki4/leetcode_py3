@@ -25,8 +25,13 @@ class Solution:
 
 class Solution2:
     """
+    Algorithm: Two pointers / Start from the beginning
+
     Runtime: 36 ms, faster than 66.29% of Python3
     Memory Usage: 14.3 MB, less than 18.71% of Python3
+
+    Time complexity: O(n+m).
+    Space complexity: O(m).
     """
 
     def merge(self, nums1: List[int], m: int, nums2: List[int], n: int):
