@@ -6,25 +6,32 @@ You may assume that nums1 has enough space (size that is greater or equal to m +
 to hold additional elements from nums2. The number of elements initialized in nums1
 and nums2 are m and n respectively.
 
-Runtime: 36 ms (Your runtime beats 100.00 % of python3 submissions.)
-Status: Accepted  https://leetcode.com/submissions/detail/149848422/
+Do not return anything, modify nums1 in-place instead.
 """
+from typing import List
+
 
 class Solution:
-    def merge(self, nums1, m, nums2, n):
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int):
         """
-        :type nums1: List[int]
-        :type m: int
-        :type nums2: List[int]
-        :type n: int
-        :rtype: void Do not return anything, modify nums1 in-place instead.
+        Runtime: 36 ms, faster than 66.29% of Python3
+        Memory Usage: 14.2 MB, less than 40.58% of Python3
+
+        Time complexity: O((n+m)log(n+m)) because we first need to merge lists, and then sort result.
         """
         nums1[m:] = nums2  # shortcut of nums[:n]
         nums1.sort()
 
-        print(nums1)
-        print(nums2)
 
 if __name__ == '__main__':
-    sol = Solution()
-    sol.merge([0], 0, [1], 1)
+    def get_tc():
+        return (
+            ([0], 1, [1], 1, [0, 1]),
+        )
+
+
+    solutions = [Solution()]
+    for s in solutions:
+        for in_nums1, in_m, in_nums2, in_n, expected in get_tc():
+            s.merge(in_nums1, in_m, in_nums2, in_n)
+            assert in_nums1 == expected
