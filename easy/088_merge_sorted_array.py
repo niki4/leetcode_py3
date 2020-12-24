@@ -62,17 +62,47 @@ class Solution2:
             nums1 += nums1_copy[i:]
 
 
+class Solution3:
+    """
+    Algorithm: Three pointers / Start from the end (insert pointer) move nums1 ptr & nums2 ptr to begin.
+
+    Runtime: 36 ms, faster than 66.29% of Python3
+    Memory Usage: 14.2 MB, less than 40.58% of Python3
+
+    Time complexity : O(n+m)
+    Space complexity : O(1) no extra memory
+    """
+
+    def merge(self, nums1, m, nums2, n):
+        n1_ins = m + n - 1  # where to insert, starting from last element in nums1
+        n1_p = m - 1  # last biggest elem in nums1, from where to start toward begin
+        n2_p = n - 1
+
+        # starting from end toward begin, replace elements in descending order
+        while n1_p >= 0 and n2_p >= 0:
+            if nums1[n1_p] > nums2[n2_p]:
+                nums1[n1_ins] = nums1[n1_p]
+                n1_p -= 1
+            else:
+                nums1[n1_ins] = nums2[n2_p]
+                n2_p -= 1
+            n1_ins -= 1
+
+        # add missing elements from nums2; if there are no, n2_p will be -1 and nums2 slice will be []
+        nums1[:n2_p + 1] = nums2[:n2_p + 1]
+
+
 if __name__ == '__main__':
     def get_tc():
         return (
-            ([0], 1, [1], 1, [0, 1]),
+            ([0, 0], 1, [1], 1, [0, 1]),
             ([1], 1, [], 0, [1]),
             ([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3, [1, 2, 2, 3, 5, 6]),
             ([1, 2, 4, 5, 6, 0], 5, [3], 1, [1, 2, 3, 4, 5, 6])
         )
 
 
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     for s in solutions:
         for in_nums1, in_m, in_nums2, in_n, expected in get_tc():
             s.merge(in_nums1, in_m, in_nums2, in_n)
