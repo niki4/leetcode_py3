@@ -54,7 +54,7 @@ class Solution3:
     def search(self, nums: List[int], target: int) -> int:
         left, right = 0, len(nums) - 1
         while left <= right:
-            mid = left + (right - left) // 2
+            mid = left + (right - left) // 2  # or (left + right) // 2
             if nums[mid] == target:
                 return mid
             elif nums[mid] > target:
