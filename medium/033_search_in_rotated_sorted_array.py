@@ -89,8 +89,40 @@ class Solution3:
         return -1
 
 
+class Solution4:
+    """
+    One-pass Binary Search (with defining subarrays):
+        say if some pivot point (mid) has lowest value, on the left side from it toward begin will be
+        one sorted subarray, and starting from that pivot point toward end will be another sorted subarray.
+
+    Runtime: 40 ms, faster than 68.40% of Python3
+    Memory Usage: 14.6 MB, less than 50.70% of Python3
+
+    Time complexity: O(log n)
+    Space complexity: O(1)
+    """
+
+    def search(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] > nums[right]:  # Left side of mid is sorted
+                if nums[left] <= target < nums[mid]:  # Target in the left side
+                    right = mid - 1
+                else:  # target in the right side
+                    left = mid + 1
+            else:  # Right side is sorted
+                if nums[mid] < target <= nums[right]:  # Target in the right side
+                    left = mid + 1
+                else:  # target in the left side
+                    right = mid - 1
+        return -1
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2(), Solution3()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     tc = (
         ([4, 5, 6, 7, 0, 1, 2], 0, 4),
         ([4, 5, 6, 7, 0, 1, 2], 4, 0),
