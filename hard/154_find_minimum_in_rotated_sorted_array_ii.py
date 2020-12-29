@@ -35,11 +35,44 @@ class Solution:
         return min(nums)
 
 
+class Solution2:
+    """
+    Binary search.
+    Here we converge left and right borders toward the lowest element.
+
+    Runtime: 44 ms, faster than 96.51% of Python3
+    Memory Usage: 15 MB, less than 30.85% of Python3
+
+    Time complexity: O(log n)
+    Space complexity: O(1)
+    """
+
+    def findMin(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
+
+        if nums[left] < nums[right]:  # already sorted in asc order
+            return nums[left]
+
+        while left < right:
+            mid = (left + right) // 2  # or "left + (right - left) // 2" to avoid potential overflow
+            if nums[left] == nums[mid] == nums[right]:  # skip duplicates
+                left += 1
+                right -= 1
+            elif nums[mid] <= nums[right]:  # regular binary search
+                right = mid
+            else:
+                left = mid + 1
+        return nums[left]
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         ([1, 3, 5], 1),
+        ([3, 3, 1, 3], 1),
         ([2, 2, 2, 0, 1], 0),
+        ([4, 5, 6, 7, 0, 1, 2], 0),
+        ([10, 1, 10, 10, 10], 1),
     )
     for s in solutions:
         for inp, exp in tc:
