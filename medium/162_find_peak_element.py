@@ -46,12 +46,80 @@ class Solution:
                 return i
 
 
+class Solution2:
+    """
+    Recursive Binary Search: "we keep on reducing the search space till we eventually reach a state where only one
+    element is remaining in the search space. This single element is the peak element."
+
+    Runtime: 48 ms, faster than 39.22% of Python3
+    Memory Usage: 14.5 MB, less than 7.57% of Python3
+
+    Time and Space complexity:  O(log2 (n)).  We reduce the search space in half at every step.
+    Thus, the total search space will be consumed in log_2(n) steps.
+    Here, n refers to the size of nums array, depth of recursion tree will go upto log_2(n).
+    """
+
+    def search(self, nums: List[int], left: int, right: int) -> int:
+        if left == right:
+            return left
+        mid = (left + right) // 2
+        if nums[mid] > nums[mid + 1]:
+            return self.search(nums, left, mid)
+        return self.search(nums, mid + 1, right)
+
+    def findPeakElement(self, nums: List[int]) -> int:
+        return self.search(nums, 0, len(nums) - 1)
+
+
+class Solution3:
+    """
+    The same as Solution 2, but using closure function instead class method for the search helper.
+
+    Runtime: 40 ms, faster than 90.22% of Python3
+    Memory Usage: 14.6 MB, less than 7.57% of Python3
+    """
+
+    def findPeakElement(self, nums: List[int]) -> int:
+        def search(left: int, right: int) -> int:
+            if left == right:
+                return left
+
+            mid = (left + right) // 2
+            if nums[mid] > nums[mid + 1]:
+                return search(left, mid)
+            return search(mid + 1, right)
+
+        return search(0, len(nums) - 1)
+
+
+class Solution4:
+    """
+    Iterative Binary Search
+
+    Runtime: 44 ms, faster than 71.24% of Python3
+    Memory Usage: 14.4 MB, less than 56.78% of Python3
+    """
+
+    def findPeakElement(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = (left + right) // 2
+            if nums[mid] > nums[mid + 1]:
+                right = mid
+            else:
+                left = mid + 1
+        return left
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     tc = (
         ([1, 2, 3, 1], [2]),
-        ([1, 2, 1, 3, 5, 6, 4], [1, 5])
+        ([1, 2, 1, 3, 5, 6, 4], [1, 5]),
+        ([2, 1], [0]),
+        ([6, 5, 4, 3, 2, 3, 2], [0, 5]),
     )
     for s in solutions:
         for inp, exp in tc:
-            assert s.findPeakElement(inp) in exp
+            res = s.findPeakElement(inp)
+            assert res in exp, f'{s.__class__.__name__}: for input {inp} found idx {res} not in expected {exp}'
