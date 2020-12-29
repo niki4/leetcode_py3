@@ -65,6 +65,33 @@ class Solution2:
         return nums[left]
 
 
+class Solution3:
+    """
+    Binary search.
+    Right border is the local maximum for right border (mid to right asc subarr)
+    and local minimum to left border (left to mid asc subarr). In case mid and right points has the same value, we
+    just skip the duplicated item by moving right border by one (toward left). Once borders are converged, we found min.
+
+    Runtime: 44 ms, faster than 96.51% of Python3
+    Memory Usage: 14.9 MB, less than 50.05% of Python3
+
+    Time complexity: O(log n)
+    Space complexity: O(1)
+    """
+
+    def findMin(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = left + (right - left) // 2
+            if nums[mid] < nums[right]:
+                right = mid
+            elif nums[mid] > nums[right]:
+                left = mid + 1
+            else:  # nums[mid] == nums[right]
+                right -= 1
+        return nums[left]
+
+
 if __name__ == '__main__':
     solutions = [Solution(), Solution2()]
     tc = (
