@@ -98,6 +98,9 @@ class Solution4:
 
     Runtime: 44 ms, faster than 71.24% of Python3
     Memory Usage: 14.4 MB, less than 56.78% of Python3
+
+    Time complexity:  O(log2 (n))
+    Space complexity: O(1)
     """
 
     def findPeakElement(self, nums: List[int]) -> int:
