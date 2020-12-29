@@ -39,13 +39,67 @@ class Solution:
         return min(nums)
 
 
+class Solution2:
+    """
+    Binary search: in shifted array, lowest element is the first one after a continuous ascending sequence.
+
+    Runtime: 44 ms, faster than 24.37% of Python3
+    Memory Usage: 14.7 MB, less than 18.12% of Python3
+
+    Time complexity: O(log n)
+    Space complexity: O(1)
+    """
+
+    def findMin(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
+        if nums[right] >= nums[0]:
+            return nums[0]
+
+        while right >= left:
+            mid = (left + right) // 2
+            if nums[mid] > nums[mid + 1]:
+                return nums[mid + 1]
+            if nums[mid - 1] > nums[mid]:
+                return nums[mid]
+
+            if nums[mid] > nums[0]:
+                left = mid + 1
+            else:
+                right = mid - 1
+
+
+class Solution3:
+    """
+    Binary search. The same idea as in Solution2, but more concise code.
+    Here we converge left and right borders toward the lowest element.
+
+    Runtime: 40 ms, faster than 62.35% of Python3
+    Memory Usage: 14.5 MB, less than 62.06% of Python3
+
+    Time complexity: O(log n)
+    Space complexity: O(1)
+    """
+
+    def findMin(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = (left + right) // 2
+            if nums[mid] < nums[right]:
+                right = mid
+            else:
+                left = mid + 1
+        return nums[left]
+
+
 if __name__ == '__main__':
     tc = (
+        ([1], 1),
         ([3, 4, 5, 1, 2], 1),
         ([4, 5, 6, 7, 0, 1, 2], 0),
         ([11, 13, 15, 17], 11),
     )
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     for s in solutions:
         for inp, exp in tc:
-            assert s.findMin(inp) == exp
+            res = s.findMin(inp)
+            assert res == exp, f"{s.__class__.__name__}: for inp {inp} exp {exp}, got {res}"
