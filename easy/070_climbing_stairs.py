@@ -30,7 +30,7 @@ class Solution:
     def climbStairs(self, n: int) -> int:
         return self.climbStairs(n - 1) + self.climbStairs(n - 2) if n > 2 else 2 if n == 2 else 1
 
-    
+
 class Solution2:
     """
     Actually, similar approach to the Solution one, but with regular dict instead lru_cache().
@@ -40,21 +40,24 @@ class Solution2:
     Memory Usage: 14.1 MB
     Timeit: 2.48 µs ± 27.6 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
     """
+
     def climbStairs(self, n: int) -> int:
         cache = {2: 2, 1: 1}
+
         def climb_rec(N):
             if N in cache:
                 return cache[N]
-            res = climb_rec(N-1) + climb_rec(N-2)
+            res = climb_rec(N - 1) + climb_rec(N - 2)
             cache[N] = res
             return res
+
         return climb_rec(n)
 
 
-
 if __name__ == '__main__':
-    sol = Solution()
-    assert sol.climbStairs(2) == 2
-    assert sol.climbStairs(3) == 3
-    assert sol.climbStairs(5) == 8
-    assert sol.climbStairs(28) == 514229
+    solutions = [Solution(), Solution2()]
+    for sol in solutions:
+        assert sol.climbStairs(2) == 2
+        assert sol.climbStairs(3) == 3
+        assert sol.climbStairs(5) == 8
+        assert sol.climbStairs(28) == 514229
