@@ -2,25 +2,30 @@ class Solution:
     """
     This solution works, but got 'Time Limit Exceeded' from Leetcode
     """
+
     def maxProfit(self, prices: list) -> int:
         max_profit = 0
 
-        for idx in range(len(prices)-1):
+        for idx in range(len(prices) - 1):
             current_val = prices[idx]
-            max_val = max(prices[idx+1:]) if prices[idx+1:] else 0
+            max_val = max(prices[idx + 1:]) if prices[idx + 1:] else 0
             profit = max_val - current_val
             if profit > max_profit:
                 max_profit = profit
 
         return max_profit
 
+
 class Solution2:
     """
-    Runtime: 60 ms, faster than 15.56% of Python3.
-    Memory Usage: 14.2 MB, less than 5.20% of Python3.
+    Runtime: 60 ms
+    Memory Usage: 14.2 MB
 
-    Well, at least it accepted ;-)
+    Dynamic Programming.
+    Time complexity: O(n)
+    Space complexity: O(1)
     """
+
     def maxProfit(self, prices: list) -> int:
         max_profit, min_price = 0, float('inf')
 
@@ -33,14 +38,13 @@ class Solution2:
 
 
 if __name__ == "__main__":
-    s = Solution()
-    s2 = Solution2()
-    assert s.maxProfit([7,1,5,3,6,4]) == 5
-    assert s.maxProfit([7,6,4,3,1]) == 0
-    assert s.maxProfit([2,4,1]) == 2
-    assert s.maxProfit([1]) == 0
-
-    assert s2.maxProfit([7,1,5,3,6,4]) == 5
-    assert s2.maxProfit([7,6,4,3,1]) == 0
-    assert s2.maxProfit([2,4,1]) == 2
-    assert s2.maxProfit([1]) == 0
+    solutions = [Solution(), Solution2()]
+    tc = (
+        ([7, 1, 5, 3, 6, 4], 5),
+        ([7, 6, 4, 3, 1], 0),
+        ([2, 4, 1], 2),
+        ([1], 0),
+    )
+    for s in solutions:
+        for inp, exp in tc:
+            assert s.maxProfit(inp) == exp
