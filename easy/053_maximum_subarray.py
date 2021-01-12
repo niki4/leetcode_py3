@@ -24,6 +24,9 @@ class Solution:
     Runtime: 44 ms, faster than 93.79% of Python3.
     Memory Usage: 13.6 MB, less than 5.50% of Python3.
     Runtime complexity: O(n)
+
+    Algorithm idea: we keep track on local max (curr_sum) if its growing sequence or reset it if current num is larger.
+    Also on each iteration we compare global max with the local one and update it accordingly.
     """
     def maxSubArray(self, nums: List[int]) -> int:
         if not nums:
