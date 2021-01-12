@@ -13,10 +13,12 @@ Follow up:
 If you have figured out the O(n) solution, try coding another solution using
 the divide and conquer approach, which is more subtle.
 """
+from typing import List
+
 
 class Solution:
     """
-    Kadane's algorithm
+    Kadane's algorithm / Dynamic Programming
     https://en.wikipedia.org/wiki/Maximum_subarray_problem#Kadane's_algorithm
     
     Runtime: 44 ms, faster than 93.79% of Python3.
@@ -36,5 +38,14 @@ class Solution:
 
 
 if __name__ == '__main__':
-    sol = Solution()
-    assert sol.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]) == 6
+    solutions = [Solution()]
+    tc = (
+        ([-2, 1, -3, 4, -1, 2, 1, -5, 4], 6),
+        ([1], 1),
+        ([0], 0),
+        ([-1], -1),
+        ([-100000], -100000),
+    )
+    for sol in solutions:
+        for inp, exp in tc:
+            assert sol.maxSubArray(inp) == exp
