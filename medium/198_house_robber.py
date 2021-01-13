@@ -29,7 +29,7 @@ class Solution:
     Runtime: 28 ms, faster than 84.87% of Python3
     Memory Usage: 14.1 MB, less than 73.00% of Python3
     Time complexity: O(n)
-    Space complexity: O(1)
+    Space complexity: O(n) as we need extra space for our 'dp' list
     """
 
     def rob(self, nums: List[int]) -> int:
@@ -53,10 +53,10 @@ class Solution:
             of the two cases described above except if we rob, make sure
             we add the money in current house first before comparing so,
             if rob, the money will become: dp[i-2] + nums[i]
-            if not rob, the money will become: dp[i-1]
+            if not rob, the money will become: dp[i-1] or simply last element dp[-1] which holds robbed money so far.
             dp[i] holds robbed so far
             """
-            dp.append(max(dp[i - 2] + nums[i], dp[i - 1]))
+            dp.append(max(dp[i - 2] + nums[i], dp[-1]))
         # Similar to Kadane's algorithm (see 053_maximum_subarray) max profit will be set in the last item
         return dp[-1]
 
