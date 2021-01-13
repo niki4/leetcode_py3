@@ -82,12 +82,12 @@ class Solution2:
 
     def rob(self, nums: List[int]) -> int:
         prev_max, curr_max = 0, 0
-        for n in nums:  # [2, 1, 1, 2]
-            tmp = curr_max  # 3
-            curr_max = max(  # 4
+        for n in nums:
+            tmp = curr_max
+            curr_max = max(
                 prev_max + n,  # rob house, add robbed value to the accumulator
                 curr_max)  # do not rob house more profitable, use accumulator val
-            prev_max = tmp  # 3
+            prev_max = tmp
         return curr_max
 
 
