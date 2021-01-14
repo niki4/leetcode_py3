@@ -57,8 +57,29 @@ class Solution:
         return result
 
 
+class Solution2:
+    """
+     Right-to-Left Pass
+
+     Runtime: 40 ms, faster than 93.07% of Python3
+     Memory Usage: 14.2 MB, less than 81.41% of Python3
+
+     Time and Space complexity: O(1)
+    """
+
+    def romanToInt(self, s: str) -> int:
+        result = rom2int[s[-1]]
+
+        for i in range(len(s) - 2, -1, -1):
+            if rom2int[s[i]] < rom2int[s[i + 1]]:
+                result -= rom2int[s[i]]
+            else:
+                result += rom2int[s[i]]
+        return result
+
+
 if __name__ == '__main__':
-    sol = Solution()
+    solutions = [Solution(), Solution2()]
     tc = (
         ("MMMDCCCCLXXXXVIIII", 3999),
         ("MCMXCVI", 1996),  # 1000 + (1000-100) + (100-10) + 6
@@ -67,5 +88,6 @@ if __name__ == '__main__':
         ("IX", 9),
         ("LVIII", 58),
     )
-    for inp, exp in tc:
-        assert sol.romanToInt(inp) == exp
+    for sol in solutions:
+        for inp, exp in tc:
+            assert sol.romanToInt(inp) == exp
