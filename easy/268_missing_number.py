@@ -14,6 +14,7 @@ Note:
 Your algorithm should run in linear runtime complexity.
 Could you implement it using only constant extra space complexity?
 """
+from typing import List
 
 
 class Solution:
@@ -42,9 +43,18 @@ class Solution2:
         return len(nums) - difference
 
 
-if __name__ == "__main__":
+class Solution3:
+    """
+    Runtime: 124 ms, faster than 89.68% of Python3
+    Memory Usage: 15.5 MB, less than 17.58% of Python3
+    """
 
-    solutions = [Solution(), Solution2()]
+    def missingNumber(self, nums: List[int]) -> int:
+        return sum(range(len(nums) + 1)) - sum(nums)
+
+
+if __name__ == "__main__":
+    solutions = [Solution(), Solution2(), Solution3()]
     tc = (
         ([3, 0, 1], 2),
         ([9, 6, 4, 2, 3, 5, 7, 0, 1], 8),
