@@ -44,8 +44,8 @@ class Solution2:
     """
     More clear version of first solution
 
-    Runtime: 32 ms, faster than 62.13% of Python3
-    Memory Usage: 14.3 MB, less than 63.01% of Python3
+    Runtime: 24 ms, faster than 95.84% of Python3
+    Memory Usage: 14.4 MB, less than 7.73% of Python3
     """
 
     def isValid(self, s: str) -> bool:
@@ -60,10 +60,9 @@ class Solution2:
             if ch in "{([":
                 stack.append(ch)
             elif ch in "})]":
-                if not stack or stack[-1] != opposite[ch]:
+                if not stack or stack.pop() != opposite[ch]:
                     return False
-                stack.pop()
-        return len(stack) == 0
+        return not stack
 
 
 if __name__ == '__main__':
