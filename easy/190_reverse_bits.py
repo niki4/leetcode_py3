@@ -19,10 +19,11 @@ the unsigned integer 4294967293, so return 3221225471 which its binary
 representation is 10101111110010110010011101101001.
 """
 
+
 class Solution:
     # @param n, an integer with base10
     # @return an integer with base10
-    def reverseBits(self, n):
+    def reverseBits(self, n: int) -> int:
         """
         Runtime: 12 ms, faster than 97.09% of Python.
         Memory Usage: 11.9 MB, less than 7.77% of Python.
@@ -36,7 +37,7 @@ class Solution:
 
 
 class Solution2:
-    def reverseBits(self, n):
+    def reverseBits(self, n: int) -> int:
         """
         Runtime: 16 ms, faster than 91.35% of Python.
         Memory Usage: 11.7 MB, less than 71.91% of Python.
@@ -51,18 +52,20 @@ class Solution2:
             3. 'x | y Does a "bitwise OR".
             Each bit of the output is 0 if the corresponding bit of x AND of y is 0, otherwise it's 1.'
         """
-        n = ((n & 0x55555555) << 1) | ((n& 0xAAAAAAAA) >> 1)
-        n = ((n & 0x33333333) << 2) | ((n& 0xCCCCCCCC) >> 2)
-        n = ((n & 0x0F0F0F0F) << 4) | ((n& 0xF0F0F0F0) >> 4)
-        n = ((n & 0x00FF00FF) << 8) | ((n& 0xFF00FF00) >> 8)
+        n = ((n & 0x55555555) << 1) | ((n & 0xAAAAAAAA) >> 1)
+        n = ((n & 0x33333333) << 2) | ((n & 0xCCCCCCCC) >> 2)
+        n = ((n & 0x0F0F0F0F) << 4) | ((n & 0xF0F0F0F0) >> 4)
+        n = ((n & 0x00FF00FF) << 8) | ((n & 0xFF00FF00) >> 8)
         n = ((n & 0x0000FFFF) << 16) | ((n & 0xFFFF0000) >> 16)
         return n
 
 
 if __name__ == "__main__":
-    s = Solution()
-    s2 = Solution2()
-    s.reverseBits(43261596) == 964176192
-    s.reverseBits(4294967293) == 3221225471
-    s2.reverseBits(43261596) == 964176192
-    s2.reverseBits(4294967293) == 3221225471
+    solutions = [Solution(), Solution2()]
+    tc = (
+        (43261596, 964176192),
+        (4294967293, 3221225471),
+    )
+    for s in solutions:
+        for inp, exp in tc:
+            assert s.reverseBits(inp) == exp
