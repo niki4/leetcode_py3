@@ -13,6 +13,8 @@ A solution set is:
   [-1, -1, 2]
 ]
 """
+from typing import List
+
 
 class Solution:
     """
@@ -24,15 +26,17 @@ class Solution:
 
     k-sum that equal 0, where k is 3.
     """
-    def threeSum(self, nums: list) -> list:
+
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
         nums.sort()
+
         def ksum(num, k, target):
             i = 0
             if k == 2:
                 j = len(num) - 1
                 while i < j:
                     if num[i] + num[j] == target:
-                        yield (num[i], num[j])
+                        yield num[i], num[j]
                         i += 1
                     elif num[i] + num[j] > target:
                         j -= 1
@@ -41,11 +45,11 @@ class Solution:
             else:
                 while i < len(num) - k + 1:
                     new_target = target - num[i]
-                    for sub in ksum(num[i+1:], k-1, new_target):
+                    for sub in ksum(num[i + 1:], k - 1, new_target):
                         yield (num[i],) + sub
                     i += 1
 
-        return [list(s) for s in set(ksum(nums, 3, 0))]
+        return [list(s_) for s_ in set(ksum(nums, 3, 0))]
 
 
 class Solution2:
@@ -62,15 +66,16 @@ class Solution2:
         middle pointer. So if the sum is too large, you can move the right pointer back one.
         On the other hand, if the sum is too small (below 0), then move the middle pointer up one.
     """
-    def threeSum(self, nums: list) -> list:
+
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
         result = set()
         nums.sort()
-        for i in range(len(nums)-2):
-            if nums[i] > 0:  # optimization: having sorted list there's no sense to continue once we reaches positive nums in list
+        for i in range(len(nums) - 2):
+            if nums[i] > 0:  # having sorted list there's no sense to continue once we reaches positive nums in list
                 break
-            if i > 0 and nums[i] == nums[i-1]:  # optimization: skip duplicates (already tried)
+            if i > 0 and nums[i] == nums[i - 1]:  # optimization: skip duplicates (already tried)
                 continue
-            l, r = i+1, len(nums)-1
+            l, r = i + 1, len(nums) - 1
             while l < r:
                 elements = (nums[i], nums[l], nums[r])
                 sum_elements = sum(elements)
@@ -80,9 +85,9 @@ class Solution2:
                     r -= 1
                 else:
                     result.add(elements)
-                    while l < r and nums[l] == nums[l+1]:
+                    while l < r and nums[l] == nums[l + 1]:
                         l += 1
-                    while l < r and nums[r] == nums[r-1]:
+                    while l < r and nums[r] == nums[r - 1]:
                         r -= 1
                     l += 1
                     r -= 1
@@ -90,12 +95,12 @@ class Solution2:
 
 
 if __name__ == "__main__":
-    s1 = Solution()
-    s2 = Solution2()
+    solutions = [Solution(), Solution2()]
     src = [-1, 0, 1, 2, -1, -4]
     exp = [
         [-1, 0, 1],
         [-1, -1, 2]
     ]
-    assert sorted(s1.threeSum(src)) == sorted(exp)
-    assert sorted(s2.threeSum(src)) == sorted(exp)
+
+    for s in solutions:
+        assert sorted(s.threeSum(src)) == sorted(exp)
