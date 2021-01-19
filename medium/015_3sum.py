@@ -94,8 +94,37 @@ class Solution2:
         return [list(s) for s in result]
 
 
+class Solution3:
+    """
+    1. Use hashset dups to skip duplicates in the outer loop.
+    2. Calculate and track complement to first val (val1) for j
+
+    Runtime: 880 ms, faster than 65.15% of Python3.
+    Memory Usage: 19.6 MB, less than 5.35% of Python3
+
+    Time complexity: O(n**2)
+    Space complexity: O(n)
+    """
+
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        if len(nums) < 3:
+            return []
+
+        res, dups, seen = set(), set(), dict()
+        for i, val1 in enumerate(nums):
+            if val1 not in dups:
+                dups.add(val1)
+                for j in range(i + 1, len(nums)):
+                    val2 = nums[j]
+                    complement = -val1 - val2
+                    if complement in seen and seen[complement] == i:
+                        res.add(tuple(sorted((val1, val2, complement))))
+                    seen[val2] = i
+        return sorted(list(x) for x in res)
+
+
 if __name__ == "__main__":
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     src = [-1, 0, 1, 2, -1, -4]
     exp = [
         [-1, 0, 1],
@@ -103,4 +132,5 @@ if __name__ == "__main__":
     ]
 
     for s in solutions:
-        assert sorted(s.threeSum(src)) == sorted(exp)
+        res = sorted(s.threeSum(src))
+        assert res == sorted(exp), f'{s.__class__.__name__}:\nexpected:\t{exp},\ngot:\t\t{res}'
