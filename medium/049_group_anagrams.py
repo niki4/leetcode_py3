@@ -79,13 +79,41 @@ class Solution3:
         return list(dd.values())
 
 
+class Solution4:
+    """
+    We can transform each string s into a character count, count, consisting of 26 non-negative integers representing
+    the number of a's, b's, c's, etc. We use these counts as the basis for our hash map.
+
+    In python, the representation will be a tuple of the counts.
+    For example, abbccc will be (1, 2, 3, 0, 0, ..., 0), where again there are 26 entries total.
+
+    Runtime: 116 ms, faster than 32.55% of Python3
+    Memory Usage: 19.8 MB, less than 9.81% of Python3
+
+    Time and Space complexity: O(N*K)
+    """
+
+    def groupAnagrams(self, strs: list) -> list:
+        ans = defaultdict(list)
+        for s in strs:
+            count = [0] * 26
+            for c in s:
+                count[ord(c) - ord('a')] += 1
+            ans[tuple(count)].append(s)
+        return ans.values()
+
+
 if __name__ == "__main__":
-    solutions = [Solution(), Solution2(), Solution3()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     tc = (
         ([""], [[""]]),
         (["a"], [["a"]]),
         (["eat", "tea", "tan", "ate", "nat", "bat"], [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]),
         (["ddddddddddg", "dgggggggggg"], [["dgggggggggg"], ["ddddddddddg"]]),
+        (["ac", "c"], [["c"], ["ac"]]),
+        (["ac", "d"], [["d"], ["ac"]]),
+        (["cab", "tin", "pew", "duh", "may", "ill", "buy", "bar", "max", "doc"],
+         [["doc"], ["bar"], ["buy"], ["ill"], ["tin"], ["cab"], ["pew"], ["may"], ["max"], ["duh"]]),
     )
     for s in solutions:
         for inp, exp in tc:
