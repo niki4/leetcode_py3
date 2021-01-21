@@ -16,6 +16,8 @@ All inputs will be in lowercase.
 The order of your output does not matter.
 
 """
+from collections import defaultdict
+
 
 class Solution:
     """
@@ -24,6 +26,7 @@ class Solution:
 
     The algorithm uses a sorted string as key for hashmap ('aba'->'aab' and 'baa'->'aab')
     """
+
     def groupAnagrams(self, strs: list) -> list:
         groups = dict()
         for word in strs:
@@ -44,6 +47,7 @@ class Solution2:
     so that 'aba' -> hash1+hash2+hash1 = hash_result and 'aab' -> hash1+hash1+hash2 = hash_result,
     the sum is key for hashmap.
     """
+
     def groupAnagrams(self, strs: list) -> list:
         groups = dict()
         for word in strs:
@@ -55,8 +59,36 @@ class Solution2:
         return [group for group in groups.values()]
 
 
+class Solution3:
+    """
+    Shorter version of two solutions listed above
+
+    Runtime: 96 ms, faster than 74.73% of Python3
+    Memory Usage: 17.9 MB, less than 48.25% of Python3
+
+    Time and Space complexity: O(n)
+    """
+
+    def groupAnagrams(self, strs: list) -> list:
+        dd = defaultdict(list)
+        for word in strs:
+            dd[tuple(sorted(word))].append(word)
+        return list(dd.values())
+
+
 if __name__ == "__main__":
-    s = Solution()
-    s2 = Solution2()
-    print(s.groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
-    print(s2.groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+    solutions = [Solution(), Solution2(), Solution3()]
+    tc = (
+        ([""], [[""]]),
+        (["a"], [["a"]]),
+        (["eat", "tea", "tan", "ate", "nat", "bat"], [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]),
+        (["ddddddddddg", "dgggggggggg"], [["dgggggggggg"], ["ddddddddddg"]]),
+    )
+    for s in solutions:
+        for inp, exp in tc:
+            res = s.groupAnagrams(inp)
+            assert sorted([sorted(x) for x in res]) == sorted([sorted(x) for x in exp]), \
+                f'{s.__class__.__name__}:\n' \
+                f'for inp:\t\t{inp}\n' \
+                f'expected result: {sorted(exp)},\n' \
+                f'got\t\t\t\t{sorted(res)}'
