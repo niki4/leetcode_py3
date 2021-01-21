@@ -66,7 +66,10 @@ class Solution3:
     Runtime: 96 ms, faster than 74.73% of Python3
     Memory Usage: 17.9 MB, less than 48.25% of Python3
 
-    Time and Space complexity: O(n)
+    Time Complexity: O(N*K logK), where N is the length of strs, and K is the maximum length of a string in strs.
+      The outer loop has complexity O(N) as we iterate through each string.
+      Then, we sort each string in O(K logK) time.
+    Space Complexity: O(N*K), the total information content stored in ans.
     """
 
     def groupAnagrams(self, strs: list) -> list:
