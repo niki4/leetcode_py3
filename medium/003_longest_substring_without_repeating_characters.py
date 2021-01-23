@@ -13,6 +13,23 @@ __author__ = 'Ivan Nikiforov'
 
 class Solution:
     """
+    Bruteforce solution. TLE.
+
+    Time complexity: O(n**3)
+    Space complexity: O(k) where k is the size for slice
+    """
+
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        max_substr = 0
+        for i in range(len(s)):
+            for j in range(i + 1, len(s) + 1):
+                if len(s[i:j]) == len(set(s[i:j])):  # no duplicates
+                    max_substr = max(max_substr, len(s[i:j]))
+        return max_substr
+
+
+class Solution2:
+    """
     Runtime: 948 ms, faster than 7.40% of Python3 online submissions.
     Memory Usage: 12.6 MB, less than 100.00% of Python3 online submissions.
     """
@@ -54,7 +71,7 @@ class Solution:
         return max_word
 
 
-class Solution2:
+class Solution3:
     """
     Runtime:  476 ms, faster than 15.36% of Python3 online submissions.
     Memory Usage: 14.2 MB, less than 100.00% of Python3 online submissions.
@@ -81,16 +98,22 @@ class Solution2:
 
 
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
+    tc = (
+        ("abcabcbb", 3),
+        ("bbbbb", 1),
+        ("pwwkew", 3),
+        ("aab", 2),
+        ("dvdf", 3),
+        ("anviaj", 5),
+        ("tvqnkvovks", 5),
+        ("", 0),
+        (" ", 1),
+        ("cekwrebvhvtlesh", 7),
+        ("gsqygebs", 6),
+        ("au", 2),
+    )
     for sol in solutions:
-        assert sol.lengthOfLongestSubstring("abcabcbb") == 3
-        assert sol.lengthOfLongestSubstring("bbbbb") == 1
-        assert sol.lengthOfLongestSubstring("pwwkew") == 3
-        assert sol.lengthOfLongestSubstring("aab") == 2
-        assert sol.lengthOfLongestSubstring("dvdf") == 3
-        assert sol.lengthOfLongestSubstring("anviaj") == 5
-        assert sol.lengthOfLongestSubstring("tvqnkvovks") == 5
-        assert sol.lengthOfLongestSubstring("") == 0
-        assert sol.lengthOfLongestSubstring("cekwrebvhvtlesh") == 7
-        assert sol.lengthOfLongestSubstring("gsqygebs") == 6
-        assert sol.lengthOfLongestSubstring(" ") == 1
+        for inp, exp in tc:
+            res = sol.lengthOfLongestSubstring(inp)
+            assert res == exp, f'{sol.__class__.__name__}: for input {inp} result {res} != {exp}'
