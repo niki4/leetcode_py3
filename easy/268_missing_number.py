@@ -53,10 +53,37 @@ class Solution3:
         return sum(range(len(nums) + 1)) - sum(nums)
 
 
+class Solution4:
+    """
+    Algorithm: XOR (Exclusive OR) all values in etalon range first, then repeat for given array.
+    In XOR, which works with bits of num, if two bits equal it produces 0, and if not eq produces 1:
+    x	y	x ^ y
+    0	0	0
+    0	1	1
+    1	0	1
+    1	1	0
+    So that, e.g. 0011 ^ 0101 = 0110 if two nums are differ, and if two nums are equal x ^ x = 0.
+    Iterating through ethalon range, then through array with missed nums, with XOR, will remove all the dup values
+    leaving us missed num as the result.
+
+    Runtime: 140 ms, faster than 40.63% of Python3
+    Memory Usage: 15.5 MB, less than 53.58% of Python3
+    """
+
+    def missingNumber(self, nums: List[int]) -> int:
+        result = 0
+        for val in range(len(nums) + 1):
+            result ^= val
+        for val in nums:
+            result ^= val
+        return result
+
+
 if __name__ == "__main__":
-    solutions = [Solution(), Solution2(), Solution3()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     tc = (
         ([3, 0, 1], 2),
+        ([0, 1], 2),
         ([9, 6, 4, 2, 3, 5, 7, 0, 1], 8),
         ([0], 1),
     )
