@@ -48,13 +48,13 @@ class Solution2:
         longest_palindrome = s[0] if s else ''
 
         for i in range(len(s)-1):
-            if s[i] == s[i+1]:                   # even string
-                p = self.get_palindrome(s, i-1, i+2)
+            if s[i] == s[i + 1]:  # even string, e.g. "aa"
+                p = self.get_palindrome(s, i - 1, i + 2)
                 if len(p) > len(longest_palindrome):
                     longest_palindrome = p
 
-            if len(s) > i+2 and s[i] == s[i+2]:  # odd string
-                p = self.get_palindrome(s, i-1, i+3)
+            if len(s) > i + 2 and s[i] == s[i + 2]:  # odd string, e.g. "aba"
+                p = self.get_palindrome(s, i - 1, i + 3)
                 if len(p) > len(longest_palindrome):
                     longest_palindrome = p
         return longest_palindrome
@@ -86,15 +86,17 @@ class Solution3:
 
 
 if __name__ == "__main__":
-    s1 = Solution().longestPalindrome
-    s2 = Solution2().longestPalindrome
-    s3 = Solution3().longestPalindrome
-    src1 = "babad"
-    src2 = "cbbd"
-    src3 = "abcba"
-    exp1 = "bab"
-    exp2 = "bb"
-    exp3 = "abcba"
-    assert s1(src1) == s2(src1) == s3(src1) == exp1
-    assert s1(src2) == s2(src2) == s3(src2) == exp2
-    assert s1(src3) == s2(src3) == s3(src3) == exp3
+    solutions = [Solution(), Solution2(), Solution3()]
+    tc = (
+        ("aaaa", "aaaa"),
+        ("babad", "bab"),
+        ("cbbd", "bb"),
+        ("abcba", "abcba"),
+        ("a", "a"),
+        ("", ""),
+        ("ccc", "ccc"),
+    )
+    for sol in solutions:
+        for inp, exp in tc:
+            res = sol.longestPalindrome(inp)
+            assert res == exp, f'{sol.__class__.__name__}: for input "{inp}" expected "{exp}", got "{res}"'
