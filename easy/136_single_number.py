@@ -47,8 +47,36 @@ class Solution2:
         return min(counter, key=counter.get)  # return key that holds min counter value
 
 
+class Solution3:
+    """
+    XOR (exclusive OR) approach
+
+    Runtime: 148 ms, faster than 32.59% of Python3
+    Memory Usage: 16.6 MB, less than 86.53% of Python3
+
+    This works on binary level so this pattern could also be applied to non-num characters.
+    Applying XOR all duplicated values (which has the same binary representation) will turn to 0 leaving us unique val.
+
+    XOR table:
+    x   y       res
+    0   0   =   0
+    0   1   =   1
+    1   0   =   1
+    1   1   =   0
+
+    Time complexity: O(n)
+    Space complexity: O(1)
+    """
+
+    def singleNumber(self, nums: List[int]) -> int:
+        res = 0
+        for n in nums:
+            res ^= n
+        return res
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     tc = (
         ([1, 1, 2], 2),
         ([2, 2, 1], 1),
