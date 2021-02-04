@@ -30,7 +30,7 @@ class Solution2:
     """
 
     def containsDuplicate(self, nums: List[int]) -> bool:
-        seen = dict()
+        seen = dict()  # set() takes lower amount of memory
         for n in nums:
             if n in seen:
                 return True
