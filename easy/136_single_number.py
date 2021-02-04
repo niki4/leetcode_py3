@@ -11,6 +11,7 @@ Input: [2,2,1]
 Output: 1
 
 """
+from typing import List
 
 
 class Solution:
@@ -18,6 +19,7 @@ class Solution:
     Runtime: 3324 ms, faster than 5.00% of Python3.
     Memory Usage: 14.8 MB, less than 5.05% of Python3.
     """
+
     def singleNumber(self, nums: 'List[int]') -> int:
         for x in set(nums):
             if nums.count(x) == 1:
@@ -29,7 +31,8 @@ class Solution2:
     Runtime: 52 ms, faster than 44.56% of Python3.
     Memory Usage: 15.1 MB, less than 5.05% of Python3.
     """
-    def singleNumber(self, nums: 'List[int]') -> int:
+
+    def singleNumber(self, nums: List[int]) -> int:
         if not nums:
             return 0
 
@@ -41,14 +44,17 @@ class Solution2:
             else:
                 counter[i] += 1
 
-        return min(counter, key=counter.get)    # return key that holds min counter value
+        return min(counter, key=counter.get)  # return key that holds min counter value
 
 
 if __name__ == '__main__':
-    sol = Solution()
-    assert sol.singleNumber([1, 1, 2]) == 2
-    assert sol.singleNumber([4,1,2,1,2]) == 4
-
-    sol2 = Solution2()
-    assert sol2.singleNumber([1, 1, 2]) == 2
-    assert sol2.singleNumber([4, 1, 2, 1, 2]) == 4
+    solutions = [Solution(), Solution2()]
+    tc = (
+        ([1, 1, 2], 2),
+        ([2, 2, 1], 1),
+        ([4, 1, 2, 1, 2], 4),
+        ([1], 1),
+    )
+    for s in solutions:
+        for inp, exp in tc:
+            assert s.singleNumber(inp) == exp
