@@ -75,8 +75,27 @@ class Solution3:
         return res
 
 
+class Solution4:
+    """
+    Runtime: 236 ms, faster than 18.17% of Python3
+    Memory Usage: 16.6 MB, less than 63.83% of Python3
+
+    Time complexity: O(n)
+    Space complexity: O(n/2) at worse we could have half of 'nums' array in our 'dups' set; 2 is constant so O(n)
+    """
+
+    def singleNumber(self, nums: List[int]) -> int:
+        dups = set()
+        for n in nums:
+            if n in dups:
+                dups.remove(n)
+            else:
+                dups.add(n)
+        return dups.pop() if dups else 0
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2(), Solution3()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     tc = (
         ([1, 1, 2], 2),
         ([2, 2, 1], 1),
@@ -85,4 +104,5 @@ if __name__ == '__main__':
     )
     for s in solutions:
         for inp, exp in tc:
-            assert s.singleNumber(inp) == exp
+            res = s.singleNumber(inp)
+            assert res == exp, f"{s.__class__.__name__}: for input {inp} expected {exp}, got {res}"
