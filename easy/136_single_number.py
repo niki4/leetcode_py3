@@ -20,7 +20,7 @@ class Solution:
     Memory Usage: 14.8 MB, less than 5.05% of Python3.
     """
 
-    def singleNumber(self, nums: 'List[int]') -> int:
+    def singleNumber(self, nums: List[int]) -> int:
         for x in set(nums):
             if nums.count(x) == 1:
                 return x
