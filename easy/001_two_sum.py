@@ -38,10 +38,26 @@ class Solution:
 
 class Solution2:
     """
+    Bruteforce approach (compare all combinations to find sum that makes a target)
+
+    Time complexity: O(n**2)
+    Space complexity: O(1)
+    """
+
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        for i in range(len(nums)):
+            for j in range(i + 1, len(nums)):
+                if nums[i] + nums[j] == target:
+                    return [i, j]
+
+
+class Solution3:
+    """
     Runtime: 36 ms, faster than 99.34% of Python3.
     Memory Usage: 14.9 MB, less than 5.08% of Python3.
 
     Time complexity: O(n) for linear scan and O(1) for get/set key to hash map (dict)
+    Space complexity: O(n) for storing values in a hash map
     """
 
     def twoSum(self, nums: List[int], target: int) -> List[int]:
@@ -54,8 +70,27 @@ class Solution2:
                 buffer[target - curr] = i
 
 
+class Solution4:
+    """
+    Slightly optimized second solution (one-pass hash table approach).
+
+    Runtime: 44 ms, faster than 85.73% of Python3
+    Memory Usage: 14.4 MB, less than 47.64% of Python3
+
+    Time complexity: O(n)
+    Space complexity: O(n)
+    """
+
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        pairs = dict()
+        for i, n in enumerate(nums):
+            if (target - n) in pairs:
+                return [pairs[(target - n)], i]
+            pairs[n] = i
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     cases = (
         ([2, 7, 11, 15], 9, [0, 1]),
         ([3, 2, 4], 6, [1, 2]),
