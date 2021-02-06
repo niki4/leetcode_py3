@@ -34,6 +34,19 @@ class Solution:
         return True
 
 
+class Solution2:
+    """
+    Runtime: 36 ms, faster than 89.22% of Python3
+    Memory Usage: 14.3 MB, less than 76.38% of Python3
+
+    Time complexity: O(n)
+    Space complexity: O(n)
+    """
+
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        return len(set(zip(s, t))) == len(set(s)) == len(set(t))
+
+
 if __name__ == '__main__':
     solutions = [Solution()]
     tc = (
