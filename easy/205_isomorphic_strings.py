@@ -48,7 +48,7 @@ class Solution2:
 
 
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         ("egg", "add", True),
         ("foo", "bar", False),
