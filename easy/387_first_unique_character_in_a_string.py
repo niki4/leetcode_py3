@@ -67,14 +67,42 @@ class Solution3:
     """
 
     def firstUniqChar(self, s: str) -> int:
-        if not s: return -1
+        if not s:
+            return -1
         ch_ctr = Counter(s)  # makes pairs like Counter({'p': 946, 'u': 972})
         min_ch = min(ch_ctr, key=ch_ctr.get)
         return s.index(min_ch) if ch_ctr[min_ch] == 1 else -1
 
 
+class Solution4:
+    """
+    Runtime: 96 ms, faster than 83.10% of Python3
+    Memory Usage: 14.4 MB, less than 44.46% of Python3
+
+    Runtime complexity: O(n)
+    Space complexity: O(1) - max 26 eng chars in dict
+    """
+
+    def firstUniqChar(self, s: str) -> int:
+        if not s:
+            return -1
+
+        seen = dict()
+        dup_flag = len(s)
+        for i, ch in enumerate(s):
+            if ch in seen:
+                seen[ch] = dup_flag
+            else:
+                seen[ch] = i
+
+        min_idx_char = min(seen, key=seen.get)
+        if seen[min_idx_char] == dup_flag:  # all chars are repeating
+            return -1
+        return seen[min_idx_char]
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2(), Solution3()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     tc = [
         ("cc", -1),
         ("", -1),
