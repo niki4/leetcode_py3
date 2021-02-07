@@ -101,8 +101,26 @@ class Solution4:
         return seen[min_idx_char]
 
 
+class Solution5:
+    """
+    LC solution
+
+    Runtime: 100 ms, faster than 75.92% of Python3
+    Memory Usage: 14.3 MB, less than 89.38% of Python3
+    """
+
+    def firstUniqChar(self, s: str) -> int:
+        ctr = Counter(s)
+
+        for idx, ch in enumerate(s):
+            if ctr[ch] == 1:
+                return idx
+
+        return -1
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4(), Solution5()]
     tc = [
         ("cc", -1),
         ("", -1),
