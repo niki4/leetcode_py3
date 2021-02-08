@@ -12,6 +12,7 @@ Output: [4,9]
 Note: Each element in the result should appear as many times as it shows in both arrays.
 The result can be in any order.
 """
+from collections import Counter
 from typing import List
 
 
@@ -58,6 +59,23 @@ class Solution2:
 
 class Solution3:
     """
+    The same idea as Solution2, but more clear and concise syntax using Counter from "collections" lib.
+
+    Runtime: 40 ms, faster than 96.08% of Python3
+    Memory Usage: 14.6 MB, less than 10.88% of Python3
+    """
+
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        nums1ctr, nums2ctr = Counter(nums1), Counter(nums2)
+        result = list()
+        for n in nums1ctr:
+            if n in nums2ctr:
+                result += [n] * min(nums1ctr[n], nums2ctr[n])
+        return result
+
+
+class Solution4:
+    """
     Runtime: 48 ms, faster than 56.92% of Python3
     Memory Usage: 14.3 MB, less than 51.86% of Python3
 
@@ -87,7 +105,7 @@ class Solution3:
 
 
 if __name__ == "__main__":
-    solutions = [Solution(), Solution2(), Solution3()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     for s in solutions:
         assert sorted(s.intersect([1, 2, 2, 1], [2, 2])) == sorted([2, 2])
         assert sorted(s.intersect([4, 9, 5], [9, 4, 9, 8, 4])) == sorted([4, 9])
