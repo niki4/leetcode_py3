@@ -18,6 +18,21 @@ class Solution:
         return sum((stones.count(ltr) for ltr in jewels))
 
 
+class Solution2:
+    """
+    Using hash set
+
+    Runtime: 32 ms, faster than 63.99% of Python3
+    Memory Usage: 14.3 MB, less than 14.36% of Python3
+
+    Time Complexity: O(J.length∗S.length))
+    Space Complexity: O(J.length)
+    """
+
+    def numJewelsInStones(self, jewels: str, stones: str) -> int:
+        return sum(1 for s in stones if s in set(jewels))
+
+
 if __name__ == '__main__':
     solutions = [Solution()]
     tc = (
