@@ -80,7 +80,8 @@ class Solution2:
     Runtime: 64 ms, faster than 58.24% of Python3
     Memory Usage: 20.5 MB, less than 73.65% of Python3
 
-    Runtime complexity: O(n)
+    Runtime complexity: O(n) on average and O(n**2) on worst case (caching hashes doesn't work in all cases, e.g. if
+    we have hash collisions, complexity grows on with height of the tree).
     Space complexity: O(n)
     """
 
@@ -97,4 +98,36 @@ class Solution2:
 
         trees = defaultdict(list)
         traverse(root)
+        return [nodes[0] for nodes in trees.values() if nodes[1:]]
+
+
+class Solution3:
+    """
+    Algorithm idea: Identify trees by numbering them.
+    The first unique subtree gets id 0, the next unique subtree gets id 1, the next gets 2, etc.
+    Now the dictionary keys aren't deep nested structures anymore but just ints and triples of ints.
+
+    Runtime: 60 ms, faster than 76.51% of Python3
+    Memory Usage: 18.9 MB, less than 75.17% of Python3
+
+    Runtime and Space complexity: O(n)
+    """
+
+    def findDuplicateSubtrees(self, root: TreeNode) -> List[TreeNode]:
+        def traverse(node: TreeNode):
+            if node:
+                id_ = tree_id[node.val, traverse(node.left), traverse(node.right)]
+                trees[id_].append(node)
+                return id_
+
+        trees = defaultdict(list)
+        tree_id = defaultdict()
+        tree_id.default_factory = tree_id.__len__
+
+        traverse(root)
+        """
+        For Example1 tree:
+        tree_id: defaultdict(<method-wrapper '__len__' of collections.defaultdict object at 0x7f9271b54770>, 
+        {(4, None, None): 0, (2, 0, None): 1, (3, 1, 0): 2, (1, 1, 2): 3})
+        """
         return [nodes[0] for nodes in trees.values() if nodes[1:]]
