@@ -55,12 +55,62 @@ class RandomizedSet:
             return random.choice(tuple(self.data))
 
 
+class RandomizedSet2:
+    """
+    Runtime: 88 ms, faster than 95.62% of Python3
+    Memory Usage: 18.6 MB, less than 11.99% of Python3
+    """
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.data = list()
+        self.idxs = dict()  # map value to its index in self.data
+
+    def insert(self, val: int) -> bool:
+        """
+        Inserts a value to the set.
+        Returns true if the set did not already contain the specified element.
+        Time complexity: O(1)
+        """
+        absent_before = val not in self.idxs
+        if absent_before:
+            self.idxs[val] = len(self.data)
+            self.data.append(val)
+        return absent_before
+
+    def remove(self, val: int) -> bool:
+        """
+        Removes a value from the set.
+        Returns true if the set contained the specified element.
+        Time complexity: O(1)
+        """
+        present_before = val in self.idxs
+        if present_before:
+            # move the last element to the place idx of the element to delete
+            last_element, idx = self.data[-1], self.idxs[val]
+            self.data[idx], self.idxs[last_element] = last_element, idx
+            # delete the last element
+            self.data.pop()
+            del self.idxs[val]
+        return present_before
+
+    def getRandom(self) -> int:
+        """
+        Get a random element from the set.
+        Time complexity: O(1)
+        """
+        return random.choice(self.data)
+
+
 if __name__ == '__main__':
-    randomizedSet = RandomizedSet()
-    assert randomizedSet.insert(1)
-    assert randomizedSet.remove(2) is False
-    assert randomizedSet.insert(2)
-    assert randomizedSet.getRandom() in [1, 2]
-    assert randomizedSet.remove(1)
-    assert randomizedSet.insert(2)
-    assert randomizedSet.getRandom() == 2
+    solutions = [RandomizedSet(), RandomizedSet2()]
+    for randomizedSet in solutions:
+        assert randomizedSet.insert(1)
+        assert randomizedSet.remove(2) is False
+        assert randomizedSet.insert(2)
+        assert randomizedSet.getRandom() in [1, 2]
+        assert randomizedSet.remove(1)
+        assert randomizedSet.insert(2) is False
+        assert randomizedSet.getRandom() == 2
