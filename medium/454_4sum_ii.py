@@ -21,7 +21,8 @@ The two tuples are:
 1. (0, 0, 0, 1) -> A[0] + B[0] + C[0] + D[1] = 1 + (-2) + (-1) + 2 = 0
 2. (1, 1, 0, 0) -> A[1] + B[1] + C[0] + D[0] = 2 + (-1) + (-1) + 0 = 0
 """
-from collections import defaultdict
+import collections
+import itertools
 
 from typing import List
 
@@ -37,7 +38,7 @@ class Solution:
 
     def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
         counter = 0
-        mem = defaultdict(int)
+        mem = collections.defaultdict(int)
         for a in A:
             for b in B:
                 mem[a + b] += 1
@@ -48,8 +49,40 @@ class Solution:
         return counter
 
 
+class Solution2:
+    """
+    This design allows to handle more than 4 lists of nums.
+    Above, we divided 4 arrays into two equal groups, and processed each group independently.
+    Same way, we will divide k arrays into two groups. For the first group, we will have k/2 nested loops to count sums.
+    Another k/2 nested loops will enumerate arrays in the second group and search for complements.
+
+    Time Complexity:  O(n ** (k/2)), or O(n**2) for 4Sum II.
+                      We have k/2 nested loops to count sums, and another k/2 nested loops to find complements.
+                      For odd size arrays, time complexity is O(n ** (k+1)/2)
+    Space complexity: O(n ** (k/2)) for the hashmap.
+    """
+
+    def kSumCount(self, nums: List[List[int]]):
+        k = len(nums)
+        hashes = nums[:k // 2]  # arrays to be hashed
+        iters = nums[k // 2:]  # arrays to be iterated over
+
+        #  product(A, B) returns the same as:  ((x,y) for x in A for y in B).
+        ctr = collections.Counter([sum(group) for group in itertools.product(*hashes)])
+        iters_sum = [sum(group) for group in itertools.product(*iters)]
+
+        res = 0
+        for val in iters_sum:
+            complement = 0 - val
+            res += ctr.get(complement, 0)
+        return res
+
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+        return self.kSumCount([A, B, C, D])
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         ([1, 2], [-2, -1], [-1, 2], [0, 2], 2),
         ([-1, -1], [-1, 1], [-1, 1], [1, -1], 6),
