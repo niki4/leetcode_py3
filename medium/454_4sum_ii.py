@@ -81,13 +81,30 @@ class Solution2:
         return self.kSumCount([A, B, C, D])
 
 
+class Solution3:
+    """
+     collections.Counter returns 0 if no given key exists. We may utilize it and apply pattern from the above listed
+     solutions ((a + b) + (-c - d) == 0) in a nicely looking 2-liner.
+
+     Runtime: 264 ms, faster than 86.36% of Python3
+     Memory Usage: 35 MB, less than 85.20% of Python3
+
+     Time Complexity:  O(n**2).
+     Space complexity: O(n ** (k/2)) for the hashmap.
+    """
+
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+        ab_sum = collections.Counter(a + b for a in A for b in B)
+        return sum(ab_sum[-c - d] for c in C for d in D)
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     tc = (
         ([1, 2], [-2, -1], [-1, 2], [0, 2], 2),
         ([-1, -1], [-1, 1], [-1, 1], [1, -1], 6),
     )
     for s in solutions:
-        for a, b, c, d, exp in tc:
-            res = s.fourSumCount(a, b, c, d)
+        for a_, b_, c_, d_, exp in tc:
+            res = s.fourSumCount(a_, b_, c_, d_)
             assert res == exp, f"want {exp}, got {res}"
