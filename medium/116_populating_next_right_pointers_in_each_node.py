@@ -42,6 +42,8 @@ class Node:
 
 class Solution:
     """
+    Algorithm: Preorder DFS (depth-first search) for traversing, BFS-like insert to nodes list thanks to level tracking.
+
     Runtime: 68 ms, faster than 40.45% of Python3
     Memory Usage: 15.8 MB, less than 8.69% of Python3
 
@@ -66,4 +68,42 @@ class Solution:
         for nodes in self.nodes:
             for i in range(1, len(nodes)):
                 nodes[i - 1].next = nodes[i]
+        return root
+
+
+class Solution2:
+    """
+    Algorithm: BFS (breadth-first-search) - upside down and left to right.
+
+    Runtime: 52 ms, faster than 98.35% of Python3
+    Memory Usage: 15.8 MB, less than 36.80% of Python3
+
+    Time Complexity:    O(N) since we process each node exactly once.
+    Space Complexity:   O(1) since we don't make use of any additional data structure for traversing nodes on a
+                        particular level like the previous approach does.
+    """
+
+    def connect(self, root: 'Node') -> 'Node':
+        # Start with the root node. There are no next pointers
+        # that need to be set up on the first level.
+        leftmost = root
+
+        # Once we reach the final level, we are done
+        while leftmost and leftmost.left:
+            # Iterate the "linked list" starting from the head
+            # node and using the next pointers, establish the
+            # corresponding links for the next level.
+            head = leftmost
+            while head:
+                # Connection 1 (left child to right child)
+                head.left.next = head.right
+                # Connection 2 (between subtrees on the same level)
+                if head.next:
+                    head.right.next = head.next.left
+                # move to next node on the same level
+                head = head.next
+
+            # move onto next level
+            leftmost = leftmost.left
+
         return root
