@@ -65,3 +65,70 @@ class Solution:
             for i in range(1, len(nodes)):
                 nodes[i - 1].next = nodes[i]
         return root
+
+
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+
+
+class Solution2:
+    """
+    LC Recursive approach.
+
+    Runtime: 56 ms, faster than 26.41% of Python3
+    Memory Usage: 15.5 MB, less than 54.27% of Python3
+
+    Time Complexity: O(N) since we process each node exactly once.
+    Space Complexity: O(1) since we don't make use of any additional data structure for traversing nodes on a
+                        particular level like the previous approach does.
+    """
+
+    def process_child(self, child: 'Node', prev, leftmost):
+        if child:
+            # If the "prev" pointer is alread set i.e. if we
+            # already found atleast one node on the next level,
+            # setup its next pointer
+            if prev:
+                prev.next = child
+            else:
+                # child node is the first node
+                # we have encountered on the next level, so, we
+                # set the leftmost pointer
+                leftmost = child
+            prev = child
+        return prev, leftmost
+
+    def connect(self, root: 'Node') -> 'Node':
+        leftmost = root
+
+        # We have no idea about the structure of the tree,
+        # so, we keep going until we do find the last level.
+        # The nodes on the last level won't have any children
+        while leftmost:
+            # "next_lvl_prev" tracks the latest node on the "next" level
+            # while "curr" tracks the latest node on the current level.
+            next_lvl_prev, curr = None, leftmost
+
+            # We reset this so that we can re-assign it to the leftmost
+            # node of the next level. Also, if there isn't one, this
+            # would help break us out of the outermost loop.
+            leftmost = None
+
+            # Iterate on the nodes in the current level using
+            # the next pointers already established.
+            while curr:
+                # Process both the children and update the prev
+                # and leftmost pointers as necessary.
+                next_lvl_prev, leftmost = self.process_child(curr.left, next_lvl_prev, leftmost)
+                next_lvl_prev, leftmost = self.process_child(curr.right, next_lvl_prev, leftmost)
+
+                # move to next node the same level
+                curr = curr.next
+        return root
