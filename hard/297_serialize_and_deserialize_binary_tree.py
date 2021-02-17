@@ -32,6 +32,7 @@ Input: root = [1,2]
 Output: [1,2]
 """
 import collections
+import pickle
 
 from problems.tools.binary_tree import TreeNode
 
@@ -78,3 +79,29 @@ class Codec:
             if node.right:
                 q.append(node.right)
         return root
+
+
+class Codec2:
+    """
+    Just for fun. Don't use pickle on the interview (it could be mentioned, though) or for untrusted sources.
+    Also pickle works with bytes, not the str type. But the solution was accepted by LC.
+
+    Runtime: 108 ms, faster than 91.54% of Python3
+    Memory Usage: 21.2 MB, less than 14.60% of Python3
+    """
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+        """
+        return pickle.dumps(root)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+
+        :type data: str
+        :rtype: TreeNode
+        """
+        return pickle.loads(data)
