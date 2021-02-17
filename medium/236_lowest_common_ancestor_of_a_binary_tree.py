@@ -38,7 +38,7 @@ class Solution:
     def __init__(self):
         self.lca_node = None
 
-    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         def recurse_tree(curr: TreeNode):
             # if reached end of the branch
             if not curr:
@@ -60,3 +60,25 @@ class Solution:
         # traverse the tree
         recurse_tree(root)
         return self.lca_node
+
+
+class Solution2:
+    """
+    Optimized first solution (the same idea)
+
+    Runtime: 72 ms, faster than 69.48% of Python3
+    Memory Usage: 25.4 MB, less than 48.34% of Python3
+
+    Time / Space complexity: O(n) - the same reason as in first solution
+    """
+
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return
+
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+
+        if (left and right) or (root in (p, q)):
+            return root
+        return left or right
