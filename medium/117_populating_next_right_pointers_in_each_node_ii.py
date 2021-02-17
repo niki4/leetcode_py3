@@ -132,3 +132,44 @@ class Solution2:
                 # move to next node the same level
                 curr = curr.next
         return root
+
+
+class Solution3:
+    """
+    Iterative approach
+
+    Runtime: 48 ms, faster than 76.59% of Python3
+    Memory Usage: 15.4 MB, less than 83.61% of Python3
+
+    Time complexity: O(n)
+    Space complexity: O(1)
+    """
+
+    def connect(self, root: 'Node') -> 'Node':
+        # prev is the prev child node to link from
+        # tail is the first child node on the next level
+        prev = tail = None
+        node = root
+
+        while node:
+            if node.left:
+                if prev:
+                    prev.next = node.left
+                prev = node.left
+                if not tail:
+                    tail = node.left
+
+            if node.right:
+                if prev:
+                    prev.next = node.right
+                prev = node.right
+                if not tail:
+                    tail = node.right
+
+            # go to next node the same level
+            node = node.next
+            # go to first child node on the next level
+            if not node:
+                node = tail
+                prev = tail = None
+        return root
