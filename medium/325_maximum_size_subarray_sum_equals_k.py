@@ -72,8 +72,38 @@ class Solution2:
         return max_len
 
 
+class Solution3:
+    """
+    Runtime: 112 ms, faster than 77.15% of Python3
+    Memory Usage: 17.2 MB, less than 87.95% of Python3
+
+    Time complexity: O(n)
+    Space complexity: O(n) for storing index_dict
+
+    nums:                    [1, -1, 5, -2, 3]
+    k:                       3
+    running_sums:	    	 [1, 0, 5, 3, 6]
+    index_dict:     		 {0: -1, 1: 0, 5: 2, 3: 3, 6: 4}
+    running_sums_minus_k:	 [-2, -3, 2, 0, 3]
+    """
+
+    def maxSubArrayLen(self, nums: List[int], k: int) -> int:
+        index_dict = {0: -1}
+        running_sum, max_subarr = 0, 0
+
+        for i, n in enumerate(nums):
+            running_sum += n
+
+            if running_sum - k in index_dict:
+                max_subarr = max(max_subarr, i - index_dict[running_sum - k])
+
+            if running_sum not in index_dict:
+                index_dict[running_sum] = i
+        return max_subarr
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     tc = (
         ([1, -1, 5, -2, 3], 3, 4),
         ([-2, -1, 2, 1], 1, 2),
