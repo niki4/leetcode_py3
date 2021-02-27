@@ -109,12 +109,43 @@ class Solution4:
         return result
 
 
+class Solution5:
+    """
+    Approach: Lexicographic (Binary Sorted) Subsets
+
+    The idea of this solution is originated from Donald E. Knuth: "we map each subset to a bitmask of length n,
+    where 1 on the ith position in bitmask means the presence of nums[i] in the subset, and 0 means its absence."
+
+    Algorithm
+        1. Generate all possible binary bitmasks of length n.
+        2. Map a subset to each bitmask: 1 on the ith position in bitmask means the presence of nums[i] in the subset,
+           and 0 means its absence.
+        3. Return output list.
+
+    Runtime: 36 ms, faster than 58.03% of Python3
+    Memory Usage: 14.6 MB, less than 22.16% of Python3
+
+    Time complexity: O(N * 2^N) to generate all subsets and then copy them into output list.
+    Space complexity: O(N * 2^N) to keep all the subsets of len N, since each of N elements could be present or absent.
+    """
+
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
+        result = list()
+        for i in range(2 ** n, 2 ** (n + 1)):
+            # generate bitmask, from 0..00 to 1..11
+            bitmask = bin(i)[3:]
+            # append subset corresponding to that bitmask
+            result.append([nums[j] for j in range(n) if bitmask[j] == "1"])
+        return result
+
+
 if __name__ == '__main__':
     tc = (
         ([1, 2, 3], [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]),
         ([0], [[], [0]]),
     )
-    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4(), Solution5()]
     for s in solutions:
         for inp_nums, exp_comb in tc:
             res = sorted(s.subsets(inp_nums))
