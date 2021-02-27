@@ -11,6 +11,7 @@ For example, given n = 3, a solution set is:
 ]
 """
 
+
 class Solution:
     """
     Runtime: 132 ms, faster than 5.00% of Python3
@@ -24,9 +25,10 @@ class Solution:
         brackets minus closing brackets. If it falls below zero at any time, or doesn't end in zero,
         the sequence is invalid - otherwise it is valid.
     """
+
     def generateParenthesis(self, n: int) -> list:
-        def generate(A = []):
-            if len(A) == 2*n:
+        def generate(A=[]):
+            if len(A) == 2 * n:
                 if valid(A):
                     ans.append(''.join(A))
             else:
@@ -67,16 +69,19 @@ class Solution2:
         We can start an opening bracket if we still have one (of n) left to place. And we can start a
         closing bracket if it would not exceed the number of opening brackets.
     """
+
     def generateParenthesis(self, n: int) -> list:
         ans = []
-        def backtrack(s = '', left = 0, right = 0):
-            if len(s) == 2*n:
+
+        def backtrack(s='', left=0, right=0):
+            if len(s) == 2 * n:
                 ans.append(s)
                 return
             if left < n:
-                backtrack(s+'(', left+1, right)
+                backtrack(s + '(', left + 1, right)
             if right < left:
-                backtrack(s+')', left, right+1)
+                backtrack(s + ')', left, right + 1)
+
         backtrack()
         return ans
 
@@ -91,28 +96,24 @@ class Solution3:
         Then, the 2*c elements between must be a valid sequence, plus the rest of the elements must be a
         valid sequence.
     """
+
     def generateParenthesis(self, n: int) -> list:
         if n == 0:
             return ['']
         ans = []
         for c in range(n):
             for left in self.generateParenthesis(c):
-                for right in self.generateParenthesis(n-1-c):
+                for right in self.generateParenthesis(n - 1 - c):
                     ans.append(f'({left}){right}')
         return ans
 
 
 if __name__ == "__main__":
-    s1 = Solution()
-    s2 = Solution2()
-    s3 = Solution3()
-    expected = [
-        "((()))",
-        "(()())",
-        "(())()",
-        "()(())",
-        "()()()"
-    ]
-    assert sorted(s1.generateParenthesis(3)) == expected
-    assert sorted(s2.generateParenthesis(3)) == expected
-    assert sorted(s3.generateParenthesis(3)) == expected
+    solutions = [Solution(), Solution2(), Solution3()]
+    tc = (
+        (3, ["((()))", "(()())", "(())()", "()(())", "()()()"]),
+        (1, ["()"]),
+    )
+    for s in solutions:
+        for inp_n, exp in tc:
+            assert sorted(s.generateParenthesis(inp_n)) == sorted(exp)
