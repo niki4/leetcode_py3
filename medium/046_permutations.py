@@ -28,6 +28,9 @@ class Solution2:
 
     Runtime: 36 ms, faster than 89.98% of Python3
     Memory Usage: 14.4 MB, less than 46.67% of Python3
+
+    Time complexity: at least O(n!) as we need to traverse all possible combinations;
+    Space complexity: O(n!) since one has to keep N! solutions.
     """
 
     def permute(self, nums: List[int]) -> List[List[int]]:
