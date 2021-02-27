@@ -74,7 +74,7 @@ class Solution2:
         ans = []
 
         def backtrack(s='', left=0, right=0):
-            if len(s) == 2 * n:
+            if len(s) == 2 * n:  # num of opening brackets + num of closing brackets
                 ans.append(s)
                 return
             if left < n:
@@ -114,6 +114,6 @@ if __name__ == "__main__":
         (3, ["((()))", "(()())", "(())()", "()(())", "()()()"]),
         (1, ["()"]),
     )
-    for s in solutions:
+    for sol in solutions:
         for inp_n, exp in tc:
-            assert sorted(s.generateParenthesis(inp_n)) == sorted(exp)
+            assert sorted(sol.generateParenthesis(inp_n)) == sorted(exp)
