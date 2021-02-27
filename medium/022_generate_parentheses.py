@@ -27,7 +27,9 @@ class Solution:
     """
 
     def generateParenthesis(self, n: int) -> list:
-        def generate(A=[]):
+        def generate(A=None):
+            if A is None:
+                A = []
             if len(A) == 2 * n:
                 if valid(A):
                     ans.append(''.join(A))
