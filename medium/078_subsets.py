@@ -57,13 +57,65 @@ class Solution2:
         return cmb
 
 
+class Solution3:
+    """
+    Backtracking
+
+    Runtime: 44 ms, faster than 17.09% of Python3
+    Memory Usage: 14.5 MB, less than 54.22% of Python3
+    """
+
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def backtrack(start, curr_list):
+            result.append(curr_list[:])
+
+            for i in range(start, len(nums)):
+                curr_list.append(nums[i])
+                backtrack(i + 1, curr_list)
+                curr_list.pop()
+
+        result = list()
+        backtrack(0, [])
+        return result
+
+
+class Solution4:
+    """
+    Backtracking (the same idea as in Solution 3, but more details)
+
+    Time complexity: O(N * 2^N)
+    Space complexity: O(N). We are using O(N) space to maintain curr, and are modifying curr in-place with backtracking.
+    Note that for space complexity analysis, we do not count space that is only used for the purpose of returning
+    output, so the output array is ignored.
+    """
+
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def backtrack(first, curr):
+            # if the combination is done
+            if len(curr) == k:
+                result.append(curr[:])
+                return
+            for i in range(first, len(nums)):
+                # add nums[i] into the current combination
+                curr.append(nums[i])
+                # use next integers to complete the combination
+                backtrack(i + 1, curr)
+                # backtrack
+                curr.pop()
+
+        result = list()
+        for k in range(len(nums) + 1):
+            backtrack(0, [])
+        return result
+
+
 if __name__ == '__main__':
     tc = (
         ([1, 2, 3], [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]),
         ([0], [[], [0]]),
     )
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     for s in solutions:
         for inp_nums, exp_comb in tc:
             res = sorted(s.subsets(inp_nums))
-            assert res == sorted(exp_comb)
+            assert res == sorted(exp_comb), f"{s.__class__.__name__}:\nexp: {sorted(exp_comb)}\ngot: {res}"
