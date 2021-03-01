@@ -4,11 +4,17 @@ Given an m x n board and a word, find if the word exists in the grid.
 The word can be constructed from letters of sequentially adjacent cells, where "adjacent" cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
 
 Example 1:
-Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+Input: board = [
+    ["A","B","C","E"],
+    ["S","F","C","S"],
+    ["A","D","E","E"]], word = "ABCCED"
 Output: true
 
 Example 3:
-Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+Input: board = [
+    ["A","B","C","E"],
+    ["S","F","C","S"],
+    ["A","D","E","E"]], word = "ABCB"
 Output: false
 """
 from typing import List
@@ -131,6 +137,7 @@ if __name__ == '__main__':
         ([["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCCED", True),
         ([["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "SEE", True),
         ([["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCB", False),
+        ([["A", "B"], ["C", "D"]], "ABCD", False),  # from B we can get either (back) to A or to D, but not to C
     )
     for s in solutions:
         for inp_board, inp_word, exp in tc:
