@@ -21,6 +21,7 @@ Example 2:
     Output: 2
 Explanation: A valid encoding would be s = "t#" and indices = [0].
 """
+import collections
 from typing import List
 
 
@@ -65,8 +66,41 @@ class Solution:
         return sum(len(word) + 1 for word in good)
 
 
+class Solution2:
+    """
+    To find whether different words have the same suffix, let's put them backwards into a trie (prefix tree).
+    For example, if we have "time" and "me", we will put "emit" and "em" into our trie.
+    After, the leaves of this trie (nodes with no children) represent words that have no suffix, and we will count
+    sum(word.length + 1 for word in words).
+
+    Runtime: 172 ms, faster than 45.35% of Python3
+    Memory Usage: 16.7 MB, less than 20.35% of Python3
+
+    Time Complexity: O(sum(Wi)) where Wi is the length of words[i]
+    Space Complexity: O(sum(Wi)) the space used in storing suffixes.
+    """
+
+    def minimumLengthEncoding(self, words: List[str]) -> int:
+        words = list(set(words))  # Remove duplicates
+        # Define a trie as a recursive structure; each trie is a mapping from characters to a trie child;
+        # Trie is a nested dictionary with nodes created when fetched entries are missing
+        Trie = lambda: collections.defaultdict(Trie)
+        trie = Trie()
+        nodes = list()
+        for word in words:
+            current_trie = trie
+            for c in reversed(word):
+                current_trie = current_trie[c]
+            nodes.append(current_trie)
+        # add word to the answer if its node has no neighbors;
+        # sum lengths of the words that are not suffixes of other words
+        return sum(len(word) + 1 for i, word in enumerate(words) if not nodes[i])
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [
+        Solution(),
+        Solution2()]
     tc = (
         (["time", "me", "bell"], 10),
         (["t"], 2),
