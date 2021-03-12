@@ -20,6 +20,13 @@ from typing import List
 
 
 class Solution:
+    """
+    Sort array, then take k-th element (-1 because input starting from 1)
+
+    Time complexity: O(n logN) because of sorting
+    Space complexity: O(n) to store sorted array
+    """
+
     def findKthLargest(self, nums: List[int], k: int) -> int:
         nums = sorted(nums, reverse=True)
         return nums[k - 1]
