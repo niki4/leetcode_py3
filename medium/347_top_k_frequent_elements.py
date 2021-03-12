@@ -81,8 +81,21 @@ class Solution3:
         return flat_list[-k:]
 
 
+class Solution4:
+    """
+    Counter's most_common() method uses heapq.nlargest() under hood:
+    https://github.com/python/cpython/blob/master/Lib/collections/__init__.py#L583
+
+    Runtime: 100 ms, faster than 74.28% of Python3
+    Memory Usage: 18.6 MB, less than 77.47% of Python3
+    """
+
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        return [x for x, y in collections.Counter(nums).most_common(k)]
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2(), Solution3()]
+    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
     tc = (
         ([1, 1, 1, 2, 2, 3], 2, [1, 2]),
         ([1], 1, [1]),
