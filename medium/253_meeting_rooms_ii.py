@@ -49,7 +49,7 @@ class Solution:
 
         rooms = []
         intervals = sorted(intervals, key=lambda x: x[0])  # 1
-        heapq.heappush(rooms, [intervals[0][1]])  # 3
+        heapq.heappush(rooms, intervals[0][1])  # 3
 
         for i in intervals[1:]:
             if i[0] >= rooms[0]:  # 4
