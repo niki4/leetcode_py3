@@ -46,8 +46,10 @@ class Solution:
     nums	9	4	2	1	0	2	0
     memo	U	G	B	B	B	G	G
 
-    Time complexity : O(n). We are doing a single pass through the nums array,
-                    hence nn steps, where n is the length of array nums.
+    Runtime: 84 ms, faster than 80.21% of Python3
+    Memory Usage: 16.1 MB, less than 80.24% of Python3
+
+    Time complexity : O(n). We are doing a single pass through the nums array, n is the length of array nums.
     Space complexity : O(1). We are not using any extra memory.
     """
 
