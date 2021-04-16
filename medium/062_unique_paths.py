@@ -25,6 +25,7 @@ Output: 28
 
 from math import factorial
 
+
 class Solution:
     """
     Runtime: 36 ms, faster than 88.20% of Python3.
@@ -37,9 +38,11 @@ class Solution:
     The problem itself is a special case of 'Delannoy number'
     (https://en.wikipedia.org/wiki/Delannoy_number)
     """
+
     def uniquePaths(self, m: int, n: int) -> int:
         return int(
             factorial(m + n - 2) / factorial(m - 1) / factorial(n - 1))
+
 
 class Solution2:
     """
@@ -47,17 +50,42 @@ class Solution2:
     Memory Usage: 13.3 MB, less than 22.42% of Python3.
 
     Dynamic Programming.
+
+    On each step use prev result to calculate possible steps. E.g., for 3x7 grid:
+    In [77]: sol.uniquePaths(3, 7)
+        j:1	 	1 + 1    d[1]: 2
+        j:2	 	2 + 1    d[2]: 3
+        j:3	 	3 + 1    d[3]: 4
+        j:4	 	4 + 1    d[4]: 5
+        j:5	 	5 + 1    d[5]: 6
+        j:6	 	6 + 1    d[6]: 7
+        ------
+        j:1	 	1 + 2    d[1]: 3
+        j:2	 	3 + 3    d[2]: 6
+        j:3	 	6 + 4    d[3]: 10
+        j:4	 	10 + 5    d[4]: 15
+        j:5	 	15 + 6    d[5]: 21
+        j:6	 	21 + 7    d[6]: 28
+        ------
+        Out[77]: 28
     """
+
     def uniquePaths(self, m: int, n: int) -> int:
         d = [1] * n
         for _ in range(1, m):
             for j in range(1, n):
-                d[j] = d[j-1] + d[j]
+                d[j] = d[j - 1] + d[j]
         return d[-1] if m and n else 0
 
 
 if __name__ == "__main__":
-    s1 = Solution().uniquePaths
-    s2 = Solution2().uniquePaths
-    assert s1(7, 3) == s2(7, 3) == 28
-    assert s1(3, 2) == s2(3, 2) == 3
+    solutions = [Solution(), Solution2()]
+    tc = (
+        (7, 3, 28),
+        (3, 7, 28),
+        (3, 2, 3),
+        (3, 3, 6),
+    )
+    for sol in solutions:
+        for inp_m, inp_n, exp_res in tc:
+            assert sol.uniquePaths(inp_m, inp_n) == exp_res
