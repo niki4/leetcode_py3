@@ -84,28 +84,180 @@ class MaxStack:
                 return popped_max
 
 
+# Definition of Double linked list Node
+class Node:
+    def __init__(self, val, prev=None, next=None):
+        self.val = val
+        self.prev = prev
+        self.next = next
+
+
+class MaxStack2:
+    """
+    A more efficient(?) approach using Double-Linked List structure
+
+    Generally push/pop/delete operations takes O(1) time,
+    But to update link if new/deleted node is max_node we need find new max and
+    it takes O(n) time.
+
+    Runtime: 752 ms, faster than 5.04% of Python3
+    Memory Usage: 17.1 MB, less than 14.97% of Python3
+    """
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.max_node: (Node or None) = None
+        self.last_node: (Node or None) = None
+
+    def find_max_node_from_tail(self, tail: Node) -> Node:
+        node = tail
+        max_node = None
+        while node:
+            if max_node is None or node.val > max_node.val:
+                max_node = node
+            node = node.prev
+        return max_node
+
+    def find_max_node_from_head(self, head: Node) -> Node:
+        node = head
+        max_node = None
+        while node:
+            if max_node is None or node.val > max_node.val:
+                max_node = node
+            node = node.next
+        return max_node
+
+    def push(self, x: int) -> None:
+        node = Node(val=x)
+        if self.last_node:
+            # insert after current tail
+            self.last_node.next = node
+            node.prev = self.last_node
+            self.last_node = node
+            self.max_node = self.find_max_node_from_tail(self.last_node)
+        else:  # new list
+            self.last_node = node
+            self.max_node = node
+
+    def pop(self) -> int:
+        if self.last_node:
+            pop_num = self.last_node.val
+            prev = self.last_node.prev
+            if prev:  # update tail
+                prev.next = None
+                if self.last_node == self.max_node:
+                    self.max_node = self.find_max_node_from_tail(prev)
+                self.last_node = prev
+            else:  # pop from head, no elements left in list
+                self.last_node = None
+                self.max_node = None
+            return pop_num
+
+    def top(self) -> int:
+        if self.last_node:
+            return self.last_node.val
+
+    def peekMax(self) -> int:
+        if self.max_node:
+            return self.max_node.val
+
+    def popMax(self) -> int:
+        if self.max_node:
+            pop_max = self.max_node.val
+            prev = self.max_node.prev
+            next_ = self.max_node.next
+            if prev:
+                if self.max_node == self.last_node:
+                    prev.next = None
+                    self.last_node = prev
+                else:
+                    prev.next = self.max_node.next
+                    self.max_node.next.prev = prev
+                self.max_node = self.find_max_node_from_tail(self.last_node)
+            elif next_:  # pop max from head
+                next_.prev = None
+                self.max_node = self.find_max_node_from_head(next_)
+            else:  # the only element in the list
+                self.last_node = None
+                self.max_node = None
+
+            return pop_max
+
+
 if __name__ == '__main__':
-    stk = MaxStack()
-    stk.push(5)
-    stk.push(1)
-    stk.push(5)
-    assert stk.store == [5, 1, 5]
-    assert stk.max_n == 5
+    def tc_1(max_stack: MaxStack) -> bool:
+        max_stack.push(5)
+        max_stack.push(1)
+        max_stack.push(5)
+        assert max_stack.top() == 5
+        assert max_stack.popMax() == 5
+        assert max_stack.top() == 1
+        assert max_stack.peekMax() == 5
+        assert max_stack.pop() == 1
+        assert max_stack.top() == 5
+        return True
 
-    assert stk.top() == 5
-    assert stk.store == [5, 1, 5]
 
-    assert stk.popMax() == 5
-    assert stk.store == [5, 1]
+    def tc_2(max_stack: MaxStack) -> bool:
+        max_stack.push(79)
+        max_stack.pop()
+        # []
+        max_stack.push(14)
+        max_stack.push(67)
+        max_stack.push(19)
+        max_stack.push(-92)
+        # [14, 67, 19, -92]
+        max_stack.popMax()
+        # [14, 19, -92]
+        max_stack.push(77)
+        max_stack.pop()
+        # [14, 19, -92]
+        max_stack.push(53)
+        max_stack.push(5)
+        # [14, 19, -92, 53, 5]
+        assert max_stack.peekMax() == 53
+        assert max_stack.popMax() == 53
+        max_stack.push(12)
+        return True
 
-    assert stk.top() == 1
-    assert stk.store == [5, 1]
 
-    assert stk.peekMax() == 5
-    assert stk.store == [5, 1]
+    def tc_3(max_stack: MaxStack) -> bool:
+        max_stack.push(-23)
+        assert max_stack.peekMax() == -23
 
-    assert stk.pop() == 1
-    assert stk.store == [5]
+        max_stack.push(-74)
+        assert max_stack.popMax() == -23
+        # [-74]
 
-    assert stk.top() == 5
-    assert stk.store == [5]
+        max_stack.push(-4)
+        max_stack.push(20)
+        max_stack.push(68)
+        # [-74, -4, 20, 68]
+
+        assert max_stack.top() == 68
+        max_stack.push(83)
+        # [-74, -4, 20, 68, 83]
+
+        assert max_stack.peekMax() == 83
+        max_stack.push(73)
+        # [-74, -4, 20, 68, 83, 73]
+
+        assert max_stack.popMax() == 83
+        assert max_stack.peekMax() == 73
+        return True
+
+
+    def tc_4(max_stack: MaxStack) -> bool:
+        max_stack.push(5)
+        assert max_stack.peekMax() == 5
+        assert max_stack.popMax() == 5
+        return True
+
+
+    solutions = [MaxStack, MaxStack2]
+    test_cases = [tc_1, tc_2, tc_3, tc_4]
+    for sol in solutions:
+        for tc in test_cases:
+            assert tc(sol())
