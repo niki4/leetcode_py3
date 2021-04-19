@@ -2,21 +2,18 @@
 Design a max stack data structure that supports the stack operations and supports finding the stack's maximum element.
 
 Implement the MaxStack class:
-
-MaxStack() Initializes the stack object.
-void push(int x) Pushes element x onto the stack.
-int pop() Removes the element on top of the stack and returns it.
-int top() Gets the element on the top of the stack without removing it.
-int peekMax() Retrieves the maximum element in the stack without removing it.
-int popMax() Retrieves the maximum element in the stack and removes it. If there is more than one maximum element, only remove the top-most one.
+    MaxStack() Initializes the stack object.
+    void push(int x) Pushes element x onto the stack.
+    int pop() Removes the element on top of the stack and returns it.
+    int top() Gets the element on the top of the stack without removing it.
+    int peekMax() Retrieves the maximum element in the stack without removing it.
+    int popMax() Retrieves the maximum element in the stack and removes it.
+                 If there is more than one maximum element, only remove the top-most one.
 
 Example 1:
-
-Input
-["MaxStack", "push", "push", "push", "top", "popMax", "top", "peekMax", "pop", "top"]
-[[], [5], [1], [5], [], [], [], [], [], []]
-Output
-[null, null, null, null, 5, 5, 1, 5, 1, 5]
+Input   ["MaxStack", "push", "push", "push", "top", "popMax", "top", "peekMax", "pop", "top"]
+        [[], [5], [1], [5], [], [], [], [], [], []]
+Output  [null, null, null, null, 5, 5, 1, 5, 1, 5]
 
 Explanation
     MaxStack stk = new MaxStack();
@@ -40,6 +37,12 @@ Follow up: Could you come up with a solution that supports O(1) for each top cal
 
 
 class MaxStack:
+    """
+    Intuitive approach using Python's built-in list structure (dynamic array)
+
+    Runtime: 144 ms, faster than 79.47% of Python3
+    Memory Usage: 16.5 MB, less than 93.03% of Python3
+    """
 
     def __init__(self):
         """
@@ -49,7 +52,9 @@ class MaxStack:
         self.store = list()
 
     def push(self, x: int) -> None:
-        """ Time complexity: O(1) """
+        """ Time complexity: O(n) because in amortized worst case we have to allocate a new array with greater size,
+        than previous one, then copy all the elements from old array to new one, then finally push our new value at the
+        end of the array."""
         self.store.append(x)
         if x > self.max_n:
             self.max_n = x
