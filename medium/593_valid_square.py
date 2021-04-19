@@ -19,6 +19,7 @@ Constraints:
     p1.length == p2.length == p3.length == p4.length == 2
     -104 <= xi, yi <= 104
 """
+import collections
 from typing import List
 
 
@@ -71,8 +72,26 @@ class Solution2:
         return 0 < D[0] == D[1] == D[2] == D[3] and 2 * D[0] == D[4] == D[5]
 
 
+class Solution3:
+    """
+    For valid square number of unique distances should be 2 (so 4 for sides and 2 for diagonals).
+    """
+
+    def dist(self, p1: List[int], p2: List[int]) -> int:
+        return (p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2
+
+    def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:
+        points = (p1, p2, p3, p4)
+
+        dists = collections.defaultdict(int)
+        for i in range(len(points)):
+            for j in range(i, len(points)):
+                dists[self.dist(points[i], points[j])] += 1
+        return set(dists.values()) == {4, 2}
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     tc = (
         ([0, 0], [1, 1], [1, 0], [0, 1], True),
         ([0, 0], [1, 1], [1, 0], [0, 12], False),
@@ -81,4 +100,6 @@ if __name__ == '__main__':
     )
     for sol in solutions:
         for p1_, p2_, p3_, p4_, valid_square in tc:
-            assert sol.validSquare(p1_, p2_, p3_, p4_) is valid_square
+            res = sol.validSquare(p1_, p2_, p3_, p4_)
+            assert res is valid_square, f"{sol.__class__.__name__}: for input [{p1_}, {p2_}, {p3_}, {p4_}] " \
+                                        f"expected res: {valid_square}, got {res}"
