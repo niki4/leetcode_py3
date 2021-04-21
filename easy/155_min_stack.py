@@ -81,8 +81,42 @@ class MinStack2:
         return self.min_stack[0]  # O(log n)
 
 
+class MinStack3:
+    """
+    Using an array "stack" to store the elements placed in the stack, and an additional array "min_stack" tracking the
+    minimum element seen so far. It can be proven that this approach always works, although it uses O(N) extra space.
+
+    Time complexity for each operation: O(1)
+
+    Runtime: 64 ms, faster than 47.65% of Python3
+    Memory Usage: 18.2 MB, less than 46.74% of Python3
+    """
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.stack = []
+        self.min_stack = []
+
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        self.min_stack.append(
+            val if not self.min_stack else min(val, self.min_stack[-1]))
+
+    def pop(self) -> None:
+        self.stack.pop()
+        self.min_stack.pop()
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.min_stack[-1]
+
+
 if __name__ == "__main__":
-    solutions = [MinStack, MinStack2]
+    solutions = [MinStack, MinStack2, MinStack3]
     for min_stack_impl in solutions:
         minStack = min_stack_impl()
         minStack.push(-2)
