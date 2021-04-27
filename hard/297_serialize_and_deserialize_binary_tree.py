@@ -34,7 +34,7 @@ Output: [1,2]
 import collections
 import pickle
 
-from problems.tools.binary_tree import TreeNode
+from tools.binary_tree import TreeNode
 
 
 class Codec:
