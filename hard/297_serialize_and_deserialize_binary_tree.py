@@ -33,6 +33,7 @@ Output: [1,2]
 """
 import collections
 import pickle
+from typing import Optional
 
 from tools.binary_tree import TreeNode
 
@@ -60,10 +61,10 @@ class Codec:
                 result.append("#")  # placeholder for None
         return " ".join(result)
 
-    def deserialize(self, data: str) -> TreeNode or None:
+    def deserialize(self, data: str) -> Optional[TreeNode]:
         """ Decodes your encoded data to binary tree. """
         if data[0] == "#":
-            return
+            return None
 
         vals = iter(data.split())  # make list iterator to request one item at a time
         root = TreeNode(int(next(vals)))
