@@ -104,8 +104,57 @@ class RandomizedSet2:
         return random.choice(self.data)
 
 
+class RandomizedSet3:
+    """
+    Use dictionary keys as form of set (like it is in Golang)
+
+    Runtime: 360 ms, faster than 26.47% of Python3
+    Memory Usage: 18.3 MB, less than 89.84% of Python3
+    """
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.store = dict()
+
+    def insert(self, val: int) -> bool:
+        """
+        Inserts a value to the set. Returns true if the set did not already contain the specified element.
+
+        Runtime O(1)
+        """
+        if val in self.store:
+            return False
+
+        self.store[val] = True  # any value is ok, we just need a key
+        return True
+
+    def remove(self, val: int) -> bool:
+        """
+        Removes a value from the set. Returns true if the set contained the specified element.
+
+        Runtime O(1)
+        """
+        if val not in self.store:
+            return False
+
+        del self.store[val]
+        return True
+
+    def getRandom(self) -> int:
+        """
+        Get a random element from the set.
+
+        Runtime: O(N + logN) where O(N) is runtime need to convert keys to tuple and O(log N) is the complexity of
+        random.choice(tuple) where n is the number of elements in the tuple. The cpython implementation uses
+        _randbelow(len(seq)) to get a pseudo-random index and then returns the item at that index.
+        """
+        return random.choice(tuple(self.store)) if self.store else None
+
+
 if __name__ == '__main__':
-    solutions = [RandomizedSet(), RandomizedSet2()]
+    solutions = [RandomizedSet(), RandomizedSet2(), RandomizedSet3()]
     for randomizedSet in solutions:
         assert randomizedSet.insert(1)
         assert randomizedSet.remove(2) is False
