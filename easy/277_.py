@@ -33,6 +33,9 @@ class Solution:
         If our candidate number after the first pass is C then we know that knows(C,x) == False for any x>C.
         We also know that there is one person (if C>0), let's call him prev, who knows C: knows(prev, C) == True
 
+    Time complexity: O(n)
+    Space complexity: O(1)
+
     Runtime: 1592 ms, faster than 94.37% of Python3
     Memory Usage: 14.6 MB, less than 14.77% of Python3
     """
@@ -46,3 +49,30 @@ class Solution:
         return candidate if (
                 all(not knows(candidate, x) for x in range(candidate)) and
                 all(knows(x, candidate) for x in range(n) if x not in (prev, candidate))) else -1
+
+
+class Solution2:
+    """
+    Adopted solution by @dietpepsi:
+    leetcode.com/problems/find-the-celebrity/discuss/71228/JavaPython-O(n)-calls-O(1)-space-easy-to-understand-solution
+
+    Runtime: 1588 ms, faster than 94.97% of Python3
+    Memory Usage: 14.6 MB, less than 14.77% of Python3
+
+    Time complexity: O(3*n) == O(n)
+    Space complexity: O(1)
+    """
+
+    def findCelebrity(self, n: int) -> int:
+        candidate = 0
+        for i in range(n):
+            if knows(candidate, i):  # candidate shouldn't know anyone, chose another
+                candidate = i
+        # At this point we have a candidate, we need ensure it's a celebrity.
+        # If candidate knows at least one person --> not a celebrity
+        if any(knows(candidate, i) for i in range(candidate)):
+            return -1
+        # If at least one person doesn't know the candidate --> not a celebrity
+        if any(not knows(i, candidate) for i in range(n)):
+            return -1
+        return candidate
