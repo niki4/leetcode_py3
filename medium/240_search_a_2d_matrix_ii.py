@@ -102,8 +102,40 @@ class Solution2:
         return search_rec(0, 0, len(matrix[0]) - 1, len(matrix) - 1)
 
 
+class Solution3:
+    """
+     Search Space Reduction approach.
+     Algorithm:
+        "Start from bottom left corner. Go up if current value more than target, go right if current value lower target.
+         Stop either current value equal target or we overflow the borders. Having columns and rows sorted we may safely
+         ignore items from the right if we go up and items from up if we go right."
+
+    Runtime: 164 ms, faster than 62.27% of Python3
+    Memory Usage: 20.6 MB, less than 28.35% of Python3
+
+    Time complexity: O(n+m) where n is the height and m is the weight of the matrix
+    Space complexity: O(1)
+    """
+
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        if not matrix or not matrix[0]:
+            return False
+
+        height, width = len(matrix), len(matrix[0])
+        row, col = height - 1, 0  # start from bottom left corner
+
+        while row >= 0 and col < width:
+            if matrix[row][col] > target:
+                row -= 1
+            elif matrix[row][col] < target:
+                col += 1
+            else:  # found target
+                return True
+        return False
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     matrix_ = [
         [1, 4, 7, 11, 15],
         [2, 5, 8, 12, 19],
