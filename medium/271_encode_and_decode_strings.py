@@ -41,14 +41,37 @@ class Codec:
         return s.split(self.sep)
 
 
+class Codec2:
+    """
+    Runtime: 68 ms, faster than 46.61% of Python3
+    Memory Usage: 14.5 MB, less than 73.18% of Python3
+    """
+
+    def encode(self, strs: [str]) -> str:
+        """Encodes a list of strings to a single string.
+        """
+        # any non-ascii symbol, e.g. chr(257)='ā', may guarantee us we not messed up delimiter with data
+        return "".join(f"{len(s)}{chr(257)}{s}" for s in strs)
+
+    def decode(self, s: str) -> [str]:
+        """Decodes a single string to a list of strings.
+        """
+        strings = []
+        curr_pos = 0
+        while curr_pos < len(s):
+            d_pos = s.find(chr(257), curr_pos)  # index of first delimiter occurrence starting from curr_pos
+            s_offset = int(s[curr_pos:d_pos])  # length of the string
+            curr_pos = d_pos + s_offset + 1
+            strings.append(s[(d_pos + 1):curr_pos])
+        return strings
+
+
 if __name__ == '__main__':
-    codec = Codec()
+    codecs = [Codec(), Codec2()]
     tc = (
-        (["Hello", "World"], "Hello--->World"),
-        ([""], ""),
+        (["Hello", "World"]),
+        ([""]),
     )
-    for deserialized, serialized in tc:
-        encoded_str = codec.encode(deserialized)
-        assert encoded_str == serialized
-        decoded_str = codec.decode(encoded_str)
-        assert decoded_str == deserialized
+    for codec in codecs:
+        for deserialized in tc:
+            assert codec.decode(codec.encode(deserialized)) == deserialized
