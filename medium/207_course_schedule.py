@@ -92,8 +92,78 @@ class Solution:
         return is_cycle_found
 
 
+class Solution2:
+    """
+    Post-Order DFS + Backtracking.
+
+    Algorithm: "with the above backtracking algorithm, we would visit certain nodes multiple times, which is not the
+    most efficient way. To optimize it, once we've done the check that there would be no cycle formed starting from this
+    node, we don't have to do the same check for all the nodes in the downstream.
+
+    We could implement the Post-order DFS (depth-first search, in post-order strategy we visit a node's descendant nodes
+    before the node itself) based on the above backtracking algorithm, by simply adding another bitmap (i.e.
+    checked[node_index]) which indicates whether we have done the cyclic check starting from a particular node.
+
+    Here are breakdowns of the algorithm, where the first 2 steps are the same as in previous backtracking algorithm.
+
+    1. We build a graph data structure from the given list of course dependencies.
+    2. We then enumerate each node (course) in the constructed graph, to check if we could form a dependency cycle
+       starting from the node.
+    3.1 We check if the current node has been checked before, otherwise we enumerate through its child nodes via
+       backtracking, where we breadcrumb our path (i.e. mark the nodes we visited) to detect if we come across a
+       previously visited node (hence a cycle detected). We also remove the breadcrumbs for each iteration.
+    3.2 Once we visited all the child nodes (i.e. postorder), we mark the current node as checked."
+
+    Runtime: 96 ms, faster than 73.74% of Python3
+    Memory Usage: 16.5 MB, less than 50.78% of Python3
+
+    Time/Space Complexity: O(∣E∣+∣V∣) where |V| is the number of courses, and |E| is the number of dependencies.
+    """
+
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        course_dict = collections.defaultdict(list)
+
+        for relation in prerequisites:
+            next_course, prev_course = relation
+            course_dict[prev_course].append(next_course)
+
+        checked = [False] * numCourses
+        path = [False] * numCourses
+
+        for curr_course in range(numCourses):
+            if self.is_cyclic(curr_course, course_dict, checked, path):
+                return False
+        return True
+
+    def is_cyclic(self, curr_course, course_dict, checked, path):
+        """
+        Backtracking method to check that no cycle would be formed starting from curr_course
+        """
+        # 1. Bottom-cases
+        if checked[curr_course]:  # the node has been checked, no cycle would be formed from it.
+            return False
+        if path[curr_course]:  # come across a previously visited node, thus cycle detected
+            return True
+
+        # 2. Post-order DFS (so children visited before its parent)
+        path[curr_course] = True  # before backtracking, mark the node in the path
+
+        is_cycle_found = False
+        for child in course_dict[curr_course]:
+            is_cycle_found = self.is_cyclic(child, course_dict, checked, path)
+            if is_cycle_found:
+                break
+
+        # 3. after the visits of children, we come back to process the node itself
+        path[curr_course] = False  # backtrack (remove the node from the path)
+
+        # Now that we've visited the nodes in the downstream, we complete the check of this node.
+        checked[curr_course] = True
+        return is_cycle_found
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         (2, [[1, 0]], True),
         (2, [[1, 0], [0, 1]], False),
