@@ -53,8 +53,53 @@ class Solution:
         node.next = None  # unbind last node ref to break cycle
 
 
+class Solution2:
+    """
+    Reverse the Second Part of the List and Merge Two Sorted Lists
+
+    Use "hare & turtle (slow pointer & fast pointer)" approach to find the mid of the list.
+    Then reverse second half of the list in place.
+    Then merge list traversing from start (1st ptr) and mid (2nd ptr) nodes toward end (until the 2nd ptr reach end).
+
+    Runtime: 84 ms, faster than 93.32% of Python3
+    Memory Usage: 23.3 MB, less than 77.97% of Python3
+
+    Time complexity: O(N)
+    Space complexity: O(1)
+    """
+
+    def reorderList(self, head: ListNode) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        if not head:
+            return
+
+        # find the middle of linked list, e.g. for 1->2->3->4->5->6 it's 4
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next  # it'll be middle once fast == None
+            fast = fast.next.next
+
+        # reverse the second part of the list (starting from middle node) in place.
+        # e.g. convert 1->2->3->4->5->6 into 1->2->3->4 and 6->5->4
+        prev, curr = None, slow
+        while curr:
+            tmp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = tmp
+
+        # merge two sorted lists
+        # e.g., merge 1->2->3->4 and 6->5->4 into 1->6->2->5->3->4
+        first, second = head, prev
+        while second.next:
+            first.next, first = second, first.next
+            second.next, second = first, second.next
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         ([1, 2, 3, 4], [1, 4, 2, 3]),
         ([1, 2, 3, 4, 5], [1, 5, 2, 4, 3]),
