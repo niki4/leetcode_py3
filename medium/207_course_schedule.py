@@ -162,8 +162,78 @@ class Solution2:
         return is_cycle_found
 
 
+class GNode:
+    """ data structure represent a vertex in the graph """
+
+    def __init__(self):
+        self.inDegrees = 0  # num of dependent nodes (prerequisites)
+        self.outNodes = []
+
+
+class Solution3:
+    """
+    Topological Sort
+
+    "The algorithm is about find a global order for all nodes in a DAG (Directed Acyclic Graph) with regarding to their
+    dependencies. To better understand the algorithm, we summarize a few points here:
+        * In order to find a global order, we can start from those nodes which do not have any prerequisites (i.e.
+            indegree of node is zero), we then incrementally add new nodes to the global order, following the
+            dependencies (edges).
+        * Once we follow an edge, we then remove it from the graph.
+        * With the removal of edges, there would more nodes appearing without any prerequisite dependency, in addition
+            to the initial list in the first step.
+        * The algorithm would terminate when we can no longer remove edges from the graph.
+          There are two possible outcomes:
+            1. If there are still some edges left in the graph, then these edges must have formed certain cycles,
+                which is similar to the deadlock situation. It is due to these cyclic dependencies that we cannot remove
+                them during the above processes.
+            2. Otherwise, i.e. we have removed all the edges from the graph, and we got ourselves a topological order
+                of the graph."
+
+    Runtime: 92 ms, faster than 89.55% of Python3
+    Memory Usage: 15.2 MB, less than 99.85% of Python3
+
+    Time/Space Complexity: O(∣E∣+∣V∣) where |V| is the number of courses, and |E| is the number of dependencies.
+    """
+
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = collections.defaultdict(GNode)  # key: index of node; value: GNode
+
+        total_deps = 0
+        for relation in prerequisites:
+            next_course, prev_course = relation
+            graph[prev_course].outNodes.append(next_course)
+            graph[next_course].inDegrees += 1
+            total_deps += 1
+
+        # we start from courses that have no prerequisites;
+        # we could use either set, stack of queue to keep track of courses with no dependence.
+        no_dep_courses = collections.deque()  # regular stack, e.g. list(), works here too
+        for index, node in graph.items():
+            if node.inDegrees == 0:
+                no_dep_courses.append(index)
+
+        removed_edges = 0
+        while no_dep_courses:
+            course = no_dep_courses.pop()
+
+            # remove course's outgoing edges one by one
+            for next_course in graph[course].outNodes:
+                graph[next_course].inDegrees -= 1
+                removed_edges += 1
+                # while removing edges, we might discover new courses with prerequisites removed,
+                # i.e. new courses without prerequisites.
+                if graph[next_course].inDegrees == 0:
+                    no_dep_courses.append(next_course)
+
+        if removed_edges == total_deps:  # it's a DAG, so we can reach end from start
+            return True
+        else:  # dead-lock (dependencies), we cannot remove the cyclic edges
+            return False
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     tc = (
         (2, [[1, 0]], True),
         (2, [[1, 0], [0, 1]], False),
