@@ -49,8 +49,30 @@ class Solution:
         return sorted_words[0] if sorted_words else ""
 
 
+class Solution2:
+    """
+    Sort the words, then keep prefixes in the set and check for nextWord[:-1] in the set before comparing lengths.
+
+    Runtime: 96 ms, faster than 55.17% of Python3
+    Memory Usage: 14.6 MB, less than 84.38% of Python3
+
+    Time complexity: O(N^2)
+    Space complexity: O(N)
+    """
+
+    def longestWord(self, words: List[str]) -> str:
+        words = sorted(words)  # lexicographical order
+        prefixes, longest_word = {""}, ""
+        for word in words:
+            if word[:-1] in prefixes:
+                if len(word) > len(longest_word):
+                    longest_word = word
+                prefixes.add(word)  # for the next candidate
+        return longest_word
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         (["w", "wo", "wor", "worl", "world"], "world"),
         (["a", "banana", "app", "appl", "ap", "apply", "apple"], "apple"),
