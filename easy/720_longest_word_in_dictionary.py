@@ -20,6 +20,7 @@ Constraints:
     1 <= words[i].length <= 30
     words[i] consists of lowercase English letters.
 """
+import collections
 from typing import List
 
 
@@ -71,12 +72,62 @@ class Solution2:
         return longest_word
 
 
+class TrieNode:
+    def __init__(self):
+        self.edges = collections.defaultdict(TrieNode)  # Map<Character, TrieNode>
+        self.is_word_end = False
+
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        current = self.root
+        for char in word:
+            current = current.edges[char]  # create new edge if not exist
+        current.is_word_end = True
+
+    def can_be_built(self, word):  # from other words (one character at a time)
+        current = self.root
+        for char in word:
+            if char not in current.edges:
+                return False
+            current = current.edges[char]
+            if not current.is_word_end:
+                return False
+        return True
+
+
+class Solution3:
+    """
+    Using Trie (prefix tree) which allows to share common prefixes in the words, as well as track each word end.
+
+    Runtime: 176 ms, faster than 23.23% of Python3
+    Memory Usage: 15.7 MB, less than 10.03% of Python3
+    """
+
+    def longestWord(self, words: List[str]) -> str:
+        answer = ""
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+
+        for word in words:
+            if trie.can_be_built(word):
+                if answer == "" or len(answer) < len(word):
+                    answer = word
+                elif len(answer) == len(word):
+                    answer = min(answer, word)  # keep alphabetical order
+        return answer
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     tc = (
         (["w", "wo", "wor", "worl", "world"], "world"),
         (["a", "banana", "app", "appl", "ap", "apply", "apple"], "apple"),
-        (["apple", "banana"], "")
+        (["wo", "wor", "worl", "world"], ""),
     )
     for sol in solutions:
         for inp_words, exp_longest in tc:
