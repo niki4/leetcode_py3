@@ -60,8 +60,37 @@ class Solution:
         return partitions
 
 
+class Solution2:
+    """
+    Greedy approach (two-pointers)
+
+    Algorithm idea (leetcode.com/problems/partition-labels/discuss/298474/Python-two-pointer-solution-with-explanation):
+        1. Figure out the rightmost index first and use it to denote the start of the next section.
+        2. Reset the left pointer at the start of each new section.
+        3. Store the difference of right and left pointers + 1 as in the result for each section.
+
+    Runtime: 44 ms, faster than 42.57% of Python3
+    Memory Usage: 14.4 MB, less than 24.44% of Python3
+
+    Time Complexity: O(N), where N is the length of S.
+    Space Complexity: O(1) to keep data structure last of not more than 26 characters.
+    """
+
+    def partitionLabels(self, s: str) -> List[int]:
+        rightmost = {c: i for (i, c) in enumerate(s)}
+        left, right = 0, 0
+        result = []
+
+        for i, char in enumerate(s):
+            right = max(right, rightmost[char])
+            if i == right:
+                result += [right - left + 1]
+                left = i + 1
+        return result
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         ("ababcbacadefegdehijhklij", [9, 7, 8]),
         ("caedbdedda", [1, 9]),
