@@ -22,47 +22,52 @@ Note:
 S consists only of English lowercase letters.
 """
 
+
 class Solution:
     """
     This is working solution, but got "Time Limit Exceeded" error on Leetcode
     """
-    def removeDuplicates(self, S: str) -> str:
+
+    def removeDuplicates(self, s: str) -> str:
         dup_flag = True
         while dup_flag:
-            for i in range(1, len(S)):
-                if S[i-1] == S[i]:
-                    S = S[:i-1] + S[i+1:]
+            for i in range(1, len(s)):
+                if s[i - 1] == s[i]:
+                    s = s[:i - 1] + s[i + 1:]
                     break
             else:
                 dup_flag = False
-        return S
+        return s
 
 
 class Solution2:
     """
     This solution is also got "Time Limit Exceeded" error on Leetcode :-(
     """
-    def removeDuplicates(self, S: str) -> str:
-        if not S:
+
+    def removeDuplicates(self, s: str) -> str:
+        if not s:
             return ''
 
-        for i in range(1, len(S)):
-            if S[i-1] == S[i]:
-                if i == len(S)-1:
-                    S = S[:i-1]
+        for i in range(1, len(s)):
+            if s[i - 1] == s[i]:
+                if i == len(s) - 1:
+                    s = s[:i - 1]
                 else:
-                    S = S[:i-1] + S[i+1:]
-                return self.removeDuplicates(S)
-        return S
+                    s = s[:i - 1] + s[i + 1:]
+                return self.removeDuplicates(s)
+        return s
+
 
 class Solution3:
     """
     Runtime: 76 ms, faster than 82.87% of Python3.
     Memory Usage: 13.7 MB, less than 100.00% of Python3.
     """
-    def removeDuplicates(self, S: str) -> str:
+
+    def removeDuplicates(self, s: str) -> str:
         stack = []
-        for char in S:
+        for char in s:
             if stack and stack[-1] == char:
                 stack.pop()
             else:
@@ -70,10 +75,31 @@ class Solution3:
         return ''.join(stack)
 
 
+class Solution4:
+    """
+    Track curr position and move it accordingly in case of duplicates removed from string.
+
+    Runtime: 96 ms, faster than 31.34% of Python3
+    Memory Usage: 14.5 MB, less than 89.60% of Python3
+    """
+
+    def removeDuplicates(self, s: str) -> str:
+        i = 1
+        while i < len(s):
+            if s[i - 1] == s[i]:
+                s = s[:i - 1] + s[i + 1:]
+                i = 1 if (i - 2 < 1) else (i - 2)
+            else:
+                i += 1
+        return s
+
+
 if __name__ == "__main__":
-    s = Solution()
-    s2 = Solution2()
-    s3 = Solution2()
-    assert s.removeDuplicates("abbaca") == "ca"
-    assert s2.removeDuplicates("abbaca") == "ca"
-    assert s3.removeDuplicates("abbaca") == "ca"
+    solutions = [Solution(), Solution2(), Solution3()]
+    tc = (
+        ("abbaca", "ca"),
+        ("azxxzy", "ay"),
+    )
+    for sol in solutions:
+        for inp_s, exp_s in tc:
+            assert sol.removeDuplicates(inp_s) == exp_s
