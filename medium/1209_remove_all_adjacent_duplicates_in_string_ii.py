@@ -66,8 +66,39 @@ class Solution2:
         return s
 
 
+class Solution3:
+    """
+    Following solution based on proposed by @DBabichev
+    (leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/discuss/1161100/Python-stack-solution-explained):
+        "Keep stack with pairs of elements: element itself and its frequency. Also I put in the beginning dummy
+        variable, so I do not need to check if stack is empty. For each element we:
+            1. Check if it is equal to the last element in stack, if it is, increase it frequency, if not - create new
+                instance in stack with frequency 1.
+            2. Check if we can delete groups of k equal elements: check if last frequency in stack is >=k and if it is,
+                decrease it. Also if we get frequency equal to 0, delete element at all."
+
+    Runtime: 100 ms, faster than 55.29% of Python3
+    Memory Usage: 19 MB, less than 18.84% of Python3
+
+    Time/Space complexity: O(n)
+    """
+
+    def removeDuplicates(self, s: str, k: int) -> str:
+        stack = [["!", 1]]
+        for char in s:
+            if char == stack[-1][0]:
+                stack[-1][1] += 1
+            else:
+                stack.append([char, 1])
+
+            # since we process chars one by one, frequency cannot exceed k
+            if stack[-1][1] == k:
+                stack.pop()
+        return "".join(char * freq for char, freq in stack[1:])
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
     tc = (
         ("abcd", 2, "abcd"),
         ("deeedbbcccbdaa", 3, "aa"),
