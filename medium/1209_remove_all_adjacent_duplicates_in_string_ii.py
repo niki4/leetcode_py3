@@ -52,8 +52,22 @@ class Solution:
         return s
 
 
+class Solution2:
+    """
+    Also got TLE, huh
+
+    Time complexity: O(n^3) or so
+    """
+
+    def removeDuplicates(self, s: str, k: int) -> str:
+        while any(ch * k in s for ch in set(s)):
+            for char in set(s):
+                s = s.replace(char * k, "")
+        return s
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         ("abcd", 2, "abcd"),
         ("deeedbbcccbdaa", 3, "aa"),
