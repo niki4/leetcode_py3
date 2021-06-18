@@ -45,6 +45,8 @@ class Solution:
 
     Runtime: 1084 ms, faster than 77.60% of Python3
     Memory Usage: 62.9 MB, less than 84.88%
+
+    Time / Space complexity: O(n)
     """
 
     def restoreArray(self, adjacentPairs: List[List[int]]) -> List[int]:
