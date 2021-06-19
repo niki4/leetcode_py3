@@ -36,6 +36,9 @@ from typing import List
 
 class Solution:
     """
+    Greedy approach: we first collate as many words as possible per each future string, then calculate needed spaces so
+    that string will match with the maxWidth, then build that justified strings.
+
     Runtime: 32 ms, faster than 62.61% of Python3
     Memory Usage: 14.3 MB, less than 51.54% of Python3
     """
