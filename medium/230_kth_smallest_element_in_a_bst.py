@@ -96,3 +96,25 @@ class Solution3:
             if not k:
                 return root.val
             root = root.right
+
+
+class Solution4:
+    """
+    Runtime: 52 ms, faster than 59.86% of Python3
+    Memory Usage: 18 MB, less than 80.85% of Python3
+
+    Time complexity: O(n)
+    Space complexity: O(1) as generator object returns one item at a time
+    """
+
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        def dfs_inorder(node: TreeNode) -> int:
+            if node:
+                yield from dfs_inorder(node.left)
+                yield node.val
+                yield from dfs_inorder(node.right)
+
+        smallest = dfs_inorder(root)
+        for _ in range(k):
+            result = next(smallest)
+        return result
