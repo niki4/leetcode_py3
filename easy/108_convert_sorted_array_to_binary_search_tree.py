@@ -15,7 +15,7 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 """
 from typing import List
 
-from problems.tools.binary_tree import TreeNode
+from tools.binary_tree import TreeNode
 
 
 class Solution:

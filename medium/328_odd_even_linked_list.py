@@ -13,7 +13,7 @@ The relative order inside both the even and odd groups should remain as it was i
 The first node is considered odd, the second node even and so on ...
 The length of the linked list is between [0, 10^4].
 """
-from problems.tools.linked_list import ListNode, make_linked_list_from_iterable, traverse
+from tools.linked_list import ListNode, make_linked_list_from_iterable, traverse
 
 
 class Solution:

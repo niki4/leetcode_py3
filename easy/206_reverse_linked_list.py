@@ -10,7 +10,7 @@ Follow up:
 A linked list can be reversed either iteratively or recursively.
 Could you implement both?
 """
-from problems.tools.linked_list import ListNode, get_linked_list_representation
+from tools.linked_list import ListNode, get_linked_list_representation
 
 
 class Solution:

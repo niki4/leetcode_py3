@@ -19,7 +19,7 @@ Return the following binary tree:
 """
 from typing import List
 
-from problems.tools.binary_tree import TreeNode
+from tools.binary_tree import TreeNode
 
 
 class Solution:

@@ -31,7 +31,7 @@ Constraints:
 -10^6 <= Node.val <= 10^6
 -10^6 <= insertVal <= 10^6
 """
-from problems.tools.linked_list import ListNode as Node, make_circulated_linked_list, traverse
+from tools.linked_list import ListNode as Node, make_circulated_linked_list, traverse
 
 
 class Solution:

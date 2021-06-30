@@ -6,7 +6,7 @@ Example:
 Input:  1->2->6->3->4->5->6, val = 6
 Output: 1->2->3->4->5
 """
-from problems.tools.linked_list import ListNode, get_linked_list_representation, make_linked_list_from_iterable
+from tools.linked_list import ListNode, get_linked_list_representation, make_linked_list_from_iterable
 
 
 class Solution:

@@ -19,7 +19,7 @@ The input multilevel linked list is as follows (node '1' has child list '3'):
 """
 
 # Definition for a Node.
-from problems.tools.linked_list import traverse
+from tools.linked_list import traverse
 
 
 class Node:

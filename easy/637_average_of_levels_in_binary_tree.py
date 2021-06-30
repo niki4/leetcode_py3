@@ -16,7 +16,7 @@ Note: The range of node's value is in the range of 32-bit signed integer.
 import collections
 from typing import List
 
-from problems.tools.binary_tree import TreeNode
+from tools.binary_tree import TreeNode
 
 
 class Solution:

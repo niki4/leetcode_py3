@@ -14,7 +14,7 @@ Example 3:
 Input: root = [5,5,5,5,5,null,5]
 Output: 6
 """
-from problems.tools.binary_tree import TreeNode
+from tools.binary_tree import TreeNode
 
 
 class Solution:

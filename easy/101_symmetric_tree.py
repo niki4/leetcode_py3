@@ -19,7 +19,7 @@ But the following [1,2,2,null,3,null,3] is not:
    3    3
 
 """
-from problems.tools.binary_tree import TreeNode
+from tools.binary_tree import TreeNode
 
 
 class Solution:

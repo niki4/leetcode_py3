@@ -27,7 +27,7 @@ Example 2:
 1      3
 If take p as 4 and q as 3, then lowest common ancestor will be node 4 (so this is the case when q inside p subtree)
 """
-from problems.tools.binary_tree import TreeNode
+from tools.binary_tree import TreeNode
 
 
 class Solution:

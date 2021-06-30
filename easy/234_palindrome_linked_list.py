@@ -12,7 +12,7 @@ Output: true
 Follow up:
 Could you do it in O(n) time and O(1) space?
 """
-from problems.tools.linked_list import ListNode, make_linked_list_from_iterable
+from tools.linked_list import ListNode, make_linked_list_from_iterable
 
 
 class Solution:

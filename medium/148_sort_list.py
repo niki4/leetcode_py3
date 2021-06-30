@@ -11,7 +11,7 @@ Constraints:
     The number of nodes in the list is in the range [0, 5 * 104].
     -105 <= Node.val <= 105
 """
-from problems.tools.linked_list import ListNode, make_linked_list_from_iterable, traverse
+from tools.linked_list import ListNode, make_linked_list_from_iterable, traverse
 
 
 class Solution:

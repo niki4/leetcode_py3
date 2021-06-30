@@ -14,7 +14,7 @@ Output: 1
 
 import heapq
 
-from problems.tools.binary_tree import TreeNode
+from tools.binary_tree import TreeNode
 
 
 class Solution:
