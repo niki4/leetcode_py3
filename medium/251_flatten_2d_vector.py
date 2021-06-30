@@ -76,12 +76,6 @@ class Vector2D:
         return self.outer < len(self.vector)
 
 
-# Your Vector2D object will be instantiated and called as such:
-# obj = Vector2D(vec)
-# param_1 = obj.next()
-# param_2 = obj.hasNext()
-
-
 if __name__ == '__main__':
     v2d_1 = Vector2D([[1, 2], [3], [4]])
     assert v2d_1.next() == 1
@@ -92,5 +86,5 @@ if __name__ == '__main__':
     assert v2d_1.next() == 4
     assert v2d_1.hasNext() is False
 
-    v2d_2 = Vector2D([[[]]])
+    v2d_2 = Vector2D([[]])
     assert v2d_2.hasNext() is False
