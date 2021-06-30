@@ -2,6 +2,10 @@
 Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
 Note: For the purpose of this problem, we define empty string as valid palindrome.
+
+Constraints:
+    1 <= s.length <= 2 * 105
+    s consists only of printable ASCII characters.
 """
 
 
@@ -52,8 +56,10 @@ if __name__ == '__main__':
         ("", True),
         ("A man, a plan, a canal: Panama", True),
         ("race a car", False),
-        ("!@#$%^&*(", False),
+        ("!@#$%^&*(", True),  # there are no alphanumeric characters, thus cleaned input is empty string
     ]
     for sol in solutions:
         for s, expected in tc:
-            assert sol.isPalindrome(s) == expected
+            result = sol.isPalindrome(s)
+            assert result is expected, f"{sol.__class__.__name__}: {result} != {expected}.\n" \
+                                       f"Input: {s}"
