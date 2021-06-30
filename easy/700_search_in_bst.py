@@ -27,6 +27,9 @@ Note that an empty tree is represented by NULL, therefore you would see the expe
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from tools.binary_tree import TreeNode
+
+
 class Solution:
     """
     Recursive approach.
@@ -36,13 +39,14 @@ class Solution:
     Time complexity : O(H), where H is a tree height. That results in O(logN) in the average case, and O(N) in the worst case.
     Space complexity : O(H) to keep the recursion stack, i.e. O(logN) in the average case, and O(N) in the worst case.
     """
+
     def searchBST(self, root: TreeNode, val: int) -> TreeNode:
         if root is None or root.val == val:
             return root
-        
+
         if val < root.val:
             return self.searchBST(root.left, val)
-        else: #  val > root.val
+        else:  # val > root.val
             return self.searchBST(root.right, val)
 
 
@@ -55,6 +59,7 @@ class Solution2:
     Time complexity : O(H), where H is a tree height. That results in O(logN) in the average case, and O(N) in the worst case.
     Space complexity : O(1) since it's a constant space solution.
     """
+
     def searchBST(self, root: TreeNode, val: int) -> TreeNode:
         while root is None or root.val != val:
             root = root.left if val < root.val else root.right

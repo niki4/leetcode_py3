@@ -20,16 +20,18 @@ Memory Usage: 13.2 MB, less than 5.75% of Python3.
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
+from tools.linked_list import ListNode
+
 
 class Solution:
     def __init__(self):
         self.head = None
-        
+
     def find_duplicated_items(self):
         prev = None
         curr = self.head
         duplicates = list()
-        
+
         while curr is not None:
             if prev is None:
                 prev = curr
@@ -41,11 +43,11 @@ class Solution:
             prev = curr
             curr = curr.next
         return duplicates
-    
+
     def delete_items_by_value(self, dup_values):
         prev = None
         curr = self.head
-        
+
         while curr is not None:
             if curr.val in dup_values:
                 if prev is None:
@@ -56,12 +58,11 @@ class Solution:
             else:
                 prev = curr
                 curr = curr.next
-        
-        
+
     def deleteDuplicates(self, head: ListNode) -> ListNode:
         self.head = head
-        
+
         items_to_remove = self.find_duplicated_items()
         self.delete_items_by_value(items_to_remove)
-        
+
         return self.head
