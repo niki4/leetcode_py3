@@ -13,6 +13,7 @@ Output: 1
 """
 
 import heapq
+from typing import Iterator
 
 from tools.binary_tree import TreeNode
 
@@ -100,6 +101,8 @@ class Solution3:
 
 class Solution4:
     """
+    Using Python's generators
+
     Runtime: 52 ms, faster than 59.86% of Python3
     Memory Usage: 18 MB, less than 80.85% of Python3
 
@@ -108,7 +111,7 @@ class Solution4:
     """
 
     def kthSmallest(self, root: TreeNode, k: int) -> int:
-        def dfs_inorder(node: TreeNode) -> int:
+        def dfs_inorder(node: TreeNode) -> Iterator[int]:
             if node:
                 yield from dfs_inorder(node.left)
                 yield node.val
@@ -118,3 +121,41 @@ class Solution4:
         for _ in range(k):
             result = next(smallest)
         return result
+
+
+class Solution5:
+    """
+    Morris Traversal. In this traversal, we first create links to Inorder successor and print
+    the data using these links, and finally revert the changes to restore original tree.
+        https://en.wikipedia.org/wiki/Tree_traversal#Morris_in-order_traversal_using_threading
+        https://www.youtube.com/watch?v=wGXB9OWhPTg
+
+    Runtime: 44 ms, faster than 92.55% of Python3
+    Memory Usage: 18 MB, less than 54.23% of Python3
+
+    Time complexity: O(n)
+    Space complexity: O(1)
+    """
+
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        curr = root
+        while curr:
+            if curr.left:
+                prev = curr.left
+                while prev.right and prev.right != curr:
+                    prev = prev.right
+                if not prev.right:  # link to Inorder Successor (IS)
+                    prev.right = curr
+                    curr = curr.left
+                else:
+                    k -= 1
+                    if not k:
+                        return curr.val
+                    curr = prev.right
+                    prev.right = None  # break link to IS
+                    curr = curr.right
+            else:
+                k -= 1
+                if not k:
+                    return curr.val
+                curr = curr.right
