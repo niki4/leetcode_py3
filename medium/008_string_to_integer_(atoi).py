@@ -63,5 +63,7 @@ if __name__ == '__main__':
         ("+-2", 0, ""),
     ]
     for sol in solutions:
-        for inp_s, expected, comment in tc:
-            assert sol.find_num(inp_s) == expected, f'{comment}'
+        for inp_s, exp, comment in tc:
+            res = sol.myAtoi(inp_s)
+            assert res == exp, f"{sol.__class__.__name__}: result `{res}` ({type(res)}) != `{exp}` ({type(exp)})" \
+                               f"\n{comment}"
