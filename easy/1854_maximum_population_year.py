@@ -50,8 +50,33 @@ class Solution:
         return sorted(year for year, population in ctr.items() if population == max_population)[0]
 
 
+class Solution2:
+    """
+    Optimized Solution1. Define max population count and year in a linear time.
+
+    Runtime: 40 ms, faster than 84.91% of Python3
+    Memory Usage: 14.3 MB, less than 65.89% of Python3
+
+    Time/Space complexity: O(N)
+    """
+
+    def maximumPopulation(self, logs: List[List[int]]) -> int:
+        ctr = collections.Counter()
+        for birth_year, death_year in logs:
+            ctr.update(range(birth_year, death_year))
+
+        max_pop_count, max_pop_year = -1, -1
+        for year, population in ctr.items():
+            if population > max_pop_count:
+                max_pop_count = population
+                max_pop_year = year
+            elif population == max_pop_count and max_pop_year > year:
+                max_pop_year = year
+        return max_pop_year
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         ([[1993, 1999], [2000, 2010]], 1993),
         ([[1950, 1961], [1960, 1971], [1970, 1981]], 1960),
