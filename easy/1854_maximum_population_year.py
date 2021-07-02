@@ -36,6 +36,9 @@ class Solution:
 
     Runtime: 44 ms, faster than 65.89% of Python3
     Memory Usage: 14.4 MB, less than 36.81% of Python3
+
+    Time complexity: O(N logN)
+    Space complexity: O(N)
     """
 
     def maximumPopulation(self, logs: List[List[int]]) -> int:
