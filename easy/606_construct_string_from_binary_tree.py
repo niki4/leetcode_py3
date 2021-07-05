@@ -32,6 +32,10 @@ class Solution:
 
     Runtime: 56 ms, faster than 33.51% of Python3
     Memory Usage: 16.2 MB, less than 63.09% of Python3
+
+    Time complexity: O(N+M) since string concatenation requires all characters to be copied (where
+    N and M are the sizes of the input strings). M appends of the same word will trend to O(M^2) time therefore.
+    Space complexity: O(N)
     """
 
     def tree2str(self, root: TreeNode) -> str:
@@ -46,8 +50,40 @@ class Solution:
         return dfs(root)
 
 
+class Solution2:
+    """
+    Preorder DFS traversal + String builder to avoid excessive string concatenations
+
+    Runtime: 56 ms, faster than 33.51% of Python
+    Memory Usage: 16.7 MB, less than 10.43% of Python3
+
+    Time/Space complexity: O(N)
+    """
+
+    def tree2str(self, root: TreeNode) -> str:
+        def dfs(node: TreeNode):
+            if node:
+                if node != root:
+                    string_builder.append("(")
+
+                string_builder.append(str(node.val))
+
+                if not node.left and node.right:
+                    string_builder.append("()")
+
+                dfs(node.left)
+                dfs(node.right)
+
+                if node != root:
+                    string_builder.append(")")
+
+        string_builder = []
+        dfs(root)
+        return "".join(string_builder)
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
 
     bt1 = TreeNode(1)
     bt1.left, bt1.right = TreeNode(2), TreeNode(3)
