@@ -41,8 +41,38 @@ class Solution:
         return sorted(result)
 
 
+class Solution2:
+    """
+    Binary Search To Find The Left Bound
+        Algorithm idea: "If the element at arr[mid] is closer to x than arr[mid + k], then that means arr[mid + k], as
+        well as every element to the right of it can never be in the answer. This means we should move our right pointer
+        to avoid considering them. The logic is the same vice-versa - if arr[mid + k] is closer to x, then move the left
+        pointer."
+
+    Runtime: 272 ms, faster than 96.24% of Python3
+    Memory Usage: 15.4 MB, less than 90.19% of Python3
+
+    Time complexity: O(log(N-k) + k)
+    Space complexity: O(1)
+    """
+
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        # init binary search bounds
+        left, right = 0, len(arr) - k
+
+        while left < right:
+            mid = (left + right) // 2
+            if x - arr[mid] > arr[mid + k] - x:
+                # left distance greater than right one
+                left = mid + 1
+            else:
+                right = mid
+
+        return arr[left:left + k]
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         ([1, 2, 3, 4, 5], 4, 3, [1, 2, 3, 4]),
         ([1, 2, 3, 4, 5], 4, -1, [1, 2, 3, 4]),
