@@ -40,8 +40,36 @@ class Solution:
         return len(possibilities)
 
 
+class Solution2:
+    """
+    DFS + Backtracking
+
+    Runtime: 176 ms, faster than 26.80% of Python3
+    Memory Usage: 23.2 MB, less than 26.69% of Python3
+
+    Time complexity: O(n!) as at most we can generate N! (factorial of N) possible permutations of the string.
+    Space complexity: O(n)
+    """
+
+    def numTilePossibilities(self, tiles: str) -> int:
+        visited = [False] * len(tiles)
+        sequences = set()
+
+        def dfs(seq: str):
+            if seq:
+                sequences.add(seq)
+            for i in range(len(tiles)):
+                if not visited[i]:
+                    visited[i] = True
+                    dfs(seq + tiles[i])
+                    visited[i] = False  # backtracking
+
+        dfs("")
+        return len(sequences)
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         ("AAB", 8),
         ("AAABBC", 188),
