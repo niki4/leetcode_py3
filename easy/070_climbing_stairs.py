@@ -7,13 +7,11 @@ In how many distinct ways can you climb to the top?
 Note: Given n will be a positive integer.
 
 Example 1:
-
-Input: 2
-Output: 2
-
+    Input: 2
+    Output: 2
 Explanation: There are two ways to climb to the top.
-1. 1 step + 1 step
-2. 2 steps
+    1. 1 step + 1 step
+    2. 2 steps
 """
 
 import functools
@@ -54,10 +52,31 @@ class Solution2:
         return climb_rec(n)
 
 
+class Solution3:
+    """
+    Dynamic programming
+
+    Runtime: 42 ms, faster than 5.73% of Python3
+    Memory Usage: 14.2 MB, less than 72.89% of Python3
+
+    Time / Space complexity: O(n)
+    """
+
+    def climbStairs(self, n: int) -> int:
+        stairs = [1] * (n + 1)
+        for step in range(2, n + 1):
+            stairs[step] = stairs[step - 2] + stairs[step - 1]
+        return stairs[n]
+
+
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2()]
+    solutions = [Solution(), Solution2(), Solution3()]
+    tc = (
+        (2, 2),
+        (3, 3),
+        (5, 8),
+        (28, 514229),
+    )
     for sol in solutions:
-        assert sol.climbStairs(2) == 2
-        assert sol.climbStairs(3) == 3
-        assert sol.climbStairs(5) == 8
-        assert sol.climbStairs(28) == 514229
+        for inp, exp in tc:
+            assert sol.climbStairs(inp) == exp
