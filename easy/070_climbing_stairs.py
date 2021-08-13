@@ -31,6 +31,8 @@ class Solution:
 
 class Solution2:
     """
+    Dynamic programming. Top-down strategy (recursion with memoization).
+
     Actually, similar approach to the Solution one, but with regular dict instead lru_cache().
     LC stat is floating run-to-run so I've added `%timeit climbStairs(10)` comparison result as well.
     
@@ -54,7 +56,7 @@ class Solution2:
 
 class Solution3:
     """
-    Dynamic programming
+    Dynamic programming. Bottom-up strategy (iteration). Use previously computed results to make new on each iteration.
 
     Runtime: 42 ms, faster than 5.73% of Python3
     Memory Usage: 14.2 MB, less than 72.89% of Python3
