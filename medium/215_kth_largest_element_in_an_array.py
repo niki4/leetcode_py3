@@ -21,7 +21,7 @@ import random
 from typing import List
 
 
-class Solution:
+class Solution1a:
     """
     Sort array, then take k-th element (-1 because input starting from 1)
 
@@ -32,6 +32,19 @@ class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         nums = sorted(nums, reverse=True)
         return nums[k - 1]
+
+
+class Solution1b:
+    """
+    The same approach as the Solution1a, but with with reusing the original array (note the side effect).
+
+    Time complexity: O(n logN) because of sorting
+    Space complexity: O(1) since we sort in place we don't need additional memory
+    """
+
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        return nums[-k]
 
 
 class Solution2:
@@ -109,7 +122,12 @@ class Solution3:
 
 
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2(), Solution3()]
+    solutions = [
+        Solution1a(),
+        Solution1b(),
+        Solution2(),
+        Solution3(),
+        ]
     tc = (
         ([3, 2, 1, 5, 6, 4], 2, 5),
         ([3, 2, 3, 1, 2, 4, 5, 5, 6], 4, 4)
