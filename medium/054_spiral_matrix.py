@@ -1,3 +1,17 @@
+"""
+Given an m x n matrix, return all elements of the matrix in spiral order.
+
+Example 1:
+1 -> 2 -> 3
+          |
+4 -> 5    6
+|         |
+7 <- 8 <- 9
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [1,2,3,6,9,8,7,4,5]
+
+"""
+
 from typing import List
 
 
@@ -75,7 +89,53 @@ class Solution:
         return res
 
 
+class Solution2:
+    """
+    Time / Space complexity: O(n)
+    """
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        if not matrix:
+            return []
+
+        spiral = list()
+        m, n = len(matrix), len(matrix[0])  # m - rows, n - cols
+        size = m * n
+        r1, c1 = 0, 0      # top left
+        r2, c2 = m-1, n-1  # right bottom
+
+        while len(spiral) < size:  # traverse elements in spiral order
+            j = c1
+            while j <= c2 and len(spiral) < size:  # go right
+                spiral.append(matrix[r1][j])
+                j += 1
+            r1 += 1  # one step down / skip visited row next time
+
+            i = r1
+            while i <= r2 and len(spiral) < size:  # go down
+                spiral.append(matrix[i][c2])
+                i += 1
+            c2 -= 1  # one step left / skip visited column next time
+
+            j = c2
+            while j >= c1 and len(spiral) < size:
+                spiral.append(matrix[r2][j])
+                j -= 1
+            r2 -= 1  # one step up / skip visited row next time
+
+            i = r2
+            while i >= r1 and len(spiral) < size:
+                spiral.append(matrix[i][c1])
+                i -= 1
+            c1 += 1  # one step right / skip visited column next time
+
+        return spiral
+
+
 if __name__ == '__main__':
+    solutions = [
+        Solution(),
+        Solution2(),
+        ]
     tc = [
         ([
              [1, 2, 3],
@@ -86,7 +146,8 @@ if __name__ == '__main__':
              [5, 6, 7, 8],
              [9, 10, 11, 12]], [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]),
     ]
-    s = Solution()
-    for inp, expected in tc:
-        result = s.spiralOrder(inp)
-        assert result == expected, f'\ninput:\t\t{inp}\nexpected:\t{expected}\ngot:\t\t{result}'
+
+    for sol in solutions:
+        for inp, expected in tc:
+            result = sol.spiralOrder(inp)
+            assert result == expected, f'\ninput:\t\t{inp}\nexpected:\t{expected}\ngot:\t\t{result}'
