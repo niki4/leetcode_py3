@@ -18,16 +18,16 @@ Explanation: Your function can return either index number 1 where the peak eleme
 or index number 5 where the peak element is 6.
 
 Constraints:
-1 <= nums.length <= 1000
--231 <= nums[i] <= 231 - 1
-nums[i] != nums[i + 1] for all valid i.
+    1 <= nums.length <= 1000
+    -231 <= nums[i] <= 231 - 1
+    nums[i] != nums[i + 1] for all valid i.
 
 Follow up: Could you implement a solution with logarithmic complexity?
 """
 from typing import List
 
 
-class Solution:
+class Solution1a:
     """
     Bruteforce solution.
     Algorithm idea: Peak's next element is lower (descent). Also there's special case when there only ascent, so the
@@ -44,6 +44,19 @@ class Solution:
                 return i - 1
             elif nums[i] > nums[i - 1] and i == len(nums) - 1:
                 return i
+
+
+class Solution1b:
+    """ Same apporach as Solution1a, but slightly more concise code. """
+    def findPeakElement(self, nums: List[int]) -> int:
+        i = 0
+        prev = float('-inf')
+
+        while i < len(nums) and nums[i] > prev:
+            prev = nums[i]
+            i += 1
+
+        return i-1
 
 
 class Solution2:
@@ -115,7 +128,12 @@ class Solution4:
 
 
 if __name__ == '__main__':
-    solutions = [Solution(), Solution2(), Solution3(), Solution4()]
+    solutions = [
+        Solution1a(),
+        Solution1b(),
+        Solution2(),
+        Solution3(),
+        Solution4()]
     tc = (
         ([1, 2, 3, 1], [2]),
         ([1, 2, 1, 3, 5, 6, 4], [1, 5]),
