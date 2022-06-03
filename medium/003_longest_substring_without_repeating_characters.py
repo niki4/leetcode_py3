@@ -95,6 +95,26 @@ class Solution3:
         return longest_sstr_len
 
 
+class Solution3_1:
+    """
+    Greedy approach. More concise than previous ('Solution3') solution.
+
+    Runtime: 780 ms, faster than 9.83% of Python3
+    Memory Usage: 14.1 MB, less than 49.55% of Python3
+    """
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        max_substr = 0
+        for i, ch in enumerate(s):
+            seen = set([ch])
+            for j in range(i+1, len(s)):
+                if s[j] in seen:
+                    break
+                seen.add(s[j])
+            max_substr = max(max_substr, len(seen))
+
+        return max_substr
+
+
 class Solution4:
     """
     Sliding window.
