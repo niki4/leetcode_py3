@@ -39,8 +39,34 @@ class Solution:
         return "".join(ch for (idx, ch) in enumerate(s) if idx not in idxs_to_exclude)
 
 
+class Solution2:
+    """
+    This solution seems slower than the first one, but it's easily
+    expandable to include other types of brackets, if it'll be required later.
+
+    Time/Space complexity: O(n)
+    """
+    def minRemoveToMakeValid(self, s: str) -> str:
+        stack = []
+        rev_brackets = {
+            ')': '(',
+        }
+        for idx, ch in enumerate(s):
+            if ch in '(':
+                stack.append((ch, idx))
+            elif ch in ')':
+                if not stack or rev_brackets[ch] != stack[-1][0]:
+                    stack.append((ch, idx))
+                else: # valid par
+                    stack.pop()
+        invalid_par_idxs = [item[1] for item in stack]
+
+        return "".join(
+            ch for idx, ch in enumerate(s) if idx not in invalid_par_idxs)
+
+
 if __name__ == '__main__':
-    solutions = [Solution()]
+    solutions = [Solution(), Solution2()]
     tc = (
         ("lee(t(c)o)de)", ["lee(t(c)ode)", "lee(t(c)o)de"]),
         ("a)b(c)d", ["ab(c)d"]),
