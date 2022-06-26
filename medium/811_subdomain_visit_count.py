@@ -51,9 +51,30 @@ class Solution:
         return [" ".join(str(i) for i in item[::-1]) for item in seen.items()]
 
 
+class Solution2:
+    def subdomainVisits(self, cpdomains: List[str]) -> List[str]:
+        result = []
+        domain_counter = collections.defaultdict(int)
+
+        for domain_stat in cpdomains:
+            visits, fqdn = domain_stat.split()  # FQDN - Fully Qualified Domain Name, e.g. discuss.leetcode.com
+            visits = int(visits)
+            domain_parts = fqdn.split(sep=".")
+
+            for i in range(len(domain_parts)):
+                domain = ".".join(domain_parts[i:])
+                domain_counter[domain] += visits
+
+        for domain, visits in domain_counter.items():
+            result.append(f"{visits} {domain}")
+
+        return result
+
+
 if __name__ == '__main__':
     solutions = [
         Solution(),
+        Solution2(),
     ]
     tc = (
         (["9001 discuss.leetcode.com"],
