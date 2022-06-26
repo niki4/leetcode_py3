@@ -73,6 +73,35 @@ class Solution2:
         return longest_palindrome
 
 
+class Solution2_2:
+    """
+    More readable version of the "Expand around center" approach.
+
+    Time complexity: O(n**2)
+    """
+    def longestPalindrome(self, s: str) -> str:
+        if len(s) == 1:
+            return s
+
+        self.s = s
+
+        max_palindrome = ''
+        for i in range(len(s)):
+            max_palindrome = max([
+                self._expand_around_center(i, i),
+                self._expand_around_center(i, i+1),
+                max_palindrome,
+            ], key=len)
+
+        return max_palindrome
+
+    def _expand_around_center(self, left: int, right: int):
+        while left >= 0 and right < len(self.s) and self.s[left] == self.s[right]:
+            left -= 1
+            right += 1
+        return self.s[left+1:right]
+
+
 class Solution3:
     """
     Runtime: 76 ms, faster than 96.95% of Python3.
@@ -100,10 +129,15 @@ class Solution3:
 
 
 if __name__ == "__main__":
-    solutions = [Solution(), Solution2(), Solution3()]
+    solutions = [
+        Solution(),
+        Solution2(),
+        Solution2_2(),
+        Solution3(),
+        ]
     tc = (
         ("aaaa", "aaaa"),
-        ("babad", "bab"),
+        ("babad", ["bab", "aba"]),  # both "bab" and "aba" are valid answers
         ("cbbd", "bb"),
         ("abcba", "abcba"),
         ("a", "a"),
@@ -113,4 +147,4 @@ if __name__ == "__main__":
     for sol in solutions:
         for inp, exp in tc:
             res = sol.longestPalindrome(inp)
-            assert res == exp, f'{sol.__class__.__name__}: for input "{inp}" expected "{exp}", got "{res}"'
+            assert res in exp, f'{sol.__class__.__name__}: for input "{inp}" expected "{exp}", got "{res}"'
