@@ -52,6 +52,9 @@ class Solution:
 
 
 class Solution2:
+    """
+    Time complexity: O(n*k)
+    """
     def subdomainVisits(self, cpdomains: List[str]) -> List[str]:
         result = []
         domain_counter = collections.defaultdict(int)
